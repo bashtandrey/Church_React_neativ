@@ -16,11 +16,11 @@ export default () => ({
     version: "1.3.0",
     scheme: "churchapp",
     orientation: "portrait",
-    icon: "./src/assets/icon.png",
+    icon: "./assets/icon.png",
     userInterfaceStyle: "light",
     newArchEnabled: true,
     splash: {
-      image: "./src/assets/splash-icon.png",
+      image: "./assets/splash-icon.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff"
     },
@@ -41,12 +41,12 @@ export default () => ({
       usesCleartextTraffic: true,
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
-        foregroundImage: "./src/assets/adaptive-icon.png",
+        foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"
       }
     },
     web: {
-      favicon: "./src/assets/favicon.png"
+      favicon: "./assets/favicon.png"
     },
     extra: {
       eas: {
