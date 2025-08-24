@@ -16,7 +16,6 @@ import { useTranslation } from "react-i18next";
 
 const AnnouncementsScreen = () => {
   const { t } = useTranslation("announcements");
-  console.log(t)
   const guard = useReviewerGuard();
   const [contentData, setContentData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -26,7 +25,12 @@ const AnnouncementsScreen = () => {
   const loadData = () => {
     setLoading(true);
     fetchPost()
-      .then((res) => setContentData(res))
+      .then((res) => {
+      const sorted = [...res].sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+      setContentData(sorted);
+    })
       .finally(() => setLoading(false));
   };
 

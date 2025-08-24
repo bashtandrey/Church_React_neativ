@@ -268,16 +268,16 @@ const PostForm = ({ item, onSuccess }) => {
               )}
             </>
           )}
+          {renderCheckboxRow("Добавить ссылку", showLink, setShowLink)}
+          {showLink && (
+            <TextInput
+              style={styles.input}
+              placeholder="Ссылка"
+              value={link}
+              onChangeText={setLink}
+            />
+          )}
         </>
-      )}
-      {renderCheckboxRow("Добавить ссылку", showLink, setShowLink)}
-      {showLink && (
-        <TextInput
-          style={styles.input}
-          placeholder="Ссылка"
-          value={link}
-          onChangeText={setLink}
-        />
       )}
 
       <Button title="Сохранить" onPress={handleSubmit} />
