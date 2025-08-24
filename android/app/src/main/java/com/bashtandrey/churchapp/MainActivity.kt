@@ -1,4 +1,4 @@
-package com.churchriveroflife
+package com.bashtandrey.churchapp
 
 import android.os.Build
 import android.os.Bundle

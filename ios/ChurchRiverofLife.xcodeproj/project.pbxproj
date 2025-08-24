@@ -12,7 +12,7 @@
 		418A1F4C49C877D5A5468296 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 65DBC85492C4C072DC70406E /* PrivacyInfo.xcprivacy */; };
 		4B16325B1486A4BA0C6905C9 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C8E6EAA33C77DB722F1B5C /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E308C197F047A4FCE72CAF3D /* libPods-ChurchRiverofLife.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 709D1AF5387281789312746E /* libPods-ChurchRiverofLife.a */; };
+		BF344597FDDA4AE9B3755D2E /* Pods_ChurchRiverofLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CB5572EF424E34B1525B858 /* Pods_ChurchRiverofLife.framework */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,7 +23,7 @@
 		25C8E6EAA33C77DB722F1B5C /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ChurchRiverofLife/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		48AB8D2BE4CE240643D5BBBB /* Pods-ChurchRiverofLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.debug.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.debug.xcconfig"; sourceTree = "<group>"; };
 		65DBC85492C4C072DC70406E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ChurchRiverofLife/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		709D1AF5387281789312746E /* libPods-ChurchRiverofLife.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChurchRiverofLife.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CB5572EF424E34B1525B858 /* Pods_ChurchRiverofLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChurchRiverofLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FC2802E9CB473839C893431 /* Pods-ChurchRiverofLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.release.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = ChurchRiverofLife/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E308C197F047A4FCE72CAF3D /* libPods-ChurchRiverofLife.a in Frameworks */,
+				BF344597FDDA4AE9B3755D2E /* Pods_ChurchRiverofLife.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				709D1AF5387281789312746E /* libPods-ChurchRiverofLife.a */,
+				7CB5572EF424E34B1525B858 /* Pods_ChurchRiverofLife.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -330,6 +330,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ChurchRiverofLife/ChurchRiverofLife.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -349,11 +350,12 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.ChurchRiverofLife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bashtandrey.churchapp;
 				PRODUCT_NAME = ChurchRiverofLife;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChurchRiverofLife/ChurchRiverofLife-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -364,6 +366,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ChurchRiverofLife/ChurchRiverofLife.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = ChurchRiverofLife/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -378,10 +381,11 @@
 					"-lc++",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
-				PRODUCT_BUNDLE_IDENTIFIER = org.name.ChurchRiverofLife;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bashtandrey.churchapp;
 				PRODUCT_NAME = ChurchRiverofLife;
 				SWIFT_OBJC_BRIDGING_HEADER = "ChurchRiverofLife/ChurchRiverofLife-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -433,6 +437,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
@@ -492,6 +507,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,

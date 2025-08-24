@@ -38,7 +38,6 @@ export default () => ({
     android: {
       package: "com.bashtandrey.churchapp",
       versionCode: 32,
-      usesCleartextTraffic: true,
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
