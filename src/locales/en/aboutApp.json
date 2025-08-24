@@ -1,0 +1,13 @@
+{
+  "title": "About APP",
+  "application": "Application",
+  "version": "Version APP",
+  "push": "Push Notifications",
+  "developer": "Developer",
+  "contact": "Contact",
+  "available": "Available",
+  "buttonUpdated":"Updated App",
+  "enabled":"Enabled",
+  "disabled":"Disabled",
+  "selectedLanguage":"Select language"  
+}

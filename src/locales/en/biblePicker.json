@@ -1,0 +1,13 @@
+{
+  "selectBbook": "Select a book...",
+  "langBook": "englishName",
+  "selectedChapter": "Select a Chapter...",
+  "selectedVerse": "Selected Verse...",
+  "book": "Book: ",
+  "langChapter": "Chapter ",
+  "langVerse": "Verse ",
+  "buttonShowVerse": "Show verse",
+  "buttonBack": "Back",
+  "buttonSave": "Save",
+  "bibleLanguage":"NASB"
+}

@@ -1,0 +1,14 @@
+{
+  "header": "User Profile",
+  "id": "ID:",
+  "login": "Login",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "email": "Email",
+  "roles": "Roles",
+  "changeEmail": "Change Email",
+  "changePassword": "Change Password",
+  "resendVerification": "Resend Verification",
+  "selectedRoles": "Admin needs to assign a role!",
+  "confirmEmail": "You need to confirm your email!"
+}

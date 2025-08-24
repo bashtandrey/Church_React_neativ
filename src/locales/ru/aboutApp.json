@@ -1,0 +1,13 @@
+{
+  "title": "О Приложении",
+  "application": "Приложение",
+  "version": "Версия приложения",
+  "push": "Push Уведомления",
+  "developer": "Разработчик",
+  "contact": "Контакты",
+  "available": "Доступна",
+  "buttonUpdated": "Обновить приложение",
+  "enabled": "Включено",
+  "disabled": "Выключено",
+  "selectedLanguage": "Выбрать язык"
+}

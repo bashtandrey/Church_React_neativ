@@ -1,0 +1,13 @@
+{
+  "selectBbook": "Выберите книгу...",
+  "langBook": "russianName",
+  "selectedChapter": "Выберите главу...",
+  "selectedVerse": "Выберите стих...",
+  "book": "Книга: ",
+  "langChapter": "Глава ",
+  "langVerse": "Стих ",
+  "buttonShowVerse": "Показать стих",
+  "buttonBack": "Назад",
+  "buttonSave": "Сохранить",
+  "bibleLanguage": "RST"
+}
