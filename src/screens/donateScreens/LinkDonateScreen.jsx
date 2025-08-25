@@ -4,13 +4,15 @@ import Layout from "@/components/Layout";
 import { MaterialIcons } from "@expo/vector-icons";
 import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { donationLink } from "@/api/donationAPI";
-import i18n from "@/i18n/";
+import i18n from "@/i18n";
+import { useTranslation } from "react-i18next";
 
 const LinkDonateScreen = () => {
   const [contentData, setContentData] = useState([]);
   const [loading, setLoading] = useState(false);
   const langButton = i18n.language === "ru" ? "Перейти к пожертвованию" : "Go to donation";
   const lang = i18n.language === "ru" ? "verseRU" : "verseEN";
+  const { t } = useTranslation();
 
 
   const loadData = () => {

@@ -16,17 +16,14 @@ export async function checkForAppUpdate(navigation = null) {
   try {
     const platform = Platform.OS === "ios" ? "IOS" : "ANDROID";
     const urlRequest = `${api}/version?platform=${platform}`;
-
     const response = await apiRequest(urlRequest, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
-
     const data = await response.json();
     const currentVersion = Application.nativeApplicationVersion;
     const latestVersion = data.latestVersion;
     const storeUrl = data.storeUrl;
-
     if (navigation && isVersionLess(currentVersion, latestVersion)) {
       console.log("Есть новая версия:", latestVersion);
       navigation.navigate("AboutApp");

@@ -8,9 +8,8 @@ const API_URL = Constants.expoConfig.extra.API_URL;
 
 export async function apiRequest(endpoint, options = {}) {
   try {
-    // console.log("globalFunctions: API Request:", API_URL + endpoint, options);
+    console.log("globalFunctions: API Request:", API_URL + endpoint, options);
     const token = await SecureStore.getItemAsync(TOKEN_KEY);
-
     const headers = {
       ...(options.headers || {}),
     };
