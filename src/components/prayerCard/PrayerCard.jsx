@@ -46,7 +46,9 @@ export default function PrayerCard() {
         >
           <Text style={styles.text}>{prayerCard.header}</Text>
           {prayerCard.familyList?.map((family, index) => (
-            <Text key={index} style={styles.family}>
+            <Text key={index} 
+            style={styles.family}
+            >
               • {family}
             </Text>
           ))}

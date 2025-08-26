@@ -13,7 +13,7 @@ export default () => ({
   expo: {
     name: "Church River of Life",
     slug: "churchapp",
-    version: "1.3.0",
+    version: "1.3.1",
     scheme: "churchapp",
     orientation: "portrait",
     icon: "./src/assets/icon.png",
@@ -27,7 +27,7 @@ export default () => ({
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.bashtandrey.churchapp",
-      buildNumber: "31",
+      buildNumber: "40",
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         NSAppTransportSecurity: {
@@ -37,7 +37,7 @@ export default () => ({
     },
     android: {
       package: "com.bashtandrey.churchapp",
-      versionCode: 32,
+      versionCode: "41",
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
         foregroundImage: "./src/assets/adaptive-icon.png",

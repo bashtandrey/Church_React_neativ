@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   card: {
-    alignItems: "center",
+    alignItems: "flex-start",
     backgroundColor: "#f3f3f3",
     borderRadius: 12,
     paddingVertical: 16,
@@ -16,7 +16,9 @@ export default StyleSheet.create({
     borderColor: "#eee",
     position: "relative",
     marginVertical: 10,
+    width: "100%",
   },
+
   greeting: {
     fontSize: 22,
     fontWeight: "bold",
@@ -32,10 +34,14 @@ export default StyleSheet.create({
   },
 
   family: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    width: "100%",
     fontSize: 16,
     fontWeight: "600",
     marginBottom: 6,
-    textAlign: "left",
+    textAlign: "center",
+    flexShrink: 1,
   },
 
   blessing: {
@@ -70,6 +76,8 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3, // для Android
+    alignItems: "flex-start", // текст идет слева и переносится
+    width: "100%", // контейнер занимает всю ширину
   },
   editButton: {
     position: "absolute",
