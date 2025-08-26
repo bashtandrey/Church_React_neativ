@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
+import { View, Text, Button, ScrollView } from "react-native";
 import { useUser } from "@/context/UserContext";
 import Toast from "react-native-toast-message";
 import { resendEmail } from "@/api/userAPI";
@@ -37,33 +37,80 @@ const ProfileScreen = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.header}>{t("header")}</Text>
 
-        <Text style={styles.label}>{t("id")}</Text>
-        <Text style={styles.value}>{user.id}</Text>
-
-        <Text style={styles.label}>{t("login")}</Text>
-        <Text style={styles.value}>{user.login}</Text>
-
-        <Text style={styles.label}>{t("firstName")}</Text>
-        <Text style={styles.value}>{user.firstName}</Text>
-
-        <Text style={styles.label}>{t("lastName")}</Text>
-        <Text style={styles.value}>{user.lastName}</Text>
-
-        <Text style={styles.label}>{t("email")}</Text>
-        <Text style={[styles.value, { color: emailColor }]}>{user.email}</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>{t("id")} </Text>
+          <Text style={styles.value}>{user.id}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>{t("login")}</Text>
+          <Text style={styles.value}>{user.login}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>{t("firstName")}</Text>
+          <Text style={styles.value}>{user.firstName}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>{t("lastName")}</Text>
+          <Text style={styles.value}>{user.lastName}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 10,
+          }}
+        >
+          <Text style={styles.label}>{t("email")}</Text>
+          <Text style={[styles.value, { color: emailColor }]}>
+            {user.email}
+          </Text>
+        </View>
         {!user.emailVerified && (
           <Text style={[styles.value, { color: emailColor }]}>
             ⚠️ {t("confirmEmail")}
           </Text>
+        )}
+        {user.group && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Text style={styles.label}>{t("group")}</Text>
+          </View>
         )}
         <Text style={styles.label}>{t("roles")}</Text>
 
         {user.roles.map((role) => (
           <View key={role}>
             <Text style={styles.value}>• {role}</Text>
-            {hasGUEST && (
-              <Text style={styles.value}>{t("selectedRoles")}</Text>
-            )}
+            {hasGUEST && <Text style={styles.value}>{t("selectedRoles")}</Text>}
           </View>
         ))}
 

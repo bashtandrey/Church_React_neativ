@@ -10,11 +10,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
+    fontSize: 16,
     fontWeight: "bold",
-    marginTop: 10,
+    color: "#333",
   },
   value: {
     fontSize: 16,
+    fontWeight: "500",
+    color: "#555",
   },
   text: {
     fontSize: 18,
