@@ -21,6 +21,10 @@ import AnnouncementsScreen from "@/screens/announcementsScreen/AnnouncementsScre
 import YouTubeScreen from "@/screens/youTubeScreen/YouTubeScreen";
 import AboutChurchScreen from "@/screens/aboutChurchScreen/AboutChurchScreen";
 import LinkDonateScreen from "@/screens/donateScreens/LinkDonateScreen";
+import EventsChurch from "@/screens/eventsChurch/EventsChurch";
+
+import { AppState, AppStateStatus } from "react-native";
+import RNRestart from "react-native-restart";
 
 import "@/i18n";
 
@@ -67,6 +71,11 @@ const MainNavigator = () => {
         component={AboutChurchScreen}
         options={{ title: "About Church" }}
       />
+      <Stack.Screen
+        name="eventsChurch"
+        component={EventsChurch}
+        options={{ title: "Events Church" }}
+      />
 
       <Stack.Screen
         name="LogIn"
@@ -96,6 +105,9 @@ const App = () => {
   const navigationRef = useNavigationContainerRef();
   const responseListener = useRef();
 
+  const appStateRef = useRef < AppStateStatus > AppState.currentState;
+  const lastReloadAt = useRef(0);
+
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
@@ -122,6 +134,21 @@ const App = () => {
     return () => {
       responseListener.current?.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (next) => {
+      const prev = appStateRef.current;
+      appStateRef.current = next;
+
+      if ((prev === "background" || prev === "inactive") && next === "active") {
+        if (Date.now() - lastReloadAt.current > 5000) {
+          lastReloadAt.current = Date.now();
+          RNRestart.restart(); // полный рестарт приложения
+        }
+      }
+    });
+    return () => sub.remove();
   }, []);
 
   return (

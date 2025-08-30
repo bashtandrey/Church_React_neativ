@@ -12,8 +12,8 @@ const SubMenuBar = ({ selectedMenu, navigation }) => {
       items = [
         { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome" },
         { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome" },
-        { icon: "attach-money", screen: "LinkDonate", lib: "MaterialIcons" },
-        { icon: "calendar", screen: "PlanVersesYear", lib: "FontAwesome" },
+        { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5" },
+        { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5" },
         { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons" },
       ];
       break;

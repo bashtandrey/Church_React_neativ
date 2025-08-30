@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, TouchableOpacity, Image, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 import { useUser } from "@/context/UserContext";
 import logo from "@/assets/logo.png";
@@ -58,6 +58,12 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
           style={styles.navItem}
         >
           <FontAwesome5 name="place-of-worship" size={sizeIcon} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>  navigation.navigate("eventsChurch")}
+          style={styles.navItem}
+        >
+          <Ionicons name="calendar-number" size={sizeIcon} color="white" />
         </TouchableOpacity>
 
         {isAuthenticated && (

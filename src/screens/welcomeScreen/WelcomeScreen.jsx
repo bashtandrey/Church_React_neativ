@@ -1,4 +1,4 @@
-import {} from "react";
+import React from "react";
 import { Text, ScrollView } from "react-native";
 import Layout from "@/components/Layout";
 import DailyReadingPlan from "@/components/bible/dailyReadingPlan/DailyReadingPlan";
