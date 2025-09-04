@@ -1,46 +1,105 @@
-// components/users/createUser/UserCreateFormStyles.js
 import { StyleSheet } from "react-native";
+
+const COLORS = {
+  bg: "#f5f9ff",        // еле-голубой фон
+  primary: "#007bff",
+  border: "#dbe6ff",    // светло-голубая рамка
+  text: "#0a2e5c",
+  error: "#d32f2f",
+  badgeBg: "#eaf2ff",   // фон бейджа
+};
 
 export default StyleSheet.create({
   container: {
+    flexGrow: 1,
     padding: 20,
     paddingTop: 40,
-    backgroundColor: "#fff",
-    flexGrow: 1,
+    backgroundColor: COLORS.bg, // ← был #fff
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
+
+  // необязательно, но чуть приятнее
+  titleBadge: {
     alignSelf: "center",
+    backgroundColor: COLORS.badgeBg,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 14,
+    marginBottom: 20,
+
+    // лёгкая тень
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 15,
-    color: "#001f3f", // или '#001f3f'
+  titleText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: COLORS.text,
+    letterSpacing: 0.3,
+    textAlign: "center",
   },
-  button: {
-    backgroundColor: "#007AFF",
-    padding: 14,
-    borderRadius: 8,
+
+  checkboxContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    marginBottom: 15,
   },
+
+  input: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: COLORS.border, // был #ccc
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+    color: COLORS.text,
+  },
+
+  inputError: {
+    borderColor: COLORS.error,
+    borderWidth: 1,
+  },
+
+  errorText: {
+    color: COLORS.error,
+    fontSize: 12,
+    marginBottom: 5,
+    marginTop: -8,
+  },
+
+  button: {
+    backgroundColor: COLORS.primary,
+    padding: 12,
+    borderRadius: 10,
+    alignItems: "center",
+    // лёгкая тень
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+
+  buttonDisabled: {
+    backgroundColor: "#a8c1ff", // приглушённый голубой вместо серого
+  },
+
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
   },
-  inputError: {
-    borderColor: "red",
-    borderWidth: 1,
-  },
-  errorText: {
-    color: "red",
-    fontSize: 12,
-    marginBottom: 5,
-    marginTop: -8,
+
+  // опционально: карточка под форму (если хочешь белый блок на голубом фоне)
+  formCard: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
   },
 });

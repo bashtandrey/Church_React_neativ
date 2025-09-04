@@ -37,6 +37,15 @@ export async function fetchAllRoles() {
     throw new Error(error.message);
   }
 }
+export async function checkEmail({ email }) {
+  await apiRequest(
+    `${authApi}checkEmail?email=${encodeURIComponent(email)}`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
+}
 export async function createUser(data) {
   const { login, password, email, firstName, lastName, onSuccess, onError } =
     data;

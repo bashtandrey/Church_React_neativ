@@ -1,0 +1,31 @@
+{
+  "titles": {
+    "stepNames": "Имя и Фамилия",
+    "stepEmail": "Email",
+    "stepCredentials": "Логин и Пароль"
+  },
+  "placeholders": {
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "login": "Логин",
+    "password": "Пароль"
+  },
+  "buttons": {
+    "next": "Далее",
+    "create": "Создать"
+  },
+  "errors": {
+    "firstNameRequired": "Введите имя",
+    "lastNameRequired": "Введите фамилию",
+    "emailInvalid": "Неправильный формат email",
+    "emailExists": "Такой email уже существует",
+    "loginExists": "Такой логин уже существует",
+    "fillCredentials": "Введите логин и пароль",
+    "unknown": "Неизвестная ошибка"
+  },
+  "toasts": {
+    "successTitle": "Успешно",
+    "successBody": "Пользователь создан"
+  }
+}

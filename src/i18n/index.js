@@ -29,6 +29,9 @@ import ruProfileScreen from "@/locales/ru/profileScreen.json";
 import enEventsChurch from "@/locales/en/eventsChurch.json";
 import ruEventsChurch from "@/locales/ru/eventsChurch.json";
 
+import enUserCreateForm from "@/locales/en/userCreateForm.json";
+import ruUserCreateForm from "@/locales/ru/userCreateForm.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -40,6 +43,7 @@ const resources = {
     biblePicker: enBiblePicker,
     profileScreen: enProfileScreen,
     eventsChurch: enEventsChurch,
+    userCreateForm: enUserCreateForm,
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -51,6 +55,7 @@ const resources = {
     biblePicker: ruBiblePicker,
     profileScreen: ruProfileScreen,
     eventsChurch: ruEventsChurch,
+    userCreateForm: ruUserCreateForm,
   },
 };
 

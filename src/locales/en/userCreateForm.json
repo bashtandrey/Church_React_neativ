@@ -1,0 +1,31 @@
+{
+  "titles": {
+    "stepNames": "Input Full Name",
+    "stepEmail": "Email",
+    "stepCredentials": "Login and Password"
+  },
+  "placeholders": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "login": "Login",
+    "password": "Password"
+  },
+  "buttons": {
+    "next": "Next",
+    "create": "Create"
+  },
+  "errors": {
+    "firstNameRequired": "First Name is required",
+    "lastNameRequired": "Last Name is required",
+    "emailInvalid": "Invalid email format",
+    "emailExists": "Email already exists",
+    "loginExists": "Login already exists",
+    "fillCredentials": "Please enter login and password",
+    "unknown": "Unknown error"
+  },
+  "toasts": {
+    "successTitle": "Success",
+    "successBody": "User created successfully"
+  }
+}
