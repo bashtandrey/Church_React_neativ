@@ -38,37 +38,48 @@ export async function fetchAllRoles() {
   }
 }
 export async function checkEmail({ email }) {
-  await apiRequest(
-    `${authApi}checkEmail?email=${encodeURIComponent(email)}`,
-    {
-      method: "POST",
-      credentials: "include",
-    }
-  );
+  await apiRequest(`${authApi}checkEmail?email=${encodeURIComponent(email)}`, {
+    method: "POST",
+    credentials: "include",
+  });
 }
 export async function createUser(data) {
-  const { login, password, email, firstName, lastName, onSuccess, onError } =
-    data;
+  const { login, password, email, firstName, lastName, onSuccess, onError } = data;
 
   try {
-    const response = await apiRequest(authApi + "signUp", {
+    const res = await apiRequest(authApi + "signUp", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ login, password, email, firstName, lastName }),
     });
 
-    if (onSuccess) {
-      onSuccess(response);
+    // --- Парсим ответ ---
+    const ct = (res.headers.get("content-type") || "").toLowerCase();
+    let body;
+
+    if (ct.includes("application/json")) {
+      body = await res.json(); 
+    } else {
+      const text = await res.text();
+      try { body = JSON.parse(text); } catch { body = text; }
     }
+
+    // --- Вынимаем id ---
+    let id =
+      typeof body === "number" ? body :
+      (typeof body === "string" && /^\s*\d+\s*$/.test(body)) ? Number(body.trim()) :
+      (body && typeof body === "object") ? (body.id ?? body.userId ?? body.idUser ?? null) :
+      null;
+
+    onSuccess?.(id);
+    return id; 
   } catch (error) {
-    if (onError) {
-      onError(error);
-    }
+    onError?.(error);
+    throw error;
   }
 }
+
 export async function editEmail(data) {
   const { id, email, isEditRoleUser, onSuccess, onError } = data;
   const action = "?userAction=EDIT_EMAIL";

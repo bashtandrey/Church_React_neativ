@@ -12,7 +12,9 @@ import styles from "./authButtonsStyles";
 const AuthButtons = ({ sizeIcon }) => {
   const navigation = useNavigation();
   const [showSignUpModal, setShowSignUpModal] = useState(false);
+  const [showRequestMemberModal, setShowRequestMemberModal] = useState(false);
 
+  const [userId, setUserId] = useState(null);
   const { isAuthenticated, logOut } = useUser();
   return (
     <View style={styles.container}>
@@ -29,13 +31,39 @@ const AuthButtons = ({ sizeIcon }) => {
             onPress={() => setShowSignUpModal(true)}
             style={styles.authButton}
           >
-            <MaterialIcons name="person-add-alt" size={sizeIcon} color="white" />
+            <MaterialIcons
+              name="person-add-alt"
+              size={sizeIcon}
+              color="white"
+            />
           </TouchableOpacity>
           <Modal visible={showSignUpModal} animationType="slide">
             <View style={{ flex: 1, paddingTop: 40 }}>
-              <UserCreateForm onClose={() => setShowSignUpModal(false)} />
+              <UserCreateForm
+                onClose={(newUserId) => {
+                  setUserId(newUserId);
+                  setShowSignUpModal(false);
+                  setShowRequestMemberModal(true);
+                  console.log("Created user ID:", newUserId);
+                }}
+              />
               <Pressable
                 onPress={() => setShowSignUpModal(false)}
+                style={{
+                  padding: 10,
+                  backgroundColor: "#eee",
+                  alignItems: "center",
+                }}
+              >
+                <Text>Закрыть</Text>
+              </Pressable>
+            </View>
+          </Modal>
+          <Modal visible={showRequestMemberModal} animationType="slide">
+            <View style={{ flex: 1, paddingTop: 40 }}>
+              <Text>Request Membership </Text>
+              <Pressable
+                onPress={() => setShowRequestMemberModal(false)}
                 style={{
                   padding: 10,
                   backgroundColor: "#eee",

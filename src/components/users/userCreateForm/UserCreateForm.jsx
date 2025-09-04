@@ -82,7 +82,7 @@ export default function UserCreateWizard({ onClose, reLoad }) {
   // ---- STEP 3: Login/Password -> create ----
   const handleRegister = () => {
     const login = form.login.trim();
-    const password = form.password; // без локальной валидации по длине — как просил
+    const password = form.password;
 
     if (!login || !password) {
       // Мягко подсветим только кнопку
@@ -100,14 +100,15 @@ export default function UserCreateWizard({ onClose, reLoad }) {
       password,
       firstName: form.firstName.trim(),
       lastName: form.lastName.trim(),
-      onSuccess: () => {
+      onSuccess: (newUserId) => {
+
         Toast.show({
           type: "success",
           text1: t("toasts.successTitle"),
           text2: t("toasts.successBody"),
           position: "top",
         });
-        onClose?.(); // закрываем модалку
+        onClose?.(newUserId); // закрываем модалку
         reLoad?.(); // обновить список
         // сброс
         setForm(initialForm);
@@ -224,7 +225,7 @@ export default function UserCreateWizard({ onClose, reLoad }) {
   const disabledReg = !form.login.trim() || !form.password.trim() || loading;
 
   return (
-      <View style={[styles.container, { justifyContent: "center" }]}>
+    <View style={[styles.container, { justifyContent: "center" }]}>
       <View style={styles.formCard}>
         <View style={styles.titleBadge}>
           <Text style={styles.titleText}>{t("titles.stepCredentials")}</Text>
