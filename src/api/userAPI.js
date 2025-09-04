@@ -79,7 +79,6 @@ export async function createUser(data) {
     throw error;
   }
 }
-
 export async function editEmail(data) {
   const { id, email, isEditRoleUser, onSuccess, onError } = data;
   const action = "?userAction=EDIT_EMAIL";

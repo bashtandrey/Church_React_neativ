@@ -44,3 +44,21 @@ export async function logOutAPI() {
 export async function getCurrentUser() {
   return await getUser();
 }
+export async function fetchAllMemberGroup() {
+  const urlRequest = userApi + "fetchAllMemberGroup";
+  console.log("fetchAllMemberGroup: URL запроса:");
+  // try {
+  //   const response = await apiRequest(urlRequest, {
+  //     method: "GET",
+  //     credentials: "include",
+  //   });
+  //   const contentType = response.headers.get("content-type");
+  //   if (contentType && contentType.includes("application/json")) {
+  //     return await response.json();
+  //   } else {
+  //     throw new Error("Неверный тип контента от сервера");
+  //   }
+  // } catch (error) {
+  //   throw new Error(error.message);
+  // }
+}

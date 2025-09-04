@@ -32,6 +32,9 @@ import ruEventsChurch from "@/locales/ru/eventsChurch.json";
 import enUserCreateForm from "@/locales/en/userCreateForm.json";
 import ruUserCreateForm from "@/locales/ru/userCreateForm.json";
 
+import enRequestMember from "@/locales/en/requestMember.json";
+import ruRequestMember from "@/locales/ru/requestMember.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -44,6 +47,7 @@ const resources = {
     profileScreen: enProfileScreen,
     eventsChurch: enEventsChurch,
     userCreateForm: enUserCreateForm,
+    requestMember: enRequestMember,
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -56,6 +60,7 @@ const resources = {
     profileScreen: ruProfileScreen,
     eventsChurch: ruEventsChurch,
     userCreateForm: ruUserCreateForm,
+    requestMember: ruRequestMember,
   },
 };
 

@@ -4,6 +4,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import UserCreateForm from "@/components/users/userCreateForm/UserCreateForm";
+import RequestMember from "@/components/users/requestMember/RequestMember";
 
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "@/context/UserContext";
@@ -28,7 +29,8 @@ const AuthButtons = ({ sizeIcon }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => setShowSignUpModal(true)}
+            // onPress={() => setShowSignUpModal(true)}
+            onPress={() => setShowRequestMemberModal(true)}
             style={styles.authButton}
           >
             <MaterialIcons
@@ -59,19 +61,15 @@ const AuthButtons = ({ sizeIcon }) => {
               </Pressable>
             </View>
           </Modal>
+
           <Modal visible={showRequestMemberModal} animationType="slide">
             <View style={{ flex: 1, paddingTop: 40 }}>
-              <Text>Request Membership </Text>
-              <Pressable
-                onPress={() => setShowRequestMemberModal(false)}
-                style={{
-                  padding: 10,
-                  backgroundColor: "#eee",
-                  alignItems: "center",
+              <RequestMember
+                onClose={() => {
+                  setShowRequestMemberModal(false);
                 }}
-              >
-                <Text>Закрыть</Text>
-              </Pressable>
+                newUserId={11}
+              />
             </View>
           </Modal>
         </>
