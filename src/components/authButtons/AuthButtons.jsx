@@ -29,8 +29,7 @@ const AuthButtons = ({ sizeIcon }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            // onPress={() => setShowSignUpModal(true)}
-            onPress={() => setShowRequestMemberModal(true)}
+            onPress={() => setShowSignUpModal(true)}
             style={styles.authButton}
           >
             <MaterialIcons
@@ -68,7 +67,7 @@ const AuthButtons = ({ sizeIcon }) => {
                 onClose={() => {
                   setShowRequestMemberModal(false);
                 }}
-                newUserId={11}
+                newUserId={userId}
               />
             </View>
           </Modal>

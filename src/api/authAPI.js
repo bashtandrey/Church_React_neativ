@@ -22,7 +22,7 @@ export async function signIn(data) {
       await saveToken(userData.accessToken);
     }
     await saveUser(userData);
-    registerAndSendPushToken();
+    await registerAndSendPushToken({ userId: userData.id });
     onSuccess?.(userData);
     return userData;
   } catch (error) {
@@ -45,20 +45,34 @@ export async function getCurrentUser() {
   return await getUser();
 }
 export async function fetchAllMemberGroup() {
-  const urlRequest = userApi + "fetchAllMemberGroup";
-  console.log("fetchAllMemberGroup: URL запроса:");
-  // try {
-  //   const response = await apiRequest(urlRequest, {
-  //     method: "GET",
-  //     credentials: "include",
-  //   });
-  //   const contentType = response.headers.get("content-type");
-  //   if (contentType && contentType.includes("application/json")) {
-  //     return await response.json();
-  //   } else {
-  //     throw new Error("Неверный тип контента от сервера");
-  //   }
-  // } catch (error) {
-  //   throw new Error(error.message);
-  // }
+  const url = `${apiAuth}fetchAllMemberGroup`;
+  console.log("[groups] GET:", url);
+
+  // apiRequest САМ бросит исключение, если !response.ok
+  const res = await apiRequest(url, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  if (!ct.includes("application/json")) {
+    const txt = await res.text().catch(() => "");
+    // бросаем предметную ошибку (НЕ new Error(error.message))
+    throw { error: `Bad content-type: ${ct || "unknown"}`, body: txt };
+  }
+
+  // Сервер возвращает массив [{ leader, idGroup, nameGroup }, ...]
+  return res.json();
+}
+
+export async function assignUserToGroup(newUserId, selectedGroupId) {
+  await apiRequest(
+    `${apiAuth}assignUserToGroup?newUserId=${encodeURIComponent(
+      newUserId
+    )}&groupId=${encodeURIComponent(selectedGroupId)}`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
 }

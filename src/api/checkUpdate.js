@@ -18,7 +18,6 @@ export async function checkForAppUpdate(navigation = null) {
     const urlRequest = `${api}/version?platform=${platform}`;
     const response = await apiRequest(urlRequest, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
     });
     const data = await response.json();
     const currentVersion = Application.nativeApplicationVersion;

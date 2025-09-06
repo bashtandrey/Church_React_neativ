@@ -1,2 +1,23 @@
 {
+  "title": "Подтверждение статуса",
+  "questionMember": "Вы являетесь членом церкви?",
+  "questionGroupChoose": "Выберите группу пользователя",
+  "buttons": {
+    "yes": "Да",
+    "no": "Нет",
+    "choose": "Выбрать",
+    "chooseWithName": "Выбрать: {{name}}",
+    "unknown": "Группа неизвестна"
+  },
+  "hintMember": "Это можно изменить позже в профиле.",
+  "emptyGroups": "Группы не найдены",
+  "toasts": {
+    "guestTitle": "Информация",
+    "guestBody": "Пользователь будет зарегистрирован как гость.",
+    "groupSavedTitle": "Группа назначена",
+    "groupSavedBody": "Назначение сохранено"
+  },
+  "errors": {
+    "title": "Ошибка"
+  }
 }

@@ -1,2 +1,23 @@
 {
+    "title": "Status Confirmation",
+    "questionMember": "Are you a member of the church?",
+    "questionGroupChoose": "Choose user group",
+    "buttons": {
+        "yes": "Yes",
+        "no": "No",
+        "choose": "Choose",
+        "chooseWithName": "Choose: {{name}}",
+        "unknown": "Group unknown"
+    },
+    "hintMember": "This can be changed later in the profile.",
+    "emptyGroups": "No groups found",
+    "toasts": {
+        "guestTitle": "Information",
+        "guestBody": "The user will be registered as a guest.",
+        "groupSavedTitle": "Group assigned",
+        "groupSavedBody": "Assignment saved"
+    },
+    "errors": {
+        "title": "Error"
+    }
 }

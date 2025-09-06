@@ -9,13 +9,14 @@ import {
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import styles from "./RequestMemberStyles";
-import { fetchAllMemberGroup } from "@/api/authAPI";
+import { fetchAllMemberGroup, assignUserToGroup } from "@/api/authAPI";
+
 export default function RequestMember({ onClose, reLoad, newUserId }) {
   const { t } = useTranslation("requestMember");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1);         // 1: член? -> 2: выбор группы
   const [loading, setLoading] = useState(false);
   const [loadErr, setLoadErr] = useState(null);
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([]);    // [{id, groupName, leader}]
   const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   // ШАГ 1 — член церкви?
@@ -23,84 +24,74 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
     Toast.show({
       type: "info",
       text1: t("toasts.guestTitle", "Информация"),
-      text2: t(
-        "toasts.guestBody",
-        "Пользователь будет зарегистрирован как гость."
-      ),
+      text2: t("toasts.guestBody", "Пользователь будет зарегистрирован как гость."),
       position: "top",
     });
-    onClose?.();
+    onClose?.(newUserId ?? null, { groupId: null });
     reLoad?.();
   };
   const handleMemberYes = () => setStep(2);
 
-  // ШАГ 2 — известна ли группа?
-  const handleGroupKnownNo = async () => {
-    // await requestGroupAssignment(newUserId);
-    Toast.show({
-      type: "info",
-      text1: t("toasts.requestSentTitle", "Запрос отправлен"),
-      text2: t("toasts.requestSentBody", "Мы свяжемся для уточнения группы."),
-      position: "top",
-    });
-    onClose?.();
-    reLoad?.();
-  };
-  const handleGroupKnownYes = () => setStep(3);
+  // ШАГ 2 — загрузить группы при входе
+useEffect(() => {
+  if (step !== 2) return;
+  let canceled = false;
+  (async () => {
+    setLoading(true);
+    setLoadErr(null);
+    try {
+      console.log("1");
+      const data = await fetchAllMemberGroup();
+      console.log("2");
+      const arr = (Array.isArray(data) ? data : []).map(({ idGroup, nameGroup, leader }) => ({
+        id: idGroup,
+        groupName: nameGroup,
+        leader: leader || "",
+      }));
+      if (!canceled) setGroups(arr);
+    } catch (e) {
+      if (!canceled) setLoadErr(e?.error || e?.message || "Ошибка загрузки");
+    } finally {
+      if (!canceled) setLoading(false);
+    }
+  })();
 
-  // ШАГ 3 — загрузка групп при входе на шаг
-  useEffect(() => {
-    if (step !== 3) return;
+  return () => { canceled = true; };
+}, [step]);
 
-    let canceled = false;
-    (async () => {
-      setLoading(true);
-      setLoadErr(null);
-      try {
-        const data = await fetchAllMemberGroup();
-        const arr = Object.values(data || {}).map((g) => ({
-          id: g.id,
-          groupName: g.groupName,
-          leader: g.leader || "",
-        }));
-        if (!canceled) setGroups(arr);
-      } catch (e) {
-        if (!canceled) setLoadErr(e?.error || e?.message || "Ошибка загрузки");
-      } finally {
-        if (!canceled) setLoading(false);
-      }
-    })();
 
-    return () => {
-      canceled = true;
-    };
-  }, [step]);
+  const selectedGroup = groups.find((g) => g.id === selectedGroupId) || null;
 
-  const handleSaveGroup = async () => {
-    if (!selectedGroupId || !selectedGenderId) return;
-    await assignUserToGroup(newUserId, selectedGroupId, selectedGenderId);
-    Toast.show({
-      type: "success",
-      text1: t("toasts.groupSavedTitle", "Группа назначена"),
-      text2: t("toasts.groupSavedBody", "Назначение сохранено"),
-      position: "top",
-    });
-    // возвращаем наружу id пола и id группы
-    onClose?.(newUserId ?? null, {
-      groupId: selectedGroupId,
-      genderId: selectedGenderId,
-    });
-    reLoad?.();
+  const handleChoose = async () => {
+    if (!selectedGroupId || loading) return;
+    setLoading(true);
+    try {
+      await assignUserToGroup(newUserId, selectedGroupId);
+      Toast.show({
+        type: "success",
+        text1: t("toasts.groupSavedTitle", "Группа назначена"),
+        text2: t("toasts.groupSavedBody", "Назначение сохранено"),
+        position: "top",
+      });
+      onClose?.(newUserId ?? null, { groupId: selectedGroupId });
+      reLoad?.();
+    } catch (e) {
+      Toast.show({
+        type: "error",
+        text1: t("errors.title", "Ошибка"),
+        text2: e?.error || e?.message || "Не удалось сохранить группу",
+        position: "top",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // ===== Рендер =====
   return (
     <View style={styles.container}>
       <View style={styles.formCard}>
         <View style={styles.titleBadge}>
-          <Text style={styles.titleText}>
-            {t("title", "Подтверждение статуса")}
-          </Text>
+          <Text style={styles.titleText}>{t("title", "Подтверждение статуса")}</Text>
         </View>
 
         {step === 1 && (
@@ -128,52 +119,19 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
         {step === 2 && (
           <>
             <Text style={styles.question}>
-              {t(
-                "questionGroupKnown",
-                "Известно ли, к какой группе относится пользователь?"
-              )}
-            </Text>
-            <View style={styles.buttonsRow}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleGroupKnownYes}
-              >
-                <Text style={styles.buttonText}>{t("buttons.yes", "Да")}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.buttonSecondary]}
-                onPress={handleGroupKnownNo}
-              >
-                <Text style={styles.buttonText}>{t("buttons.no", "Нет")}</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.info}>
-              {t(
-                "hintGroupKnown",
-                "Если «Нет», мы отправим запрос и закроем окно."
-              )}
-            </Text>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <Text style={styles.question}>
-              {t(
-                "questionGroupChoose",
-                "Выберите группу и укажите пол пользователя"
-              )}
+              {t("questionGroupChoose", "Выберите группу пользователя")}
             </Text>
 
             {loading && <ActivityIndicator style={{ marginVertical: 12 }} />}
 
             {loadErr && (
-              <Text style={[styles.info, { color: "#d32f2f" }]}>{loadErr}</Text>
+              <Text style={[styles.info, { color: "#d32f2f" }]}>
+                {loadErr}
+              </Text>
             )}
 
             {!loading && !loadErr && (
               <>
-                {/* список групп */}
                 <FlatList
                   data={groups}
                   keyExtractor={(item) => String(item.id)}
@@ -189,8 +147,7 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
                         <View
                           style={[
                             styles.listItemRadioDot,
-                            selectedGroupId === item.id &&
-                              styles.listItemRadioDotOn,
+                            selectedGroupId === item.id && styles.listItemRadioDotOn,
                           ]}
                         />
                       </View>
@@ -202,9 +159,7 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
                       </View>
                     </TouchableOpacity>
                   )}
-                  ItemSeparatorComponent={() => (
-                    <View style={styles.listSeparator} />
-                  )}
+                  ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
                   ListEmptyComponent={
                     <Text style={styles.info}>
                       {t("emptyGroups", "Группы не найдены")}
@@ -217,27 +172,24 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
                   <TouchableOpacity
                     style={[
                       styles.button,
-                      !selectedGroupId && styles.buttonSecondary,
+                      (!selectedGroupId || loading) && styles.buttonSecondary,
                     ]}
-                    disabled={!selectedGroupId}
-                    onPress={handleSaveGroup}
+                    disabled={!selectedGroupId || loading}
+                    onPress={handleChoose}
                   >
                     <Text style={styles.buttonText}>
-                      {t("buttons.save", "Сохранить")}
+                      {selectedGroup
+                        ? t("buttons.chooseWithName", { name: selectedGroup.groupName, defaultValue: `Выбрать: ${selectedGroup.groupName}` })
+                        : t("buttons.choose", "Выбрать")}
                     </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={[styles.button, styles.buttonSecondary]}
-                    onPress={() =>
-                      onClose?.(newUserId ?? null, {
-                        groupId: null,
-                        genderId: null,
-                      })
-                    }
+                    onPress={() => onClose?.(newUserId ?? null, { groupId: null })}
                   >
                     <Text style={styles.buttonText}>
-                      {t("buttons.cancel", "Отмена")}
+                      {t("buttons.unknown", "Группа неизвестна")}
                     </Text>
                   </TouchableOpacity>
                 </View>

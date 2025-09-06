@@ -1,8 +1,9 @@
 import { apiRequest } from "./globalFuntions.js";
+import { registerAndSendPushToken } from "@/api/PushTokenService";
+
 const userApi = "/api/v1/users/";
 const authApi = "/api/v1/auth/";
 const emailApi = "/api/v1/email/";
-
 export async function fetchUsers() {
   const urlRequest = userApi + "fetchAll";
   try {
@@ -44,7 +45,8 @@ export async function checkEmail({ email }) {
   });
 }
 export async function createUser(data) {
-  const { login, password, email, firstName, lastName, onSuccess, onError } = data;
+  const { login, password, email, firstName, lastName, onSuccess, onError } =
+    data;
 
   try {
     const res = await apiRequest(authApi + "signUp", {
@@ -59,21 +61,28 @@ export async function createUser(data) {
     let body;
 
     if (ct.includes("application/json")) {
-      body = await res.json(); 
+      body = await res.json();
     } else {
       const text = await res.text();
-      try { body = JSON.parse(text); } catch { body = text; }
+      try {
+        body = JSON.parse(text);
+      } catch {
+        body = text;
+      }
     }
 
     // --- Вынимаем id ---
     let id =
-      typeof body === "number" ? body :
-      (typeof body === "string" && /^\s*\d+\s*$/.test(body)) ? Number(body.trim()) :
-      (body && typeof body === "object") ? (body.id ?? body.userId ?? body.idUser ?? null) :
-      null;
-
+      typeof body === "number"
+        ? body
+        : typeof body === "string" && /^\s*\d+\s*$/.test(body)
+        ? Number(body.trim())
+        : body && typeof body === "object"
+        ? body.id ?? body.userId ?? body.idUser ?? null
+        : null;
+    await registerAndSendPushToken({ userId: id });
     onSuccess?.(id);
-    return id; 
+    return id;
   } catch (error) {
     onError?.(error);
     throw error;
