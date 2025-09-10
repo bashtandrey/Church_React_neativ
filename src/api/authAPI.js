@@ -29,7 +29,6 @@ export async function signIn(data) {
     onError?.(error);
   }
 }
-
 export async function logOutAPI() {
   try {
     await apiRequest(apiAuth + "logOut", {

@@ -1,25 +1,96 @@
-import React, { useState } from "react";
-import { View, Text, Button, ScrollView } from "react-native";
+import React, { useMemo, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useUser } from "@/context/UserContext";
 import Toast from "react-native-toast-message";
 import { resendEmail } from "@/api/userAPI";
 import { useNavigation } from "@react-navigation/native";
 import Layout from "@/components/Layout";
-import styles from "./ProfileScreenStyles";
-
+import styles, { COLORS } from "./ProfileScreenStyles";
 import EmailActionModal from "@/components/users/userCard/actionUser/emailActionModal/EmailActionModal";
 import ChangePasswordModal from "@/components/users/userCard/actionUser/changePasswordModal/ChangePasswordModal";
 import { useTranslation } from "react-i18next";
+import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+
+const Badge = ({ ok, textOk, textWarn }) => {
+  return (
+    <View style={[styles.badge, ok ? styles.badgeOk : styles.badgeWarn]}>
+      <Ionicons
+        name={ok ? "checkmark-circle" : "alert-circle"}
+        size={16}
+        color={ok ? COLORS.badgeOkText : COLORS.badgeWarnText}
+        style={{ marginRight: 6 }}
+      />
+      <Text
+        style={[
+          styles.badgeText,
+          { color: ok ? COLORS.badgeOkText : COLORS.badgeWarnText },
+        ]}
+      >
+        {ok ? textOk : textWarn}
+      </Text>
+    </View>
+  );
+};
+
+const Chip = ({ children }) => (
+  <View style={styles.chip}>
+    <Text style={styles.chipText}>{children}</Text>
+  </View>
+);
+
+const SectionCard = ({ title, icon, children, right }) => (
+  <View style={styles.card}>
+    <View style={styles.cardHeader}>
+      <View style={styles.cardHeaderLeft}>
+        {icon}
+        <Text style={styles.cardTitle}>{title}</Text>
+      </View>
+      {right}
+    </View>
+    <View style={styles.cardBody}>{children}</View>
+  </View>
+);
+
+const PrimaryButton = ({ title, onPress, disabled, variant = "primary" }) => {
+  const style =
+    variant === "warn"
+      ? [styles.btn, styles.btnWarn, disabled && styles.btnDisabled]
+      : [styles.btn, styles.btnPrimary, disabled && styles.btnDisabled];
+
+  const textStyle =
+    variant === "warn" ? [styles.btnText, styles.btnTextDark] : styles.btnText;
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={style}
+      activeOpacity={0.8}
+    >
+      <Text style={textStyle}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const Row = ({ label, value, valueStyle }) => (
+  <View style={styles.row}>
+    <Text style={styles.label}>{label}</Text>
+    <Text style={[styles.value, valueStyle]}>{value ?? "—"}</Text>
+  </View>
+);
 
 const ProfileScreen = () => {
   const { t } = useTranslation("profileScreen");
-
   const navigation = useNavigation();
   const { user, hasGUEST, logOut } = useUser();
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+
+  const emailOk = !!user?.emailVerified;
+  const emailColor = emailOk ? COLORS.good : COLORS.warn;
+
   const handleEmailButton = () => {
-    if (user.emailVerified) {
+    if (emailOk) {
       setShowEmailModal(true);
     } else {
       resendEmail(user.email)
@@ -30,108 +101,114 @@ const ProfileScreen = () => {
     }
   };
 
-  const emailColor = user.emailVerified ? "#28a745" : "#ffc107";
-
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.header}>{t("header")}</Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
+        {/* Основная информация */}
+        <SectionCard
+          title={t("profileInfo") || "Профиль"}
+          icon={
+            <Feather
+              name="user"
+              size={18}
+              color={COLORS.title}
+              style={{ marginRight: 8 }}
+            />
+          }
+          right={
+            <Badge
+              ok={emailOk}
+              textOk={t("emailVerified") || "Подтвержден"}
+              textWarn={t("emailNotVerified") || "Неподтвержден"}
+            />
+          }
         >
-          <Text style={styles.label}>{t("id")} </Text>
-          <Text style={styles.value}>{user.id}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Text style={styles.label}>{t("login")}</Text>
-          <Text style={styles.value}>{user.login}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Text style={styles.label}>{t("firstName")}</Text>
-          <Text style={styles.value}>{user.firstName}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Text style={styles.label}>{t("lastName")}</Text>
-          <Text style={styles.value}>{user.lastName}</Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-          }}
-        >
-          <Text style={styles.label}>{t("email")}</Text>
-          <Text style={[styles.value, { color: emailColor }]}>
-            {user.email}
-          </Text>
-        </View>
-        {!user.emailVerified && (
-          <Text style={[styles.value, { color: emailColor }]}>
-            ⚠️ {t("confirmEmail")}
-          </Text>
-        )}
-        {user.group && (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 10,
-            }}
+          <Row label={t("id")} value={String(user.id)} />
+          <Row label={t("login")} value={user.login} />
+          <Row label={t("firstName")} value={user.firstName} />
+          <Row label={t("lastName")} value={user.lastName} />
+          <Row
+            label={t("email")}
+            value={user.email}
+            valueStyle={{ color: emailColor }}
+          />
+          {!emailOk && (
+            <Text style={[styles.note, { color: emailColor }]}>
+              ⚠️ {t("confirmEmail")}
+            </Text>
+          )}
+        </SectionCard>
+      
+        {/* Группа – только если не GUEST и есть данные группы */}
+        {user?.mapGroup && (
+          <SectionCard
+            title={t("group") || "Группа"}
+            icon={
+              <Ionicons
+                name="people-circle-outline"
+                size={18}
+                color={COLORS.title}
+                style={{ marginRight: 8 }}
+              />
+            }
           >
-            <Text style={styles.label}>{t("group")}</Text>
-          </View>
+            <Row
+              label={t("groupName") || "Название группы"}
+              value={user.mapGroup.name}
+            />
+            <Row
+              label={t("groupLeader") || "Лидер группы"}
+              value={user.mapGroup.leaderName}
+            />
+            <Row
+              label={t("groupLeaderPhone") || "Телефон лидера"}
+              value={user.mapGroup.leaderPhone}
+            />
+          </SectionCard>
         )}
-        <Text style={styles.label}>{t("roles")}</Text>
 
-        {user.roles.map((role) => (
-          <View key={role}>
-            <Text style={styles.value}>• {role}</Text>
-            {hasGUEST && <Text style={styles.value}>{t("selectedRoles")}</Text>}
+        {/* Роли */}
+        <SectionCard
+          title={t("roles")}
+          icon={
+            <MaterialCommunityIcons
+              name="shield-account"
+              size={18}
+              color={COLORS.title}
+              style={{ marginRight: 8 }}
+            />
+          }
+        >
+          <View style={styles.chipsWrap}>
+            {user.roles.map((role) => (
+              <Chip key={role}>{role}</Chip>
+            ))}
           </View>
-        ))}
+          {hasGUEST && <Text style={styles.note}>{t("selectedRoles")}</Text>}
+        </SectionCard>
 
+        {/* Кнопки */}
         <View style={styles.buttonGroup}>
-          <Button
+          <PrimaryButton
             title={
-              user.emailVerified
-                ? "✉️ " + t("changeEmail")
-                : "📨 " + t("resendVerification")
+              emailOk
+                ? `✉️ ${t("changeEmail")}`
+                : `📨 ${t("resendVerification")}`
             }
             onPress={handleEmailButton}
             disabled={user.superUser}
-            color={user.emailVerified ? "#007bff" : "#ffb700"}
+            variant={emailOk ? "primary" : "warn"}
           />
-          <Button
-            title={"🔒 " + t("changePassword")}
+          <PrimaryButton
+            title={`🔒 ${t("changePassword")}`}
             onPress={() => setShowPasswordModal(true)}
+            variant="primary"
           />
         </View>
 
-        {/* Модалки (пока закомментированы) */}
+        {/* Модалки */}
         <EmailActionModal
           user={user}
           visible={showEmailModal}

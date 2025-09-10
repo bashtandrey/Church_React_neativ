@@ -11,5 +11,9 @@
   "changePassword": "Change Password",
   "resendVerification": "Resend Verification",
   "selectedRoles": "Admin needs to assign a role!",
-  "confirmEmail": "You need to confirm your email!"
+  "confirmEmail": "You need to confirm your email!",
+  "profileInfo": "Profile",
+  "groupName": "Group Name: ",
+  "groupLeader": "Group Leader: ",
+  "groupLeaderPhone": "Group Leader Phone: "
 }

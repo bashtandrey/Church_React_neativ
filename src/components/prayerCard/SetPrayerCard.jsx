@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import { ScrollView,View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import styles from "./SetPrayerCardStyles.js";
 import {
   fetchAllBooks,
@@ -116,6 +116,7 @@ export default function SetPrayerCard({ prayerCard, onRetry, onClose }) {
   };
 
   return (
+    <ScrollView contentContainerStyle={styles.container}>
     <View style={styles.verseContainer}>
       <View style={styles.card}>
         {/* greeting */}
@@ -312,5 +313,6 @@ export default function SetPrayerCard({ prayerCard, onRetry, onClose }) {
         {step === 6 && <Button title="Сохранить" onPress={handleSave} />}
       </View>
     </View>
+    </ScrollView>
   );
 }

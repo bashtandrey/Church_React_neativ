@@ -32,7 +32,8 @@ export default () => ({
         ITSAppUsesNonExemptEncryption: false,
         NSAppTransportSecurity: {
           NSAllowsArbitraryLoads: true
-        }
+        },
+        NSFaceIDUsageDescription: "This app uses Face ID for authentication"
       }
     },
     android: {

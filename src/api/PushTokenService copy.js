@@ -2,7 +2,37 @@
 import * as Notifications from "expo-notifications";
 import { apiRequest } from "./globalFuntions.js";
 import { getToken } from "./tokenStorage.js";
+import * as Device from "expo-device";
+if (!Device.isDevice) {
+  console.warn("pushTokenService: Пропуск регистрации push-токена — не физическое устройство");
 
+  // Возвращаем "пустой" токен, чтобы основной код не падал при попытке получить токен на эмуляторе/в web
+  Notifications.getExpoPushTokenAsync = async () => ({ data: null });
+
+  // Перехватываем сетевые запросы и пропускаем отправку пустого токена на эндпоинт регистрации
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    try {
+      const url = typeof input === "string" ? input : input?.url || "";
+      if (url.includes("/api/v1/notifications/register-token")) {
+        if (init?.body) {
+          const parsed = JSON.parse(init.body);
+          if (!parsed?.token) {
+            // имитируем успешный ответ сервера без реальной отправки
+            return {
+              ok: true,
+              status: 204,
+              json: async () => ({}),
+            };
+          }
+        }
+      }
+    } catch (e) {
+      // fallback to real fetch on any error
+    }
+    return originalFetch(input, init);
+  };
+}
 export async function registerAndSendPushToken(data) {
   const { userId } = data;
   try {

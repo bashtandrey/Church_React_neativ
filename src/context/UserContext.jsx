@@ -69,7 +69,7 @@ export const UserProvider = ({ children }) => {
   const isVideoAdmin = user?.roles?.includes("VIDEO_EDITOR") ?? false;
   const isPrayerCardEditor =
     user?.roles?.includes("PRAYER_CARD_EDITOR") ?? false;
-
+  const hasGUEST = user?.roles?.includes("GUEST") ?? false;
   return (
     <UserContext.Provider
       value={{
@@ -84,6 +84,7 @@ export const UserProvider = ({ children }) => {
         isVideoAdmin,
         isReviewer,
         isPrayerCardEditor,
+        hasGUEST,
       }}
     >
       {children}

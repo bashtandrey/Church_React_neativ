@@ -20,6 +20,9 @@ export default StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
   },
+  scroll: { maxHeight: 260 },
+  scrollContent: { paddingBottom: 4 },
+
   roleItem: {
     flexDirection: "row",
     alignItems: "center",
@@ -28,11 +31,18 @@ export default StyleSheet.create({
     borderBottomColor: "#eee",
     borderBottomWidth: 1,
   },
+  roleItemDisabled: {
+    opacity: 0.5,
+  },
   roleText: {
     marginLeft: 12,
     fontSize: 16,
     color: "#333",
   },
+  roleTextDisabled: {
+    color: "#888",
+  },
+
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",

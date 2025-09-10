@@ -1,17 +1,24 @@
-// src/components/PosterCardStyles.js
 import { StyleSheet } from "react-native";
+import { COLORS } from "@/screens/adminScreen/AdminScreenStyles";
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: "#f8f9fa",
-    borderRadius: 8,
-    overflow: "hidden",
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  listContainer: {
+    paddingTop: 8,
+  },
+  emptyWrap: {
+    alignItems: "center",
+    paddingHorizontal: 24,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: COLORS.text,
+    marginBottom: 6,
+  },
+  emptyText: {
+    fontSize: 13,
+    color: COLORS.muted,
+    textAlign: "center",
   },
 });
 

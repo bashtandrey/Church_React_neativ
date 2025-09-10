@@ -22,6 +22,7 @@ import YouTubeScreen from "@/screens/youTubeScreen/YouTubeScreen";
 import AboutChurchScreen from "@/screens/aboutChurchScreen/AboutChurchScreen";
 import LinkDonateScreen from "@/screens/donateScreens/LinkDonateScreen";
 import EventsChurch from "@/screens/eventsChurch/EventsChurch";
+import MemberScreen from "@/screens/memberScreen/MemberScreen";
 
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
@@ -29,7 +30,7 @@ import RNRestart from "react-native-restart";
 import "@/i18n";
 
 const MainNavigator = () => {
-  const { isAdmin, isAuthenticated } = useUser();
+  const { isAdmin, isMember, isAuthenticated } = useUser();
   const Stack = createNativeStackNavigator();
 
   return (
@@ -83,14 +84,15 @@ const MainNavigator = () => {
         options={{ title: "Login" }}
       />
       {isAuthenticated && (
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{ title: "Profile" }}
-        />
-      )}
-      {isAuthenticated && isAdmin && (
-        <Stack.Screen name="Admin" component={AdminScreen} />
+        <>
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ title: "Profile" }}
+          />
+          {isAdmin && <Stack.Screen name="Admin" component={AdminScreen} options={{ title: "Admin" }} />}
+          {isMember && <Stack.Screen name="Member" component={MemberScreen} options={{ title: "Member" }} />}
+        </>
       )}
       <Stack.Screen
         name="AboutApp"

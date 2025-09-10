@@ -1,116 +1,190 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity, Image, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Ionicons, FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
+import React, { useMemo, useState } from "react";
+import {
+  View,
+  Image,
+  Pressable,
+  StatusBar,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Foundation, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
-import { useUser } from "@/context/UserContext";
-import logo from "@/assets/logo.png";
-import styles from "./headerStyles";
-import AuthButtons from "@/components/authButtons/AuthButtons";
-import i18n from "@/i18n";
-
+import { LinearGradient } from "expo-linear-gradient";
 import CountryFlag from "react-native-country-flag";
 
+import { useUser } from "@/context/UserContext";
+import AuthButtons from "@/components/authButtons/AuthButtons";
+import i18n from "@/i18n";
+import logo from "@/assets/logo.png";
+
+import styles, { COLORS } from "./headerStyles";
+const sizeIcon = 20; // иконки в навигации
+const LANGS = [
+  { code: "ru", iso: "RU" },
+  { code: "en", iso: "US" },
+];
+
+const NavButton = ({ icon, isActive, onPress, accessibilityLabel }) => (
+  <Pressable
+    onPress={onPress}
+    accessibilityRole="button"
+    accessibilityLabel={accessibilityLabel}
+    style={({ pressed }) => [
+      styles.navItem,
+      isActive && styles.navItemActive,
+      pressed && styles.navItemPressed,
+    ]}
+    android_ripple={{ borderless: true, radius: 26 }}
+    hitSlop={8}
+  >
+    {icon}
+  </Pressable>
+);
+
 const Header = ({ selectedMenu, setSelectedMenu }) => {
-  const sizeIcon = 21; // Размер иконок
   const navigation = useNavigation();
+  const route = useRoute();
   const { isAdmin, isAuthenticated } = useUser();
-  const languages = [
-    { code: "ru", iso: "RU" },
-    { code: "en", iso: "US" },
-  ];
-  const handleSelect = (key) => {
-    setSelectedMenu(selectedMenu === key ? null : key);
-  };
-  const [currentIndex, setCurrentIndex] = useState(
-    languages.findIndex((l) => l.code === i18n.language) || 0
+
+  const [langIndex, setLangIndex] = useState(
+    Math.max(0, LANGS.findIndex((l) => l.code === i18n.language))
   );
+  const lang = LANGS[langIndex];
+
   const changeLanguage = () => {
-    const nextIndex = (currentIndex + 1) % languages.length;
-    const nextLang = languages[nextIndex];
-    i18n.changeLanguage(nextLang.code);
-    setCurrentIndex(nextIndex);
+    const next = (langIndex + 1) % LANGS.length;
+    i18n.changeLanguage(LANGS[next].code);
+    setLangIndex(next);
   };
+
+  const currentRouteName = route?.name ?? "";
+  const isRoute = (name) => currentRouteName === name;
+
+  const churchActive = selectedMenu === "church";
+  const adminActive = selectedMenu === "admin";
+
+  const [showLeftFade, setShowLeftFade] = useState(false);
+  const [showRightFade, setShowRightFade] = useState(false);
+
+  const onScroll = (e) => {
+    const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
+    const atStart = contentOffset.x <= 1;
+    const atEnd =
+      contentOffset.x + layoutMeasurement.width >= contentSize.width - 1;
+    setShowLeftFade(!atStart);
+    setShowRightFade(!atEnd);
+  };
+
+  const shadowStyle = useMemo(
+    () => (Platform.OS === "ios" ? styles.shadowIOS : styles.shadowAndroid),
+    []
+  );
 
   return (
-    <View style={styles.header}>
-      {/* Логотип */}
-      <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
-          <Image source={logo} style={styles.logo} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={changeLanguage} style={styles.navItem}>
-          <CountryFlag isoCode={languages[currentIndex].iso} size={16} />
-        </TouchableOpacity>
-      </View>
+    <>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={[styles.safe, { backgroundColor: COLORS.headerBg }]} />
+      <View style={[styles.header, shadowStyle]}>
+        {/* ЛЕВО: Логотип + язык */}
+        <View style={styles.left}>
+          <Pressable
+            onPress={() => navigation.navigate("Welcome")}
+            hitSlop={8}
+            style={({ pressed }) => [styles.logoWrap, pressed && { opacity: 0.8 }]}
+          >
+            <Image source={logo} style={styles.logo} />
+          </Pressable>
 
-      {/* Навигационные иконки */}
-      <View style={styles.navContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Welcome")}
-          style={styles.navItem}
-        >
-          <FontAwesome5 name="home" size={sizeIcon} color="white" />
-        </TouchableOpacity>
+          <Pressable
+            onPress={changeLanguage}
+            hitSlop={8}
+            accessibilityLabel="Change language"
+            style={({ pressed }) => [styles.langPill, pressed && styles.navItemPressed]}
+          >
+            <CountryFlag isoCode={lang.iso} size={14} />
+          </Pressable>
+        </View>
 
-        <TouchableOpacity
-          onPress={() => handleSelect("church")}
-          style={styles.navItem}
-        >
-          <FontAwesome5 name="place-of-worship" size={sizeIcon} color="white" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>  navigation.navigate("eventsChurch")}
-          style={styles.navItem}
-        >
-          <Ionicons name="calendar-number" size={sizeIcon} color="white" />
-        </TouchableOpacity>
+        {/* ЦЕНТР: прокручиваемые кнопки */}
+        <View style={styles.centerWrap}>
+          {showLeftFade && (
+            <LinearGradient
+              pointerEvents="none"
+              colors={[COLORS.headerBg, "transparent"]}
+              style={[styles.centerEdge, { left: 0 }]}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            />
+          )}
+          {showRightFade && (
+            <LinearGradient
+              pointerEvents="none"
+              colors={["transparent", COLORS.headerBg]}
+              style={[styles.centerEdge, { right: 0 }]}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            />
+          )}
 
-        {isAuthenticated && (
-          <>
-            {false && (
-              <TouchableOpacity
-                onPress={() => handleSelect("donate")}
-                style={styles.navItem}
-              >
-                <FontAwesome5
-                  name="hand-holding-heart"
-                  size={sizeIcon}
-                  color="white"
-                />
-              </TouchableOpacity>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.centerContent}
+            onScroll={onScroll}
+            scrollEventThrottle={16}
+            bounces
+          >
+            <NavButton
+              accessibilityLabel="Home"
+              isActive={isRoute("Welcome")}
+              onPress={() => navigation.navigate("Welcome")}
+              icon={<FontAwesome5 name="home" size={sizeIcon} color="white" />}
+            />
+
+            <NavButton
+              accessibilityLabel="Church"
+              isActive={churchActive}
+              onPress={() =>
+                setSelectedMenu(churchActive ? null : "church")
+              }
+              icon={<FontAwesome5 name="place-of-worship" size={20} color="white" />}
+            />
+
+            {/* <NavButton
+              accessibilityLabel="Events"
+              isActive={isRoute("eventsChurch")}
+              // onPress={() => navigation.navigate("eventsChurch")}
+              icon={<Foundation name="calendar" size={sizeIcon+4} color="white" />}
+            /> */}
+
+            {isAuthenticated && isAdmin && (
+              <NavButton
+                accessibilityLabel="Admin"
+                isActive={adminActive}
+                onPress={() =>
+                  setSelectedMenu(adminActive ? null : "admin")
+                }
+                icon={<FontAwesome name="users" size={sizeIcon} color="white" />}
+              />
             )}
-            {false && (
-              <TouchableOpacity
-                onPress={() => handleSelect("library")}
-                style={styles.navItem}
-              >
-                <FontAwesome5 name="landmark" size={sizeIcon} color="white" />
-              </TouchableOpacity>
-            )}
-            {isAdmin && (
-              <TouchableOpacity
-                onPress={() => handleSelect("admin")}
-                style={styles.navItem}
-              >
-                <FontAwesome name="users" size={sizeIcon} color="white" />
-              </TouchableOpacity>
-            )}
-          </>
-        )}
-        <TouchableOpacity
-          onPress={() => navigation.navigate("AboutApp")}
-          style={styles.navItem}
-        >
-          <FontAwesome5 name="info-circle" size={sizeIcon} color="white" />
-        </TouchableOpacity>
-      </View>
 
-      {/* Авторизация / Профиль */}
-      <View style={styles.authContainer}>
-        <AuthButtons sizeIcon={sizeIcon} />
+            <NavButton
+              accessibilityLabel="About"
+              isActive={isRoute("AboutApp")}
+              onPress={() => navigation.navigate("AboutApp")}
+              icon={<FontAwesome5 name="info-circle" size={sizeIcon} color="white" />}
+            />
+          </ScrollView>
+        </View>
+
+        {/* ПРАВО: Авторизация/профиль */}
+        <View style={styles.right}>
+          <AuthButtons sizeIcon={20} />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

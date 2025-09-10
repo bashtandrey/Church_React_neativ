@@ -66,8 +66,6 @@ const LoginScreen = () => {
         >
           <View style={styles.card}>
             <Text style={styles.title}>Sign in</Text>
-            <Text style={styles.subtitle}>Welcome back 👋</Text>
-
             {/* Login */}
             <Text style={styles.inputLabel}>Login</Text>
             <View
