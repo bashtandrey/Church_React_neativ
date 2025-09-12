@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Foundation, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import {FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 import { LinearGradient } from "expo-linear-gradient";
 import CountryFlag from "react-native-country-flag";

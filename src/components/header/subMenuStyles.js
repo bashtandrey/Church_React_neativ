@@ -1,64 +1,70 @@
 import { StyleSheet, Platform } from "react-native";
 
 export const COLORS = {
-  bg: "#0B2A4A",                    // совпадает с хедером из примера
-  itemBg: "rgba(255,255,255,0.08)",
-  itemBgPressed: "rgba(255,255,255,0.18)",
-  border: "rgba(255,255,255,0.12)",
-  divider: "rgba(255,255,255,0.10)",
   white: "#FFFFFF",
-  fade: "rgba(11,42,74,0.9)",       // цвет для крайних градиентов
+  bg: "#0F172A",
+  pill: "#1F2937",
+  pillPressed: "#111827",
+  fade: "rgba(15,23,42,0.6)",
+  disabled: "rgba(255,255,255,0.35)",
+  border: "rgba(255,255,255,0.15)",
 };
 
-const EDGE_FADE_WIDTH = 24;
+const shadowIOS = {
+  shadowColor: "#000",
+  shadowOpacity: 0.15,
+  shadowRadius: 8,
+  shadowOffset: { width: 0, height: 4 },
+};
+const shadowAndroid = { elevation: 3 };
 
 export default StyleSheet.create({
   wrap: {
     backgroundColor: COLORS.bg,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: COLORS.divider,
     paddingVertical: 8,
-    position: "relative",
+    paddingHorizontal: 8,
   },
-
-  // тень/поднятость
-  shadowIOS: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-  },
-  shadowAndroid: {
-    elevation: 3,
-  },
+  shadowIOS,
+  shadowAndroid,
 
   scrollContent: {
-    paddingHorizontal: 8,
-    // используем gap через маргины у item
+    paddingHorizontal: 4,
+    alignItems: "center",
   },
 
   item: {
-    height: 44,
-    minWidth: 44,
-    paddingHorizontal: 12,
-    marginHorizontal: 6,           // «gap»
-    borderRadius: 22,
-    backgroundColor: COLORS.itemBg,
-    borderWidth: StyleSheet.hairlineWidth,
+    width: 40,
+    height: 40,
+    marginHorizontal: 6,
+    borderRadius: 20,
+    backgroundColor: COLORS.pill,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
     borderColor: COLORS.border,
+  },
+  itemPressed: { backgroundColor: COLORS.pillPressed },
+  itemDisabled: {
+    opacity: 0.5,
+  },
+
+  lockBadge: {
+    position: "absolute",
+    right: -2,
+    top: -2,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: "rgba(0,0,0,0.35)",
     alignItems: "center",
     justifyContent: "center",
   },
-  itemPressed: {
-    backgroundColor: COLORS.itemBgPressed,
-  },
 
-  // градиенты по краям как индикаторы переполнения
   edgeFade: {
     position: "absolute",
     top: 0,
     bottom: 0,
-    width: EDGE_FADE_WIDTH,
-    zIndex: 1,
+    width: 24,
+    zIndex: 10,
   },
 });

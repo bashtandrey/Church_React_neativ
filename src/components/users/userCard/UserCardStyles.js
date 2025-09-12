@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
-import { COLORS } from "@/screens/adminScreen/AdminScreenStyles";
+import { COLORS } from "@/screens/admin/adminScreen/AdminScreenStyles";
 
 const shadow = Platform.select({
   ios: {

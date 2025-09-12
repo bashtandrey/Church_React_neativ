@@ -12,17 +12,19 @@ import { UserProvider, useUser } from "@/context/UserContext";
 import Toast from "react-native-toast-message";
 
 import WelcomeScreen from "@/screens/welcomeScreen/WelcomeScreen";
-import PlanVersesYearScreen from "@/screens/planVersesYearScreen/PlanVersesYearScreen";
+import PlanVersesYearScreen from "@/screens/church/planVersesYearScreen/PlanVersesYearScreen";
 import AboutAppScreen from "@/screens/aboutAppScreen/AboutAppScreen";
 import LoginScreen from "@/screens/loginScreen/LoginScreen";
 import ProfileScreen from "@/screens/profileScreen/ProfileScreen";
-import AdminScreen from "@/screens/adminScreen/AdminScreen";
-import AnnouncementsScreen from "@/screens/announcementsScreen/AnnouncementsScreen";
-import YouTubeScreen from "@/screens/youTubeScreen/YouTubeScreen";
-import AboutChurchScreen from "@/screens/aboutChurchScreen/AboutChurchScreen";
-import LinkDonateScreen from "@/screens/donateScreens/LinkDonateScreen";
+import AdminScreen from "@/screens/admin/adminScreen/AdminScreen";
+import AnnouncementsScreen from "@/screens/church/announcementsScreen/AnnouncementsScreen";
+import YouTubeScreen from "@/screens/church/youTubeScreen/YouTubeScreen";
+import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScreen";
+import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
 import EventsChurch from "@/screens/eventsChurch/EventsChurch";
-import MemberScreen from "@/screens/memberScreen/MemberScreen";
+// import MemberScreen from "@/screens/memberScreen/MemberScreen";
+import MemberGroupScreen from "@/screens/admin/MemberGroupScreen/MemberGroupScreen";
+
 
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
@@ -90,8 +92,14 @@ const MainNavigator = () => {
             component={ProfileScreen}
             options={{ title: "Profile" }}
           />
+          <Stack.Screen
+            name="MemberGroup"
+            component={MemberGroupScreen}
+            options={{ title: "Member Group" }}
+          />
+
           {isAdmin && <Stack.Screen name="Admin" component={AdminScreen} options={{ title: "Admin" }} />}
-          {isMember && <Stack.Screen name="Member" component={MemberScreen} options={{ title: "Member" }} />}
+          {/* {isMember && <Stack.Screen name="Member" component={MemberScreen} options={{ title: "Member" }} />} */}
         </>
       )}
       <Stack.Screen
