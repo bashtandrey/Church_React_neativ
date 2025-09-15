@@ -2,22 +2,27 @@ import React, { useMemo, useState } from "react";
 import { View, Text, Pressable, FlatList } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import styles, { COLORS } from "./MemberGroupCardStyles";
+import ModalTrigger from "@/components/common/ModalTrigger";
+import { useReviewerGuard } from "@/hooks/useReviewerGuard";
+import SaveGroupModal from "@/components/memberGroup/modals/SaveGroupModal";
+import Toast from "react-native-toast-message";
 
+import {
+  editMemberGroup,
+  deleteMemberGroup,
+} from "@/api/memberGroupAPI";
 const MemberGroupCard = ({
   group,
-  expanded,                         // управляемое раскрытие
-  onToggle,                         // (id, next)
-  onEditGroup,                      // (group)
-  onDeleteGroup,                    // (group)
-  onChangeLeader,                   // (group)
-  onManageMembers,                  // (group)
-  onDeleteMember,                   // (group, member)
+  loadData,
+  expanded,
+  onToggle,
 }) => {
   const [localExpanded, setLocalExpanded] = useState(false);
   const isExpanded = expanded ?? localExpanded;
 
   const leader = group?.leader || null;
   const leaderId = leader?.id ?? null;
+  const guard = useReviewerGuard();
 
   const leaderName = useMemo(() => {
     const a = (leader?.firstName || "").trim();
@@ -27,17 +32,24 @@ const MemberGroupCard = ({
 
   const leaderPhone = leader?.phone || "-";
 
+
+  
   // Участники: лидер всегда первым, остальные — по Фамилия, Имя
   const membersSorted = useMemo(() => {
     const src = Array.isArray(group?.members) ? group.members : [];
     const others = src
-      .filter(m => m && m.id !== leaderId)
+      .filter((m) => m && m.id !== leaderId)
       .slice()
-      .sort((a, b) =>
-        (a?.lastName || "").localeCompare(b?.lastName || "", undefined, { sensitivity: "base" }) ||
-        (a?.firstName || "").localeCompare(b?.firstName || "", undefined, { sensitivity: "base" })
+      .sort(
+        (a, b) =>
+          (a?.lastName || "").localeCompare(b?.lastName || "", undefined, {
+            sensitivity: "base",
+          }) ||
+          (a?.firstName || "").localeCompare(b?.firstName || "", undefined, {
+            sensitivity: "base",
+          })
       )
-      .map(m => ({ ...m, __isLeader: false }));
+      .map((m) => ({ ...m, __isLeader: false }));
 
     if (leaderId) {
       const leaderEntry = { ...leader, __isLeader: true };
@@ -60,12 +72,64 @@ const MemberGroupCard = ({
     else setLocalExpanded(next);
   };
 
+  const onEditGroup = async (group) => {
+    const response = await editMemberGroup(group?.id, group?.name);
+    loadData();
+    if (response?.ok) {
+      Toast.show({
+        type: "success",
+        text1: "Edit id " + group?.id,
+        text2: group?.name || "",
+        position: "top",
+      });
+    }
+  };
+  const onChangeLeader = async(group) => {
+    console.log("Change leader for:", group);
+    Toast.show({
+      type: "info",
+      text1: "Change leader",
+      text2: group?.name || "",
+      position: "top",
+    });
+    // TODO: открыть модалку выбора лидера
+  };
+
+  const onManageMembers = async(group) => {
+    console.log("Manage members for:", group);
+    Toast.show({
+      type: "info",
+      text1: "Members manager",
+      text2: group?.name || "",
+      position: "top",
+    });
+    // TODO: открыть менеджер участников
+  };
+
+  const onDeleteGroup = async (group) => {
+    const response = await deleteMemberGroup(group?.id);
+    loadData();
+    if (response?.ok) {
+      await loadData();
+      Toast.show({
+        type: "success",
+        text1: "Delete group?",
+        text2: group?.name || "",
+        position: "top",
+      });
+    }
+  };
+
+
   return (
     <View style={styles.card}>
       {/* HEADER */}
       <Pressable
         onPress={toggle}
-        style={({ pressed }) => [styles.headerRow, pressed && { opacity: 0.85 }]}
+        style={({ pressed }) => [
+          styles.headerRow,
+          pressed && { opacity: 0.85 },
+        ]}
         android_ripple={{ color: "#e5e7eb" }}
       >
         <View style={styles.avatar}>
@@ -80,8 +144,14 @@ const MemberGroupCard = ({
           </View>
 
           <View style={styles.subLine}>
-            <Ionicons name="person-circle-outline" size={14} color={COLORS.muted} />
-            <Text style={styles.subText} numberOfLines={1}>{leaderName}</Text>
+            <Ionicons
+              name="person-circle-outline"
+              size={14}
+              color={COLORS.muted}
+            />
+            <Text style={styles.subText} numberOfLines={1}>
+              {leaderName}
+            </Text>
             <Text style={styles.dot}> · </Text>
             <Ionicons name="call-outline" size={14} color={COLORS.muted} />
             <Text style={styles.subText}>{leaderPhone}</Text>
@@ -103,15 +173,31 @@ const MemberGroupCard = ({
 
       {/* ACTIONS */}
       <View style={styles.actionsRow}>
-        <Pressable
-          style={({ pressed }) => [styles.iconBtn, pressed && { opacity: 0.7 }]}
-          onPress={() => onEditGroup?.(group)}
-          android_ripple={{ color: "#e5e7eb", radius: 24 }}
+        <ModalTrigger
+          opener={(open) => (
+            <Pressable
+              style={({ pressed }) => [
+                styles.iconBtn,
+                pressed && { opacity: 0.7 },
+              ]}
+              onPress={() => guard(open)}
+              android_ripple={{ color: "#e5e7eb", radius: 24 }}
+            >
+              <MaterialIcons name="edit" size={20} color={COLORS.text} />
+              <Text style={styles.iconLabel}>Edit</Text>
+            </Pressable>
+          )}
         >
-          <MaterialIcons name="edit" size={20} color={COLORS.text} />
-          <Text style={styles.iconLabel}>Edit</Text>
-        </Pressable>
-
+          {({ close }) => (
+            <SaveGroupModal
+              visible
+              onClose={close}
+              idMemberGroup={group.id}
+              groupName={group.name}
+              onSubmit={onEditGroup}
+            />
+          )}
+        </ModalTrigger>
         <Pressable
           style={({ pressed }) => [styles.iconBtn, pressed && { opacity: 0.7 }]}
           onPress={() => onChangeLeader?.(group)}
@@ -133,19 +219,24 @@ const MemberGroupCard = ({
         {/* Удаление группы скрыто, если есть участники */}
         {!hasMembers && (
           <Pressable
-            style={({ pressed }) => [styles.iconBtn, pressed && { opacity: 0.7 }]}
+            style={({ pressed }) => [
+              styles.iconBtn,
+              pressed && { opacity: 0.7 },
+            ]}
             onPress={() => onDeleteGroup?.(group)}
             android_ripple={{ color: "#fee2e2", radius: 24 }}
           >
             <MaterialIcons name="delete" size={20} color={COLORS.danger} />
-            <Text style={[styles.iconLabel, { color: COLORS.danger }]}>Delete</Text>
+            <Text style={[styles.iconLabel, { color: COLORS.danger }]}>
+              Delete
+            </Text>
           </Pressable>
         )}
       </View>
 
       {/* MEMBERS — только в раскрытом виде */}
-      {isExpanded && (
-        count > 0 ? (
+      {isExpanded &&
+        (count > 0 ? (
           <View style={styles.membersBox}>
             <FlatList
               data={membersSorted}
@@ -153,9 +244,16 @@ const MemberGroupCard = ({
               ItemSeparatorComponent={() => <View style={styles.separator} />}
               renderItem={({ item }) => {
                 const isLeader = !!item.__isLeader;
-                const fullName = [item?.lastName, item?.firstName].filter(Boolean).join(" ");
+                const fullName = [item?.lastName, item?.firstName]
+                  .filter(Boolean)
+                  .join(" ");
                 return (
-                  <View style={[styles.memberRow, isLeader && styles.memberRowLeader]}>
+                  <View
+                    style={[
+                      styles.memberRow,
+                      isLeader && styles.memberRowLeader,
+                    ]}
+                  >
                     <View style={styles.memberLeft}>
                       <Ionicons
                         name={isLeader ? "star" : "person-outline"}
@@ -163,7 +261,10 @@ const MemberGroupCard = ({
                         color={isLeader ? COLORS.leaderIcon : COLORS.muted}
                       />
                       <Text
-                        style={[styles.memberName, isLeader && styles.memberNameLeader]}
+                        style={[
+                          styles.memberName,
+                          isLeader && styles.memberNameLeader,
+                        ]}
                         numberOfLines={1}
                       >
                         {fullName || "-"}
@@ -171,17 +272,30 @@ const MemberGroupCard = ({
                     </View>
 
                     <View style={styles.memberRight}>
-                      <Ionicons name="call-outline" size={14} color={COLORS.muted} />
-                      <Text style={styles.memberPhone}>{item?.phone || "-"}</Text>
+                      <Ionicons
+                        name="call-outline"
+                        size={14}
+                        color={COLORS.muted}
+                      />
+                      <Text style={styles.memberPhone}>
+                        {item?.phone || "-"}
+                      </Text>
 
                       {/* удалить участника — скрыто на лидере */}
                       {!isLeader && (
                         <Pressable
-                          style={({ pressed }) => [styles.memberDelBtn, pressed && { opacity: 0.7 }]}
+                          style={({ pressed }) => [
+                            styles.memberDelBtn,
+                            pressed && { opacity: 0.7 },
+                          ]}
                           onPress={() => onDeleteMember?.(group, item)}
                           android_ripple={{ color: "#fee2e2", radius: 18 }}
                         >
-                          <MaterialIcons name="delete" size={18} color={COLORS.danger} />
+                          <MaterialIcons
+                            name="delete"
+                            size={18}
+                            color={COLORS.danger}
+                          />
                         </Pressable>
                       )}
                     </View>
@@ -192,11 +306,14 @@ const MemberGroupCard = ({
           </View>
         ) : (
           <View style={styles.membersEmpty}>
-            <Ionicons name="information-circle-outline" size={16} color={COLORS.muted} />
+            <Ionicons
+              name="information-circle-outline"
+              size={16}
+              color={COLORS.muted}
+            />
             <Text style={styles.emptyText}>No members yet</Text>
           </View>
-        )
-      )}
+        ))}
     </View>
   );
 };

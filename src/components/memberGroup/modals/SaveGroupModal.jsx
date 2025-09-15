@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Modal, View, Text, TextInput, Pressable, Platform, KeyboardAvoidingView, StyleSheet } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Platform,
+  KeyboardAvoidingView,
+  StyleSheet,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const COLORS = {
@@ -11,14 +20,20 @@ const COLORS = {
   primary: "#3B82F6",
 };
 
-export default function CreateGroupModal({ visible, onClose, onSubmit }) {
-  const [name, setName] = useState("");
+export default function CreateGroupModal({
+  idMemberGroup,
+  groupName,
+  visible,
+  onClose,
+  onSubmit,
+}) {
+  const [id, setId] = useState(idMemberGroup || null);
+  const [name, setName] = useState(groupName || "");
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState("");
 
   useEffect(() => {
     if (visible) {
-      setName("");
       setErr("");
       setSubmitting(false);
     }
@@ -31,7 +46,13 @@ export default function CreateGroupModal({ visible, onClose, onSubmit }) {
     setSubmitting(true);
     setErr("");
     try {
-      await onSubmit?.({ name: name.trim() });
+      if (id) {
+        // Editing existing group
+        await onSubmit?.({ id, name: name.trim() });
+      } else {
+        // Creating new group
+        await onSubmit?.({ name: name.trim() });
+      }
       onClose?.();
     } catch (e) {
       setErr(e?.message || "Ошибка создания группы");
@@ -52,8 +73,11 @@ export default function CreateGroupModal({ visible, onClose, onSubmit }) {
         {/* центральная карточка */}
         <View style={styles.centerCard}>
           <View style={styles.header}>
-            <Text style={styles.title}>Создать группу</Text>
-            <Pressable onPress={onClose} style={({ pressed }) => pressed && { opacity: 0.6 }}>
+            <Text style={styles.title}>{id ? `Id:[${id}] Редактировать группу` : "Создать группу"}</Text>
+            <Pressable
+              onPress={onClose}
+              style={({ pressed }) => pressed && { opacity: 0.6 }}
+            >
               <Ionicons name="close" size={22} color={COLORS.muted} />
             </Pressable>
           </View>
@@ -82,7 +106,8 @@ export default function CreateGroupModal({ visible, onClose, onSubmit }) {
               style={[styles.submitBtn, !canSubmit && styles.submitDisabled]}
             >
               <Text style={styles.submitText}>
-                {submitting ? "Сохранение…" : "Создать"}
+                {id ? "Сохранить" : "Создать"}
+                {submitting ? "Сохранение…" : ""}
               </Text>
             </Pressable>
           </View>
@@ -95,8 +120,8 @@ export default function CreateGroupModal({ visible, onClose, onSubmit }) {
 const styles = StyleSheet.create({
   centerWrap: {
     flex: 1,
-    justifyContent: "center",   // <<< центр по вертикали
-    alignItems: "center",       // <<< центр по горизонтали
+    justifyContent: "center", // <<< центр по вертикали
+    alignItems: "center", // <<< центр по горизонтали
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
@@ -105,7 +130,7 @@ const styles = StyleSheet.create({
   centerCard: {
     width: "90%",
     maxWidth: 420,
-    borderRadius: 16,                 // полное скругление
+    borderRadius: 16,
     backgroundColor: COLORS.cardBg,
     borderWidth: 1,
     borderColor: COLORS.line,
@@ -120,21 +145,45 @@ const styles = StyleSheet.create({
       android: { elevation: 8 },
     }),
   },
-  header: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   title: { color: COLORS.title, fontWeight: "800", fontSize: 18 },
 
   body: { marginTop: 10, gap: 8 },
   label: { color: COLORS.text, fontWeight: "700" },
   input: {
-    borderWidth: 1, borderColor: COLORS.line, borderRadius: 10,
-    paddingHorizontal: 10, paddingVertical: 8, color: COLORS.text,
+    borderWidth: 1,
+    borderColor: COLORS.line,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    color: COLORS.text,
   },
   error: { color: "#b91c1c", fontWeight: "700", fontSize: 12 },
 
-  footer: { marginTop: 12, flexDirection: "row", justifyContent: "flex-end", gap: 10 },
-  cancelBtn: { paddingHorizontal: 12, paddingVertical: 10, borderRadius: 10, borderWidth: 1, borderColor: COLORS.line },
+  footer: {
+    marginTop: 12,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 10,
+  },
+  cancelBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLORS.line,
+  },
   cancelText: { color: COLORS.text, fontWeight: "700" },
-  submitBtn: { paddingHorizontal: 14, paddingVertical: 10, borderRadius: 10, backgroundColor: COLORS.primary },
+  submitBtn: {
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: COLORS.primary,
+  },
   submitDisabled: { opacity: 0.5 },
   submitText: { color: "#fff", fontWeight: "800" },
 });

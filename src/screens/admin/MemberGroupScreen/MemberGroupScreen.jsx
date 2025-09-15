@@ -18,11 +18,10 @@ import styles, { COLORS } from "./MemberGroupScreenStyles";
 
 import Toast from "react-native-toast-message";
 import ModalTrigger from "@/components/common/ModalTrigger";
-import CreateGroupModal from "@/components/memberGroup/modals/CreateGroupModal";
+import SaveGroupModal from "@/components/memberGroup/modals/SaveGroupModal";
 
-import { fetchAllMemberGroup } from "@/api/memberGroupAPI";
+import { fetchAllMemberGroup, createMemberGroup } from "@/api/memberGroupAPI";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
-import { createMemberGroup } from "@/api/memberGroupAPI";
 const MemberGroupScreen = () => {
   const [memberGroups, setMemberGroups] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,11 +30,13 @@ const MemberGroupScreen = () => {
   const navigation = useNavigation();
 
   const handleCreateSubmit = async ({ name }) => {
-    // await createMemberGroup(name);
-    await loadData();
+    const response = await createMemberGroup(name);
+    if (response?.ok) {
+      await loadData();
+      Toast.show({ type: "success", text1: "Готово", text2: "Группа создана" });
+    }
   };
 
-  // UI state
   const [search, setSearch] = useState("");
 
   const loadData = useCallback(() => {
@@ -58,7 +59,6 @@ const MemberGroupScreen = () => {
     loadData();
   }, [loadData]);
 
-  // Фильтр под новый формат
   const filteredGroups = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return memberGroups;
@@ -79,62 +79,6 @@ const MemberGroupScreen = () => {
     });
   }, [memberGroups, search]);
 
-  // === Обработчики кнопок карточки (пока заглушки) ===
-  const onEditGroup = useCallback((group) => {
-    console.log("Edit group:", group);
-    Toast.show({
-      type: "info",
-      text1: "Edit group",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: открыть модалку редактирования
-  }, []);
-
-  const onDeleteGroup = useCallback((group) => {
-    console.log("Delete group:", group);
-    Toast.show({
-      type: "info",
-      text1: "Delete group?",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: confirm + API + loadData()
-  }, []);
-
-  const onChangeLeader = useCallback((group) => {
-    console.log("Change leader for:", group);
-    Toast.show({
-      type: "info",
-      text1: "Change leader",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: открыть модалку выбора лидера
-  }, []);
-
-  const onManageMembers = useCallback((group) => {
-    console.log("Manage members for:", group);
-    Toast.show({
-      type: "info",
-      text1: "Members manager",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: открыть менеджер участников
-  }, []);
-
-  const onDeleteMember = useCallback((group, member) => {
-    console.log("Delete member:", member, "from group:", group);
-    Toast.show({
-      type: "info",
-      text1: "Delete member?",
-      text2: `${member?.lastName || ""} ${member?.firstName || ""}`,
-      position: "top",
-    });
-    // TODO: confirm + API + loadData()
-  }, []);
-
   return (
     <Layout>
       <SafeAreaView style={{ flex: 1 }}>
@@ -147,7 +91,7 @@ const MemberGroupScreen = () => {
               <ModalTrigger
                 opener={(open) => (
                   <Pressable
-                    onPress={() => guard(open)} // <<< вот так вызываем модалку
+                    onPress={() => guard(open)}
                     style={({ pressed }) => [
                       styles.createBtn,
                       pressed && styles.pressed,
@@ -160,7 +104,7 @@ const MemberGroupScreen = () => {
                 )}
               >
                 {({ close }) => (
-                  <CreateGroupModal
+                  <SaveGroupModal
                     visible
                     onClose={close}
                     onSubmit={handleCreateSubmit}
@@ -214,15 +158,7 @@ const MemberGroupScreen = () => {
               <Text style={styles.loadingText}>Loading groups…</Text>
             </View>
           ) : (
-            <MemberGroupList
-              contentData={filteredGroups}
-              reLoad={loadData}
-              onEditGroup={onEditGroup}
-              onDeleteGroup={onDeleteGroup}
-              onChangeLeader={onChangeLeader}
-              onManageMembers={onManageMembers}
-              onDeleteMember={onDeleteMember}
-            />
+            <MemberGroupList contentData={filteredGroups} reLoad={loadData} />
           )}
         </View>
       </SafeAreaView>
