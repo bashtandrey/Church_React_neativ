@@ -5,18 +5,21 @@ import styles, { COLORS } from "./MemberGroupCardStyles";
 import ModalTrigger from "@/components/common/ModalTrigger";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 import SaveGroupModal from "@/components/memberGroup/modals/SaveGroupModal";
+import ChangeLeaderModal from "@/components/memberGroup/modals/ChangeLeaderModal";
+import AddMemberModal from "@/components/memberGroup/modals/AddMemberModal";
+
+import { Alert } from "react-native";
+
 import Toast from "react-native-toast-message";
 
 import {
+  addedMembersInGroup,
   editMemberGroup,
   deleteMemberGroup,
+  setLeader,
+  deleteMember,
 } from "@/api/memberGroupAPI";
-const MemberGroupCard = ({
-  group,
-  loadData,
-  expanded,
-  onToggle,
-}) => {
+const MemberGroupCard = ({ group, loadData, expanded, onToggle }) => {
   const [localExpanded, setLocalExpanded] = useState(false);
   const isExpanded = expanded ?? localExpanded;
 
@@ -32,8 +35,6 @@ const MemberGroupCard = ({
 
   const leaderPhone = leader?.phone || "-";
 
-
-  
   // Участники: лидер всегда первым, остальные — по Фамилия, Имя
   const membersSorted = useMemo(() => {
     const src = Array.isArray(group?.members) ? group.members : [];
@@ -74,8 +75,8 @@ const MemberGroupCard = ({
 
   const onEditGroup = async (group) => {
     const response = await editMemberGroup(group?.id, group?.name);
-    loadData();
     if (response?.ok) {
+      loadData();
       Toast.show({
         type: "success",
         text1: "Edit id " + group?.id,
@@ -84,33 +85,68 @@ const MemberGroupCard = ({
       });
     }
   };
-  const onChangeLeader = async(group) => {
-    console.log("Change leader for:", group);
-    Toast.show({
-      type: "info",
-      text1: "Change leader",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: открыть модалку выбора лидера
+  const onChangeLeader = async (data) => {
+    const { groupId, leaderId } = data;
+    console.log("Change leader:", groupId, leaderId);
+    const response = await setLeader(groupId, leaderId);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "info",
+        text1: "Change leader",
+        position: "top",
+      });
+    }
   };
-
-  const onManageMembers = async(group) => {
-    console.log("Manage members for:", group);
-    Toast.show({
-      type: "info",
-      text1: "Members manager",
-      text2: group?.name || "",
-      position: "top",
-    });
-    // TODO: открыть менеджер участников
+  const onDeleteMember = (group, member) => {
+    const fullName = `${member?.lastName ?? ""} ${
+      member?.firstName ?? ""
+    }`.trim();
+    Alert.alert(
+      "Удалить участника?",
+      fullName
+        ? `${fullName} из «${group?.name ?? ""}»`
+        : "Подтвердите удаление",
+      [
+        { text: "Отмена", style: "cancel" },
+        {
+          text: "Удалить",
+          style: "destructive",
+          onPress: () => actuallyDeleteMember(group.id, member.id),
+        },
+      ]
+    );
   };
-
+  const actuallyDeleteMember = async (groupId, memberId) => {
+    try {
+      const response = await deleteMember(groupId, memberId);
+      if (!response?.ok) throw new Error("Не удалось удалить");
+      await loadData();
+      Toast.show({ type: "info", text1: "Member deleted", position: "top" });
+    } catch (e) {
+      Toast.show({
+        type: "error",
+        text1: "Ошибка удаления",
+        text2: e.message,
+        position: "top",
+      });
+    }
+  };
+  const onAddMembers = async (data) => {
+  const response = await addedMembersInGroup(data);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: "Added members for group",
+        position: "top",
+      });
+    }
+  };
   const onDeleteGroup = async (group) => {
     const response = await deleteMemberGroup(group?.id);
-    loadData();
     if (response?.ok) {
-      await loadData();
+      loadData();
       Toast.show({
         type: "success",
         text1: "Delete group?",
@@ -119,7 +155,6 @@ const MemberGroupCard = ({
       });
     }
   };
-
 
   return (
     <View style={styles.card}>
@@ -198,23 +233,59 @@ const MemberGroupCard = ({
             />
           )}
         </ModalTrigger>
-        <Pressable
-          style={({ pressed }) => [styles.iconBtn, pressed && { opacity: 0.7 }]}
-          onPress={() => onChangeLeader?.(group)}
-          android_ripple={{ color: "#e5e7eb", radius: 24 }}
-        >
-          <MaterialIcons name="swap-horiz" size={20} color={COLORS.text} />
-          <Text style={styles.iconLabel}>Change leader</Text>
-        </Pressable>
 
-        <Pressable
-          style={({ pressed }) => [styles.iconBtn, pressed && { opacity: 0.7 }]}
-          onPress={() => onManageMembers?.(group)}
-          android_ripple={{ color: "#e5e7eb", radius: 24 }}
+        <ModalTrigger
+          opener={(open) => (
+            <Pressable
+              style={({ pressed }) => [
+                styles.iconBtn,
+                pressed && { opacity: 0.7 },
+              ]}
+              onPress={() => guard(open)}
+              android_ripple={{ color: "#e5e7eb", radius: 24 }}
+            >
+              <MaterialIcons name="swap-horiz" size={20} color={COLORS.text} />
+              <Text style={styles.iconLabel}>Change leader</Text>
+            </Pressable>
+          )}
         >
-          <MaterialIcons name="group-add" size={20} color={COLORS.text} />
-          <Text style={styles.iconLabel}>Members</Text>
-        </Pressable>
+          {({ close }) => (
+            <ChangeLeaderModal
+              visible
+              onClose={close}
+              onSubmit={onChangeLeader}
+              groupId={group.id}
+              groupName={group.name}
+              leader={group.leader}
+            />
+          )}
+        </ModalTrigger>
+
+        <ModalTrigger
+          opener={(open) => (
+            <Pressable
+              style={({ pressed }) => [
+                styles.iconBtn,
+                pressed && { opacity: 0.7 },
+              ]}
+              onPress={() => guard(open)}
+              android_ripple={{ color: "#e5e7eb", radius: 24 }}
+            >
+              <MaterialIcons name="group-add" size={20} color={COLORS.text} />
+              <Text style={styles.iconLabel}>Members</Text>
+            </Pressable>
+          )}
+        >
+          {({ close }) => (
+            <AddMemberModal
+              visible
+              onClose={close}
+              onSubmit={onAddMembers}
+              groupId={group.id}
+              groupName={group.name}
+            />
+          )}
+        </ModalTrigger>
 
         {/* Удаление группы скрыто, если есть участники */}
         {!hasMembers && (

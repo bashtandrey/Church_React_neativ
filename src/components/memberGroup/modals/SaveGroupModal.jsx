@@ -27,7 +27,7 @@ export default function CreateGroupModal({
   onClose,
   onSubmit,
 }) {
-  const [id, setId] = useState(idMemberGroup || null);
+  const [id] = useState(idMemberGroup || null);
   const [name, setName] = useState(groupName || "");
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState("");
