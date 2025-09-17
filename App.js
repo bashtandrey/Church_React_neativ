@@ -22,9 +22,8 @@ import YouTubeScreen from "@/screens/church/youTubeScreen/YouTubeScreen";
 import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScreen";
 import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
 import EventsChurch from "@/screens/eventsChurch/EventsChurch";
-// import MemberScreen from "@/screens/memberScreen/MemberScreen";
+import MemberScreen from "@/screens/admin/memberScreen/MemberScreen";
 import MemberGroupScreen from "@/screens/admin/MemberGroupScreen/MemberGroupScreen";
-
 
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
@@ -97,9 +96,19 @@ const MainNavigator = () => {
             component={MemberGroupScreen}
             options={{ title: "Member Group" }}
           />
+          <Stack.Screen
+            name="Member"
+            component={MemberScreen}
+            options={{ title: "Member" }}
+          />
 
-          {isAdmin && <Stack.Screen name="Admin" component={AdminScreen} options={{ title: "Admin" }} />}
-          {/* {isMember && <Stack.Screen name="Member" component={MemberScreen} options={{ title: "Member" }} />} */}
+          {isAdmin && (
+            <Stack.Screen
+              name="Admin"
+              component={AdminScreen}
+              options={{ title: "Admin" }}
+            />
+          )}
         </>
       )}
       <Stack.Screen

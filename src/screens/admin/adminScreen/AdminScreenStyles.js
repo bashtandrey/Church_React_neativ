@@ -118,22 +118,35 @@ const styles = StyleSheet.create({
   },
 
   // Modal
-  modalWrap: { flex: 1, justifyContent: "flex-end" },
+  modalWrap: {
+    flex: 1,
+    justifyContent: "center", // центр по вертикали
+    alignItems: "center", // центр по горизонтали
+  },
   backdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.4)",
-  },
+  ...StyleSheet.absoluteFillObject,
+  backgroundColor: "rgba(0,0,0,0.3)",
+},
   modalCard: {
-    backgroundColor: COLORS.card,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingHorizontal: 12,
-    paddingTop: 12,
-    paddingBottom: 24,
-    borderTopWidth: 1,
-    borderColor: COLORS.line,
-    ...shadow,
-  },
+  width: "90%",
+  maxWidth: 420,
+  backgroundColor: COLORS.card,   // как у тебя было
+  borderRadius: 20,                // общий радиус вместо top-only
+  borderWidth: 1,                  // вместо borderTopWidth
+  borderColor: COLORS.line,
+  paddingHorizontal: 12,
+  paddingVertical: 16,             // замени paddingTop/bottom на общий
+  ...Platform.select({
+    ios: {
+      shadowColor: "#000",
+      shadowOpacity: 0.15,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 6 },
+    },
+    android: { elevation: 8 },
+  }),
+},
+
   modalCloseBtn: {
     marginTop: 12,
     alignSelf: "center",
