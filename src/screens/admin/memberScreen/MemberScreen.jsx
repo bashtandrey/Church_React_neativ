@@ -17,7 +17,7 @@ import styles, { COLORS } from "./MemberScreenStyles";
 import Toast from "react-native-toast-message";
 import ModalTrigger from "@/components/common/ModalTrigger";
 import SaveMemberModal from "@/components/member/modals/SaveMemberModal";
-import { fetchAllMembers, createMember } from "@/api/membersAPI";
+import { fetchAllMembers, saveMember } from "@/api/membersAPI";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 
 const MemberScreen = () => {
@@ -30,7 +30,7 @@ const MemberScreen = () => {
   const navigation = useNavigation();
 
   const handleCreateSubmit = async ({ data }) => {
-    const response = await createMember(data);
+    const response = await saveMember(data);
     if (response?.ok) {
       loadData();
       Toast.show({ type: "success", text1: "Готово", text2: "Член создан" });

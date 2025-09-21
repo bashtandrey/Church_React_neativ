@@ -72,6 +72,44 @@ export async function createMemberGroup(name) {
     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
   }
 }
+export async function editMemberGroup(id, name) {
+  const groupName = (name ?? "").trim();
+  if (!groupName) throw new Error("Пустое имя группы");
+
+  const url =
+    memberGroupAPI +
+    "edit?memberGroupId=" +
+    encodeURIComponent(id) +
+    "&groupName=" +
+    encodeURIComponent(groupName);
+
+  let response;
+  try {
+    response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
+  }
+}
+export async function deleteMemberGroup(id) {
+  if (!id) throw new Error("Пустой id группы");
+  const url = memberGroupAPI + "delete/" + encodeURIComponent(id);
+  let response;
+  try {
+    response = await apiRequest(url, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
+  }
+}
 export async function addedMembersInGroup(data) {
   const url = memberGroupAPI + "addedMembersInGroup";
   const { groupId, memberIds } = data;
@@ -89,16 +127,14 @@ export async function addedMembersInGroup(data) {
     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
   }
 }
-export async function editMemberGroup(id, name) {
-  const groupName = (name ?? "").trim();
-  if (!groupName) throw new Error("Пустое имя группы");
-
-  const url =
+export async function deletedMembersForGroup(groupId, memberId) {
+  let url;
+  url =
     memberGroupAPI +
-    "edit?memberGroupId=" +
-    encodeURIComponent(id) +
-    "&groupName=" +
-    encodeURIComponent(groupName);
+    "deleteMember?memberGroupId=" +
+    encodeURIComponent(groupId) +
+    "&memberId=" +
+    encodeURIComponent(memberId);
 
   let response;
   try {
@@ -129,42 +165,6 @@ export async function setLeader(groupId, leaderId) {
   try {
     response = await apiRequest(url, {
       method: "POST",
-      credentials: "include",
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
-  }
-}
-export async function deleteMember(groupId, memberId) {
-  let url;
-  url =
-    memberGroupAPI +
-    "deleteMember?memberGroupId=" +
-    encodeURIComponent(groupId) +
-    "&memberId=" +
-    encodeURIComponent(memberId);
-
-  let response;
-  try {
-    response = await apiRequest(url, {
-      method: "POST",
-      credentials: "include",
-    });
-    return response;
-  } catch (error) {
-    console.log(error);
-    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
-  }
-}
-export async function deleteMemberGroup(id) {
-  if (!id) throw new Error("Пустой id группы");
-  const url = memberGroupAPI + "delete/" + encodeURIComponent(id);
-  let response;
-  try {
-    response = await apiRequest(url, {
-      method: "DELETE",
       credentials: "include",
     });
     return response;

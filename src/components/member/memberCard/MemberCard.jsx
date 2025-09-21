@@ -5,15 +5,17 @@ import styles, { COLORS } from "./MemberCardStyles";
 import ModalTrigger from "@/components/common/ModalTrigger";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 import Toast from "react-native-toast-message";
+import SaveMemberModal from "@/components/member/modals/SaveMemberModal";
+import AssignHierarchyModal from "@/components/member/modals/AssignHierarchyModal";
+import AssignGroupModal from "@/components/member/modals/AssignGroupModal";
+import AssignUserModal from "@/components/member/modals/AssignUserModal";
 
-// import EditMemberModal from "@/components/member/modals/EditMemberModal";
-// import AssignGroupModal from "@/components/memberGroup/modals/AssignGroupModal";
-// import MoveGroupModal from "@/components/memberGroup/modals/MoveGroupModal";
-// import AssignUserModal from "@/components/member/modals/AssignUserModal";
-// import AssignHierarchyModal from "@/components/member/modals/AssignHierarchyModal";
-
-import // deleteMember,
-"@/api/membersAPI";
+import {
+  saveMember,
+  deleteMember,
+  assignHierarch,
+  assignGroup,
+} from "@/api/membersAPI";
 
 const MemberCard = ({ member, loadData }) => {
   const guard = useReviewerGuard();
@@ -28,6 +30,41 @@ const MemberCard = ({ member, loadData }) => {
     const src = (fullName || "?").trim();
     return (src.charAt(0) || "?").toUpperCase();
   }, [fullName]);
+
+  const handleSaveSubmit = async ({ data }) => {
+    const response = await saveMember(data);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: "Готово",
+        text2: "Член отредактирован",
+      });
+    }
+  };
+
+  const handleAssignHierarchySubmit = async ({ data }) => {
+    const response = await assignHierarch(data);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: "Готово",
+        text2: "Иерархия отредактирована",
+      });
+    }
+  };
+  const handleAssignGroupSubmit = async ({ data }) => {
+    const response = await assignGroup(data);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: "Готово",
+        text2: "Группа отредактирована",
+      });
+    }
+  };
 
   const onDeleteMember = () => {
     Alert.alert(
@@ -93,7 +130,7 @@ const MemberCard = ({ member, loadData }) => {
       </View>
 
       {/* INFO BLOCK */}
-      {member?.userMap && (
+      {(member?.userMap || member?.groupId || member?.hierarchy) && (
         <View style={styles.memberInfoBox}>
           {/* User привязка */}
           {member?.userMap ? (
@@ -143,6 +180,7 @@ const MemberCard = ({ member, loadData }) => {
           ) : null}
         </View>
       )}
+
       {/* Contact + extra info */}
       {(member?.phone || member?.birthday || member?.gender) && (
         <View style={styles.detailsBox}>
@@ -181,66 +219,54 @@ const MemberCard = ({ member, loadData }) => {
           )}
         >
           {({ close }) => (
-            <EditMemberModal
+            <SaveMemberModal
               visible
               onClose={close}
               member={member}
-              onSubmit={loadData}
+              onSubmit={(data) => handleSaveSubmit(data)}
             />
           )}
         </ModalTrigger>
 
         {/* Add / Move group */}
-        {!member?.groupId ? (
-          <ModalTrigger
-            opener={(open) => (
-              <Pressable
-                style={styles.iconBtn}
-                onPress={() => guard(open)}
-                android_ripple={{ color: "#e5e7eb", radius: 24 }}
-              >
-                <MaterialIcons name="group-add" size={20} color={COLORS.text} />
-                <Text style={styles.iconLabel}>Add group</Text>
-              </Pressable>
-            )}
-          >
-            {({ close }) => (
-              <AssignGroupModal
-                visible
-                onClose={close}
-                memberId={member.id}
-                onSubmit={loadData}
-              />
-            )}
-          </ModalTrigger>
-        ) : (
-          <ModalTrigger
-            opener={(open) => (
-              <Pressable
-                style={styles.iconBtn}
-                onPress={() => guard(open)}
-                android_ripple={{ color: "#e5e7eb", radius: 24 }}
-              >
-                <MaterialIcons
-                  name="swap-horiz"
-                  size={20}
-                  color={COLORS.text}
-                />
-                <Text style={styles.iconLabel}>Move group</Text>
-              </Pressable>
-            )}
-          >
-            {({ close }) => (
-              <MoveGroupModal
-                visible
-                onClose={close}
-                memberId={member.id}
-                currentGroup={member.groupId}
-                onSubmit={loadData}
-              />
-            )}
-          </ModalTrigger>
-        )}
+        <ModalTrigger
+          opener={(open) => (
+            <Pressable
+              style={styles.iconBtn}
+              onPress={() => guard(open)}
+              android_ripple={{ color: "#e5e7eb", radius: 24 }}
+            >
+              {member?.groupId ? (
+                <>
+                  <MaterialIcons
+                    name="swap-horiz"
+                    size={20}
+                    color={COLORS.text}
+                  />
+                  <Text style={styles.iconLabel}>Move group</Text>
+                </>
+              ) : (
+                <>
+                  <MaterialIcons
+                    name="group-add"
+                    size={20}
+                    color={COLORS.text}
+                  />
+                  <Text style={styles.iconLabel}>Add group</Text>
+                </>
+              )}
+            </Pressable>
+          )}
+        >
+          {({ close }) => (
+            <AssignGroupModal
+              visible
+              onClose={close}
+              member={member} 
+              onSubmit={(data) => handleAssignGroupSubmit(data)} 
+            />
+          )}
+        </ModalTrigger>
 
         {/* Bind user (если нет userMap) */}
         {!member?.userMap && (
@@ -292,9 +318,8 @@ const MemberCard = ({ member, loadData }) => {
             <AssignHierarchyModal
               visible
               onClose={close}
-              memberId={member.id}
-              currentHierarchy={member.hierarchy}
-              onSubmit={loadData}
+              member={member}
+              onSubmit={(data) => handleAssignHierarchySubmit(data)}
             />
           )}
         </ModalTrigger>

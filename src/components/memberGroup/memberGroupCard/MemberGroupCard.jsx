@@ -17,7 +17,7 @@ import {
   editMemberGroup,
   deleteMemberGroup,
   setLeader,
-  deleteMember,
+  deletedMembersForGroup,
 } from "@/api/memberGroupAPI";
 const MemberGroupCard = ({ group, loadData, expanded, onToggle }) => {
   const [localExpanded, setLocalExpanded] = useState(false);
@@ -119,7 +119,7 @@ const MemberGroupCard = ({ group, loadData, expanded, onToggle }) => {
   };
   const actuallyDeleteMember = async (groupId, memberId) => {
     try {
-      const response = await deleteMember(groupId, memberId);
+      const response = await deletedMembersForGroup(groupId, memberId);
       if (!response?.ok) throw new Error("Не удалось удалить");
       await loadData();
       Toast.show({ type: "info", text1: "Member deleted", position: "top" });
