@@ -20,7 +20,7 @@ const AnnouncementsScreen = () => {
   const [contentData, setContentData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { isPostEditor } = useUser();
+  const { isAnnouncementsEditor } = useUser();
 
   const loadData = () => {
     setLoading(true);
@@ -41,7 +41,7 @@ const AnnouncementsScreen = () => {
   return (
     <Layout>
       <View style={styles.container}>
-        {isPostEditor && (
+        {isAnnouncementsEditor && (
           <View style={styles.headerContainer}>
             <TouchableOpacity
               style={styles.createButton}
@@ -59,7 +59,7 @@ const AnnouncementsScreen = () => {
         >
           <PosterListCard
             contentData={contentData}
-            showActions={isPostEditor}
+            showActions={isAnnouncementsEditor}
             reLoad={loadData}
           />
         </DataLoaderWrapper>

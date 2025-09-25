@@ -72,8 +72,9 @@ export const UserProvider = ({ children }) => {
   const isYearReadingPlanEditor =
     user?.roles?.includes("YEAR_READING_PLAN_EDITOR") ?? false;
 
-  const isPostEditor = user?.roles?.includes("ANNOUNCEMENTS_EDITOR") ?? false;
-  const isVideoAdmin = user?.roles?.includes("VIDEO_EDITOR") ?? false;
+  const isAnnouncementsEditor =
+    user?.roles?.includes("ANNOUNCEMENTS_EDITOR") ?? false;
+  const isYouTubeEditor = user?.roles?.includes("YOUTUBE_EDITOR") ?? false;
 
   const hasGUEST = user?.roles?.includes("GUEST") ?? false;
 
@@ -88,9 +89,9 @@ export const UserProvider = ({ children }) => {
         isAdmin,
         isUserAdmin,
         isMemberAdmin,
-        isPostEditor,
+        isAnnouncementsEditor,
         isYearReadingPlanEditor,
-        isVideoAdmin,
+        isYouTubeEditor,
         isReviewer,
         isPrayerCardEditor,
         hasGUEST,

@@ -16,7 +16,7 @@ const YouTubeScreen = () => {
   const [contentData, setContentData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { isVideoAdmin } = useUser();
+  const { isYouTubeEditor } = useUser();
   const guard = useReviewerGuard();
 
   const loadData = () => {
@@ -33,7 +33,7 @@ const YouTubeScreen = () => {
   return (
     <Layout>
       <View style={styles.container}>
-        {isVideoAdmin && (
+        {isYouTubeEditor && (
           <View style={styles.headerContainer}>
             <TouchableOpacity
               style={styles.createButton}
@@ -50,7 +50,7 @@ const YouTubeScreen = () => {
           onRetry={loadData}
         >
           <VideoListCard
-            showActions={isVideoAdmin}
+            showActions={isYouTubeEditor}
             contentData={contentData}
             reLoad={loadData}
           />
