@@ -123,3 +123,46 @@ export async function assignGroup(data) {
     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
   }
 }
+export async function fetchAllUserWithoutMember() {
+  const urlRequest = memberAPI + "fetchAllUserWithoutMember";
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "GET",
+      credentials: "include",
+    });
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return await response.json();
+    } else {
+      throw new Error("Неверный тип контента от сервера");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+export async function assignUser(data) {
+  const { memberId, userId } = data;
+  let url;
+  if (userId === null) {
+    url = memberAPI + "assignUser?memberId=" + encodeURIComponent(memberId);
+  } else {
+    url =
+      memberAPI +
+      "assignUser?memberId=" +
+      encodeURIComponent(memberId) +
+      "&userId=" +
+      encodeURIComponent(userId);
+  }
+  let response;
+  try {
+    response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
+  }
+}

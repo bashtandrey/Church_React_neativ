@@ -163,9 +163,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
               <NavButton
                 accessibilityLabel="Admin"
                 isActive={adminActive}
-                onPress={() =>
-                  setSelectedMenu(adminActive ? null : "admin")
-                }
+                onPress={() => navigation.navigate("ManageAdmin")}
                 icon={<FontAwesome name="users" size={sizeIcon} color="white" />}
               />
             )}

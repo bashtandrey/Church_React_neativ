@@ -20,7 +20,12 @@ const COLORS = {
   primary: "#3B82F6",
 };
 
-export default function SaveMemberModal({ visible, onClose, onSubmit, member }) {
+export default function SaveMemberModal({
+  visible,
+  onClose,
+  onSubmit,
+  member,
+}) {
   const [memberId, setMemberId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -48,10 +53,9 @@ export default function SaveMemberModal({ visible, onClose, onSubmit, member }) 
 
       if (member?.birthday) {
         // ожидаем формат YYYY-MM-DD или MM/dd/yyyy
-        const parts =
-          member.birthday.includes("-")
-            ? member.birthday.split("-") // YYYY-MM-DD
-            : member.birthday.split("/"); // MM/dd/yyyy
+        const parts = member.birthday.includes("-")
+          ? member.birthday.split("-") // YYYY-MM-DD
+          : member.birthday.split("/"); // MM/dd/yyyy
         if (parts.length === 3) {
           if (member.birthday.includes("-")) {
             setYear(parts[0]);
@@ -99,7 +103,9 @@ export default function SaveMemberModal({ visible, onClose, onSubmit, member }) 
 
     try {
       const birthday =
-        day && month && year ? `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}` : null;
+        day && month && year
+          ? `${month.padStart(2, "0")}/${day.padStart(2, "0")}/${year}`
+          : null;
 
       const payload = {
         ...(memberId != null ? { id: memberId } : {}),

@@ -11,7 +11,6 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import MemberList from "@/components/member/memberList/MemberList";
-import Layout from "@/components/Layout";
 import styles, { COLORS } from "./MemberScreenStyles";
 
 import Toast from "react-native-toast-message";
@@ -94,7 +93,6 @@ const MemberScreen = () => {
   }, [members, search, statusFilter]);
 
   return (
-    <Layout>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* HEADER */}
@@ -197,7 +195,6 @@ const MemberScreen = () => {
           )}
         </View>
       </SafeAreaView>
-    </Layout>
   );
 };
 

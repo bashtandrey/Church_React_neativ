@@ -14,11 +14,6 @@ const MENUS = {
     { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5" },
     { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons" },
   ],
-  admin: [
-    { icon: "group", screen: "Admin", lib: "MaterialIcons" },
-    { icon: "people-alt", screen: "Member", lib: "MaterialIcons" },
-    { icon: "groups", screen: "MemberGroup", lib: "MaterialIcons" },
-  ],
 };
 
 const SubMenuBar = ({

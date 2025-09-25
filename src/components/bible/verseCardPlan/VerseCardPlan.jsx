@@ -7,7 +7,7 @@ import { useUser } from "@/context/UserContext";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 
 const VerseCardPlan = ({ day, versInfo, onAction }) => {
-  const { isBibleEditor } = useUser();
+  const { isYearReadingPlanEditor } = useUser();
   const guard = useReviewerGuard();
   const handlePress = () => {
     if (onAction) {
@@ -24,7 +24,7 @@ const VerseCardPlan = ({ day, versInfo, onAction }) => {
       <View style={styles.textContainer}>
         <Text style={styles.versInfo}>{versInfo || "—"}</Text>
       </View>
-      {isBibleEditor && (
+      {isYearReadingPlanEditor && (
         <TouchableOpacity
           onPress={() => guard(() => handlePress())}
           style={styles.iconContainer}

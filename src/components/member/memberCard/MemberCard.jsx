@@ -15,6 +15,7 @@ import {
   deleteMember,
   assignHierarch,
   assignGroup,
+  assignUser,
 } from "@/api/membersAPI";
 
 const MemberCard = ({ member, loadData }) => {
@@ -62,6 +63,17 @@ const MemberCard = ({ member, loadData }) => {
         type: "success",
         text1: "Готово",
         text2: "Группа отредактирована",
+      });
+    }
+  };
+  const handleAssignUserSubmit = async ({ data }) => {
+    const response = await assignUser(data);
+    if (response?.ok) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: "Готово",
+        text2: "Пользователь отредактирована",
       });
     }
   };
@@ -122,7 +134,7 @@ const MemberCard = ({ member, loadData }) => {
 
         <View style={styles.headerTextArea}>
           <View style={styles.titleLine}>
-            <Text style={styles.idText}>#{member?.id}</Text>
+            <Text style={styles.idText}>id:{member?.id}</Text>
             <Text style={styles.dot}> · </Text>
             <Text style={styles.title}>{fullName}</Text>
           </View>
@@ -262,40 +274,41 @@ const MemberCard = ({ member, loadData }) => {
             <AssignGroupModal
               visible
               onClose={close}
-              member={member} 
-              onSubmit={(data) => handleAssignGroupSubmit(data)} 
+              member={member}
+              onSubmit={(data) => handleAssignGroupSubmit(data)}
             />
           )}
         </ModalTrigger>
 
         {/* Bind user (если нет userMap) */}
-        {!member?.userMap && (
-          <ModalTrigger
-            opener={(open) => (
-              <Pressable
-                style={styles.iconBtn}
-                onPress={() => guard(open)}
-                android_ripple={{ color: "#e5e7eb", radius: 24 }}
-              >
-                <MaterialIcons
-                  name="person-add"
-                  size={20}
-                  color={COLORS.text}
-                />
-                <Text style={styles.iconLabel}>Bind user</Text>
-              </Pressable>
-            )}
-          >
-            {({ close }) => (
-              <AssignUserModal
-                visible
-                onClose={close}
-                memberId={member.id}
-                onSubmit={loadData}
+        <ModalTrigger
+          opener={(open) => (
+            <Pressable
+              style={styles.iconBtn}
+              onPress={() => guard(open)}
+              android_ripple={{ color: "#e5e7eb", radius: 24 }}
+            >
+              <MaterialIcons
+                name={member?.userMap ? "person-search" : "person-add"} // 👈 условие для иконки
+                size={20}
+                color={COLORS.text}
               />
-            )}
-          </ModalTrigger>
-        )}
+              <Text style={styles.iconLabel}>
+                {member?.userMap ? "Change user" : "Bind user"}{" "}
+                {/* 👈 условие для текста */}
+              </Text>
+            </Pressable>
+          )}
+        >
+          {({ close }) => (
+            <AssignUserModal
+              visible
+              onClose={close}
+              member={member}
+              onSubmit={(data) => handleAssignUserSubmit(data)}
+            />
+          )}
+        </ModalTrigger>
 
         {/* Assign hierarchy */}
         <ModalTrigger
@@ -325,7 +338,7 @@ const MemberCard = ({ member, loadData }) => {
         </ModalTrigger>
 
         {/* Delete (если не в группе) */}
-        {!member?.groupId && (
+        {!member?.userMap && !member?.groupId && !member?.hierarchy && (
           <Pressable
             style={styles.iconBtn}
             onPress={onDeleteMember}

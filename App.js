@@ -16,14 +16,14 @@ import PlanVersesYearScreen from "@/screens/church/planVersesYearScreen/PlanVers
 import AboutAppScreen from "@/screens/aboutAppScreen/AboutAppScreen";
 import LoginScreen from "@/screens/loginScreen/LoginScreen";
 import ProfileScreen from "@/screens/profileScreen/ProfileScreen";
-import AdminScreen from "@/screens/admin/adminScreen/AdminScreen";
+import ManageAdminScreen from "@/screens/admin/ManageAdminScreen";
 import AnnouncementsScreen from "@/screens/church/announcementsScreen/AnnouncementsScreen";
 import YouTubeScreen from "@/screens/church/youTubeScreen/YouTubeScreen";
 import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScreen";
 import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
 import EventsChurch from "@/screens/eventsChurch/EventsChurch";
-import MemberScreen from "@/screens/admin/memberScreen/MemberScreen";
-import MemberGroupScreen from "@/screens/admin/MemberGroupScreen/MemberGroupScreen";
+// import MemberScreen from "@/screens/admin/memberScreen/MemberScreen";
+// import MemberGroupScreen from "@/screens/admin/MemberGroupScreen/MemberGroupScreen";
 
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
@@ -91,24 +91,12 @@ const MainNavigator = () => {
             component={ProfileScreen}
             options={{ title: "Profile" }}
           />
-          <Stack.Screen
-            name="MemberGroup"
-            component={MemberGroupScreen}
-            options={{ title: "Member Group" }}
-          />
-          <Stack.Screen
-            name="Member"
-            component={MemberScreen}
-            options={{ title: "Member" }}
-          />
 
-          {isAdmin && (
-            <Stack.Screen
-              name="Admin"
-              component={AdminScreen}
-              options={{ title: "Admin" }}
-            />
-          )}
+          <Stack.Screen
+            name="ManageAdmin"
+            component={ManageAdminScreen}
+            options={{ title: "Manange Admin" }}
+          />
         </>
       )}
       <Stack.Screen

@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
   /* ACTIONS */
   actionsRow: {
     flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 12,
-    marginTop: 10,
+    flexWrap: "wrap", // 👈 позволит кнопкам переноситься
+    gap: 8, // если используешь RN 0.71+
+    justifyContent: "flex-start",
   },
   iconBtn: {
     alignItems: "center",

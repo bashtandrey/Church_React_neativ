@@ -15,15 +15,14 @@ import { Ionicons } from "@expo/vector-icons";
 
 import UserListCard from "@/components/users/userListCard/UserListCard";
 import UserCreateForm from "@/components/users/userCreateForm/UserCreateForm";
-import Layout from "@/components/Layout";
-import styles, { COLORS } from "./AdminScreenStyles";
+import styles, { COLORS } from "./UserScreenStyles";
 
 import Toast from "react-native-toast-message";
 import { fetchUsers } from "@/api/userAPI";
 import { useUser } from "@/context/UserContext";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 
-const AdminScreen = () => {
+const UserScreen = () => {
   const [users, setUsers] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -90,7 +89,6 @@ const AdminScreen = () => {
   const handleCreatePress = () => setShowCreateModal(true);
 
   return (
-    <Layout>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* HEADER */}
@@ -207,8 +205,7 @@ const AdminScreen = () => {
           </KeyboardAvoidingView>
         </Modal>
       </SafeAreaView>
-    </Layout>
   );
 };
 
-export default AdminScreen;
+export default UserScreen;

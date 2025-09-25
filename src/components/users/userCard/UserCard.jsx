@@ -131,20 +131,34 @@ const UserCard = ({ user, reLoad }) => {
         <View style={styles.detailsBox}>
           <View style={styles.detailsRow}>
             <Text style={styles.detailsKey}>Member ID</Text>
-            <Text style={styles.detailsVal}>{memberDTO?.id ?? "—"}</Text>
+            <Text style={styles.detailsVal}>{memberDTO?.id}</Text>
           </View>
           <View style={styles.detailsRow}>
-            <Text style={styles.detailsKey}>Birthday</Text>
-            <Text style={styles.detailsVal}>{memberDTO?.birthday ?? "—"}</Text>
+            <Text style={styles.detailsKey}>First Name</Text>
+            <Text style={styles.detailsVal}>{memberDTO?.firstName}</Text>
           </View>
           <View style={styles.detailsRow}>
-            <Text style={styles.detailsKey}>Gender</Text>
-            <Text style={styles.detailsVal}>{memberDTO?.gender ?? "—"}</Text>
+            <Text style={styles.detailsKey}>Last Name</Text>
+            <Text style={styles.detailsVal}>{memberDTO?.lastName}</Text>
           </View>
-          <View style={styles.detailsRow}>
-            <Text style={styles.detailsKey}>Phone</Text>
-            <Text style={styles.detailsVal}>{memberDTO?.phone ?? "—"}</Text>
-          </View>
+          {memberDTO?.birthday && (
+            <View style={styles.detailsRow}>
+              <Text style={styles.detailsKey}>Birthday</Text>
+              <Text style={styles.detailsVal}>{memberDTO?.birthday}</Text>
+            </View>
+          )}
+          {memberDTO?.gender && (
+            <View style={styles.detailsRow}>
+              <Text style={styles.detailsKey}>Gender</Text>
+              <Text style={styles.detailsVal}>{memberDTO?.gender}</Text>
+            </View>
+          )}
+          {memberDTO.phone && (
+            <View style={styles.detailsRow}>
+              <Text style={styles.detailsKey}>Phone</Text>
+              <Text style={styles.detailsVal}>{memberDTO?.phone}</Text>
+            </View>
+          )}
         </View>
       )}
 
@@ -210,30 +224,31 @@ const UserCard = ({ user, reLoad }) => {
           <MaterialIcons name="lock-reset" size={22} color={COLORS.text} />
           <Text style={styles.iconLabel}>Password</Text>
         </Pressable>
-
-        <Pressable
-          style={({ pressed }) => [
-            styles.iconBtn,
-            deleteDisabled && styles.iconBtnDisabled,
-            pressed && { opacity: 0.6 },
-          ]}
-          onPress={() => !deleteDisabled  && setDeleteModalVisible(true)}
-          disabled={deleteDisabled}
-          android_ripple={
-            !deleteDisabled ? { color: "#fee2e2", radius: 24 } : undefined
-          }
-        >
-          <MaterialIcons name="delete" size={22} color={COLORS.danger} />
-          <Text
-            style={[
-              styles.iconLabel,
-              { color: COLORS.danger },
-              deleteDisabled && styles.iconLabelDisabled,
+        {!memberDTO && (
+          <Pressable
+            style={({ pressed }) => [
+              styles.iconBtn,
+              deleteDisabled && styles.iconBtnDisabled,
+              pressed && { opacity: 0.6 },
             ]}
+            onPress={() => !deleteDisabled && setDeleteModalVisible(true)}
+            disabled={deleteDisabled}
+            android_ripple={
+              !deleteDisabled ? { color: "#fee2e2", radius: 24 } : undefined
+            }
           >
-            Delete
-          </Text>
-        </Pressable>
+            <MaterialIcons name="delete" size={22} color={COLORS.danger} />
+            <Text
+              style={[
+                styles.iconLabel,
+                { color: COLORS.danger },
+                deleteDisabled && styles.iconLabelDisabled,
+              ]}
+            >
+              Delete
+            </Text>
+          </Pressable>
+        )}
       </View>
     </View>
   );

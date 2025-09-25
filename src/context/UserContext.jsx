@@ -62,14 +62,21 @@ export const UserProvider = ({ children }) => {
   const hasRole = (rolePrefix) =>
     user?.roles?.some((r) => r.startsWith(rolePrefix));
 
-  const isAdmin = user?.roles?.includes("ADMIN") ?? false;
-
-  const isPostEditor = user?.roles?.includes("ANNOUNCEMENTS_EDITOR") ?? false;
-  const isBibleEditor = user?.roles?.includes("BIBLE_EDITOR") ?? false;
-  const isVideoAdmin = user?.roles?.includes("VIDEO_EDITOR") ?? false;
+  const isUserAdmin = user?.roles?.includes("USER_ADMIN") ?? false;
+  const isMemberAdmin = user?.roles?.includes("MEMBER_ADMIN") ?? false;
+  const isAdmin = !!(isUserAdmin || isMemberAdmin);
+  const isVerseOfDayEditor =
+    user?.roles?.includes("VERSE_OF_DAY_EDITOR") ?? false;
   const isPrayerCardEditor =
     user?.roles?.includes("PRAYER_CARD_EDITOR") ?? false;
+  const isYearReadingPlanEditor =
+    user?.roles?.includes("YEAR_READING_PLAN_EDITOR") ?? false;
+
+  const isPostEditor = user?.roles?.includes("ANNOUNCEMENTS_EDITOR") ?? false;
+  const isVideoAdmin = user?.roles?.includes("VIDEO_EDITOR") ?? false;
+
   const hasGUEST = user?.roles?.includes("GUEST") ?? false;
+
   return (
     <UserContext.Provider
       value={{
@@ -79,12 +86,15 @@ export const UserProvider = ({ children }) => {
         isAuthenticated,
         hasRole,
         isAdmin,
+        isUserAdmin,
+        isMemberAdmin,
         isPostEditor,
-        isBibleEditor,
+        isYearReadingPlanEditor,
         isVideoAdmin,
         isReviewer,
         isPrayerCardEditor,
         hasGUEST,
+        isVerseOfDayEditor,
       }}
     >
       {children}

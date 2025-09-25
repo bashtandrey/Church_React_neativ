@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/screens/admin/adminScreen/AdminScreenStyles";
+import { COLORS } from "@/screens/admin/userScreen/UserScreenStyles";
 
 const styles = StyleSheet.create({
   listContainer: {

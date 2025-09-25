@@ -20,7 +20,7 @@ const VerseCard = () => {
   const [verseDayData, setVerseDayData] = useState([]);
   const [loadingVerseDay, setLoadingVerseDay] = useState(false);
   const [showSetVerseModal, setShowSetVerseModal] = useState(false);
-  const { isBibleEditor } = useUser();
+  const { isVerseOfDayEditor} = useUser();
   const guard = useReviewerGuard();
   const title = i18n.language === "ru" ? "Стих Дня" : "Verse of the Day";
   const langVerse = i18n.language === "ru" ? "verseRu" : "verseEn";
@@ -41,7 +41,7 @@ const VerseCard = () => {
   return (
     <>
       <View style={styles.verseContainer}>
-        {isBibleEditor && (
+        {isVerseOfDayEditor && (
           <TouchableOpacity
             style={styles.editButton}
             onPress={() => guard(() => setShowSetVerseModal(true))}

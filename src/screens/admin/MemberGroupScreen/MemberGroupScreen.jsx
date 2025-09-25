@@ -7,13 +7,10 @@ import {
   TextInput,
   Pressable,
   SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import MemberGroupList from "@/components/memberGroup/memberGroupList/MemberGroupList";
-import Layout from "@/components/Layout";
 import styles, { COLORS } from "./MemberGroupScreenStyles";
 
 import Toast from "react-native-toast-message";
@@ -80,7 +77,6 @@ const MemberGroupScreen = () => {
   }, [memberGroups, search]);
 
   return (
-    <Layout>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* HEADER */}
@@ -162,7 +158,6 @@ const MemberGroupScreen = () => {
           )}
         </View>
       </SafeAreaView>
-    </Layout>
   );
 };
 
