@@ -58,6 +58,7 @@ export default () => ({
     owner: "bashtandrey",
     plugins: [
       "expo-secure-store",
+      "expo-font",   // 🔹 Добавляем сюда
       [
         "expo-build-properties",
         {
