@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { FlatList, RefreshControl, View, Text } from "react-native";
 import MemberGroupCard from "@/components/memberGroup/memberGroupCard/MemberGroupCard";
 import styles from "./MemberGroupListStyles";
+import ReviewerBlur from "@/hooks/ReviewerBlur";
 
 const MemberGroupListCard = ({ contentData, reLoad }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -38,31 +39,33 @@ const MemberGroupListCard = ({ contentData, reLoad }) => {
   );
 
   return (
-    <FlatList
-      data={data}
-      keyExtractor={(item) => String(item.id)}
-      renderItem={renderItem}
-      contentContainerStyle={[
-        styles.listContainer,
-        data.length === 0 && { flex: 1, justifyContent: "center" },
-      ]}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      ListEmptyComponent={
-        <View style={styles.emptyWrap}>
-          <Text style={styles.emptyTitle}>No Group</Text>
-          <Text style={styles.emptyText}>
-            Измени фильтры или создай новую группу.
-          </Text>
-        </View>
-      }
-      ListFooterComponent={<View style={{ height: 12 }} />}
-      // Небольшие оптимизации списка:
-      initialNumToRender={8}
-      windowSize={7}
-      removeClippedSubviews
-    />
+    <ReviewerBlur>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={renderItem}
+        contentContainerStyle={[
+          styles.listContainer,
+          data.length === 0 && { flex: 1, justifyContent: "center" },
+        ]}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyWrap}>
+            <Text style={styles.emptyTitle}>No Group</Text>
+            <Text style={styles.emptyText}>
+              Измени фильтры или создай новую группу.
+            </Text>
+          </View>
+        }
+        ListFooterComponent={<View style={{ height: 12 }} />}
+        // Небольшие оптимизации списка:
+        initialNumToRender={8}
+        windowSize={7}
+        removeClippedSubviews
+      />
+    </ReviewerBlur>
   );
 };
 

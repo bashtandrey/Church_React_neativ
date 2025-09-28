@@ -9,26 +9,32 @@ import i18n from "@/i18n/";
 
 const WelcomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // 🔹 меняем это при обновлении
 
   const onRefresh = async () => {
     setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 1000);
+    // тут можешь сделать await fetchData()
+    setTimeout(() => {
+      setRefreshKey((prev) => prev + 1); // 🔹 заставляем карточки перерисоваться
+      setRefreshing(false);
+    }, 1000);
   };
 
   const title = i18n.language === "ru" ? "Добро пожаловать!" : "Welcome!";
 
-  // Элементы списка
   const data = [
-    { key: "title", render: () => (
+    {
+      key: "title",
+      render: () => (
         <Text style={styles.title}>
           {title}
           {"\n Church River of Life!"}
         </Text>
-      )
+      ),
     },
-    { key: "verse", render: () => <VerseDayCard /> },
+    { key: "verse", render: () => <VerseDayCard refreshKey={refreshKey} /> },
     { key: "dailyPlan", render: () => <DailyReadingPlan /> },
-    { key: "prayer", render: () => <PrayerCard /> },
+    { key: "prayer", render: () => <PrayerCard refreshKey={refreshKey} /> },
   ];
 
   return (

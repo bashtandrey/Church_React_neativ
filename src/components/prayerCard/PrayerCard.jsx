@@ -8,23 +8,32 @@ import SetPrayerCard from "@/components/prayerCard/SetPrayerCard";
 import { useUser } from "@/context/UserContext";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function PrayerCard() {
+export default function PrayerCard({ refreshKey }) {   // 🔹 принимаем refreshKey
   const [prayerCard, setPrayerCard] = useState([]);
-  const [loadingPrayerCard, setloadingPrayerCard] = useState(false);
+  const [loadingPrayerCard, setLoadingPrayerCard] = useState(false);
+  const [showPrayerCardModal, setShowPrayerCardModal] = useState(false);
 
-  const [showPrayerCardModal, setShowPrayerCardModall] = useState(false);
   const guard = useReviewerGuard();
   const { isPrayerCardEditor } = useUser();
 
   const updatePrayerCard = () => {
-    setloadingPrayerCard(true);
+    setLoadingPrayerCard(true);
     getWeeklyPrayer()
       .then((res) => setPrayerCard(res))
-      .finally(() => setloadingPrayerCard(false));
+      .finally(() => setLoadingPrayerCard(false));
   };
+
+  // Первичная загрузка
   useEffect(() => {
     updatePrayerCard();
   }, []);
+
+  // 🔹 Перезагрузка при изменении refreshKey
+  useEffect(() => {
+    if (refreshKey > 0) {
+      updatePrayerCard();
+    }
+  }, [refreshKey]);
 
   return (
     <View style={styles.verseContainer}>
@@ -32,7 +41,7 @@ export default function PrayerCard() {
       {isPrayerCardEditor && (
         <TouchableOpacity
           style={styles.editButton}
-          onPress={() => guard(() => setShowPrayerCardModall(true))}
+          onPress={() => guard(() => setShowPrayerCardModal(true))}
         >
           <FontAwesome name="pencil" size={20} color="rgba(3, 86, 9, 0.7)" />
         </TouchableOpacity>
@@ -46,9 +55,7 @@ export default function PrayerCard() {
         >
           <Text style={styles.text}>{prayerCard.header}</Text>
           {prayerCard.familyList?.map((family, index) => (
-            <Text key={index} 
-            style={styles.family}
-            >
+            <Text key={index} style={styles.family}>
               • {family}
             </Text>
           ))}
@@ -62,11 +69,11 @@ export default function PrayerCard() {
         <View style={{ flex: 1, paddingTop: 40 }}>
           <SetPrayerCard
             prayerCard={prayerCard}
-            onRetry={() => updatePrayerCard()}
-            onClose={() => setShowPrayerCardModall(false)}
+            onRetry={updatePrayerCard}
+            onClose={() => setShowPrayerCardModal(false)}
           />
           <Pressable
-            onPress={() => setShowPrayerCardModall(false)}
+            onPress={() => setShowPrayerCardModal(false)}
             style={{
               padding: 10,
               backgroundColor: "#eee",

@@ -1,3 +1,4 @@
+// VerseDayCard.jsx
 import { useEffect, useState } from "react";
 import {
   View,
@@ -16,11 +17,11 @@ import { getVerseOfTheDay } from "@/api/bibleAPI";
 import SetDayVerse from "@/components/bible/setDayVerse/SetDayVerse";
 import { useTranslation } from "react-i18next";
 
-const VerseCard = () => {
+const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
   const [verseDayData, setVerseDayData] = useState([]);
   const [loadingVerseDay, setLoadingVerseDay] = useState(false);
   const [showSetVerseModal, setShowSetVerseModal] = useState(false);
-  const { isVerseOfDayEditor} = useUser();
+  const { isVerseOfDayEditor } = useUser();
   const guard = useReviewerGuard();
   const title = i18n.language === "ru" ? "Стих Дня" : "Verse of the Day";
   const langVerse = i18n.language === "ru" ? "verseRu" : "verseEn";
@@ -34,9 +35,17 @@ const VerseCard = () => {
       .finally(() => setLoadingVerseDay(false));
   };
 
+  // 🔹 Первичная загрузка
   useEffect(() => {
     verseDay();
   }, []);
+
+  // 🔹 Перезагрузка при изменении refreshKey
+  useEffect(() => {
+    if (refreshKey > 0) {
+      verseDay();
+    }
+  }, [refreshKey]);
 
   return (
     <>

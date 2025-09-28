@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import { FlatList, RefreshControl, View, Text } from "react-native";
 import MemberCard from "@/components/member/memberCard/MemberCard";
 import styles from "./MemberListStyles";
+import ReviewerBlur from "@/hooks/ReviewerBlur";
 
 const MemberListCard = ({ contentData, reLoad }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -38,6 +39,7 @@ const MemberListCard = ({ contentData, reLoad }) => {
   );
 
   return (
+    <ReviewerBlur>
     <FlatList
       data={data}
       keyExtractor={(item) => String(item.id)}
@@ -63,6 +65,7 @@ const MemberListCard = ({ contentData, reLoad }) => {
       windowSize={7}
       removeClippedSubviews
     />
+    </ReviewerBlur>
   );
 };
 

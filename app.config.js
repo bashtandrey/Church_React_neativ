@@ -2,7 +2,7 @@ const ENV = process.env.APP_ENV || "development";
 
 const CONFIG = {
   development: {
-    API_URL: "http://172.20.10.2:8090",
+    API_URL: "http://192.168.1.154:8090",
   },
   production: {
     API_URL: "https://server.churchriveroflife.com",
