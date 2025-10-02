@@ -11,7 +11,9 @@ import ChangePasswordModal from "@/components/users/userCard/actionUser/changePa
 import { useTranslation } from "react-i18next";
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import i18n from "@/i18n/";
-
+import SaveMemberModal from "@/components/member/modals/SaveMemberModal";
+import ModalTrigger from "@/components/common/ModalTrigger";
+import { saveMember } from "@/api/membersAPI";
 const Badge = ({ ok, textOk, textWarn }) => {
   return (
     <View style={[styles.badge, ok ? styles.badgeOk : styles.badgeWarn]}>
@@ -102,6 +104,18 @@ const ProfileScreen = () => {
     }
   };
 
+  const handleSaveSubmit = async ({ data }) => {
+    const response = await saveMember(data);
+    if (response?.ok) {
+      logOut();
+      Toast.show({
+        type: "success",
+        text1: "Готово",
+        text2: "Член отредактирован",
+      });
+    }
+  };
+
   return (
     <Layout>
       <ScrollView contentContainerStyle={styles.container}>
@@ -109,7 +123,7 @@ const ProfileScreen = () => {
 
         {/* Основная информация */}
         <SectionCard
-          title={t("profileInfo") || "Профиль"}
+          title={t("profileInfo")}
           icon={
             <Feather
               name="user"
@@ -119,22 +133,76 @@ const ProfileScreen = () => {
             />
           }
           right={
-            <Badge
-              ok={emailOk}
-              textOk={t("emailVerified") || "Подтвержден"}
-              textWarn={t("emailNotVerified") || "Неподтвержден"}
-            />
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Badge
+                ok={emailOk}
+                textOk={t("emailVerified")}
+                textWarn={t("emailNotVerified")}
+              />
+
+              {/* Если есть memberDTO → кнопка редактирования */}
+              {user.memberDTO?.id && (
+                <ModalTrigger
+                  opener={(open) => (
+                    <TouchableOpacity
+                      onPress={open}
+                      style={styles.editBtn}
+                    >
+                      <Feather name="edit-2" size={16} color={COLORS.primary} />
+                      <Text style={styles.editBtnText}>{t("edit")}</Text>
+                    </TouchableOpacity>
+                  )}
+                >
+                  {({ close }) => (
+                    <SaveMemberModal
+                      visible
+                      onClose={close}
+                      member={user.memberDTO}
+                      onSubmit={(data) => handleSaveSubmit(data)}
+                    />
+                  )}
+                </ModalTrigger>
+              )}
+            </View>
           }
         >
-          <Row label={t("id")} value={String(user.id)} />
+          {user.memberDTO?.id ? (
+            <Row
+              label={t("idUserMember")}
+              value={`${user.id} / ${user.memberDTO.id}`}
+            />
+          ) : (
+            <Row label={t("idUser")} value={String(user.id)} />
+          )}
+
           <Row label={t("login")} value={user.login} />
-          <Row label={t("firstName")} value={user.firstName} />
-          <Row label={t("lastName")} value={user.lastName} />
+
+          {/* Если есть memberDTO, используем его имя/фамилию */}
+          <Row
+            label={t("firstName")}
+            value={user.memberDTO?.firstName || user.firstName}
+          />
+          <Row
+            label={t("lastName")}
+            value={user.memberDTO?.lastName || user.lastName}
+          />
+
           <Row
             label={t("email")}
             value={user.email}
             valueStyle={{ color: emailColor }}
           />
+
+          {user.memberDTO?.phone && (
+            <Row label={t("phone")} value={user.memberDTO.phone} />
+          )}
+          {user.memberDTO?.birthday && (
+            <Row label={t("birthday")} value={user.memberDTO.birthday} />
+          )}
+          {user.memberDTO?.gender && (
+            <Row label={t("gender")} value={user.memberDTO.gender} />
+          )}
+
           {!emailOk && (
             <Text style={[styles.note, { color: emailColor }]}>
               ⚠️ {t("confirmEmail")}
@@ -239,6 +307,7 @@ const ProfileScreen = () => {
           }}
           editRoleUser={true}
         />
+
         <ChangePasswordModal
           user={user}
           visible={showPasswordModal}
@@ -246,6 +315,7 @@ const ProfileScreen = () => {
           onClose={() => {
             setShowPasswordModal(false);
             navigation.navigate("Welcome");
+            logOut();
           }}
         />
       </ScrollView>

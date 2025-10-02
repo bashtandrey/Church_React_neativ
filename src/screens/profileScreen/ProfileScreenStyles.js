@@ -201,6 +201,21 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "800",
   },
+  editBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#EAF4FF",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    marginLeft: 10,
+  },
+  editBtnText: {
+    marginLeft: 4,
+    fontSize: 13,
+    color: COLORS.primary,
+    fontWeight: "500",
+  },
 });
 
 export default styles;

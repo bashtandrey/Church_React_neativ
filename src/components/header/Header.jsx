@@ -163,9 +163,9 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
             )}
             {isAuthenticated && isDonationView && (
               <NavButton
-                accessibilityLabel="Donation"
-                isActive={isRoute("Donation")}
-                onPress={() => navigation.navigate("Donation")}
+                accessibilityLabel="Donate"
+                isActive={isRoute("DonateScreen")}
+                onPress={() => navigation.navigate("DonateScreen")}
                 icon={<FontAwesome5 name="donate" size={sizeIcon} color="lightgreen" />}
               />
             )}
