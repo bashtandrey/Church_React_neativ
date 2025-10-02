@@ -5,9 +5,10 @@ export const COLORS = {
   bg: "#0F172A",
   pill: "#1F2937",
   pillPressed: "#111827",
-  fade: "rgba(15,23,42,0.6)",
+  fade: "rgba(0,0,0,0.1)",
   disabled: "rgba(255,255,255,0.35)",
   border: "rgba(255,255,255,0.15)",
+  disabledIcon: "#999999",
 };
 
 const shadowIOS = {

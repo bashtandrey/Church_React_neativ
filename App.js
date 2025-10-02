@@ -23,13 +23,15 @@ import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScr
 import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
 import EventsChurchScreen from "@/screens/eventsChurch/EventsChurchScreen";
 import ManageGroupScreen from "@/screens/manageGroupScreen/ManageGroupScreen";
+import DonateScreen from "@/screens/church/donateScreens/donateScreens";
+
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
 import "@/i18n";
 
 const MainNavigator = () => {
-  const { isAdmin, isMember, isAuthenticated } = useUser();
+  const {isAuthenticated } = useUser();
   const Stack = createNativeStackNavigator();
 
   return (
@@ -58,7 +60,7 @@ const MainNavigator = () => {
       <Stack.Screen
         name="LinkDonate"
         component={LinkDonateScreen}
-        options={{ title: "Donate" }}
+        options={{ title: "Link Donate" }}
       />
       <Stack.Screen
         name="PlanVersesYear"
@@ -71,42 +73,47 @@ const MainNavigator = () => {
         component={AboutChurchScreen}
         options={{ title: "About Church" }}
       />
-      <Stack.Screen
-        name="EventsChurchScreen"
-        component={EventsChurchScreen}
-        options={{ title: "Events Church" }}
-      />
-      <Stack.Screen
-        name="ManageGroup"
-        component={ManageGroupScreen}
-        options={{ title: "Manage Group" }}
-      />
 
       <Stack.Screen
         name="LogIn"
         component={LoginScreen}
         options={{ title: "Login" }}
       />
-      {isAuthenticated && (
-        <>
-          <Stack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{ title: "Profile" }}
-          />
-
-          <Stack.Screen
-            name="ManageAdmin"
-            component={ManageAdminScreen}
-            options={{ title: "Manange Admin" }}
-          />
-        </>
-      )}
       <Stack.Screen
         name="AboutApp"
         component={AboutAppScreen}
         options={{ title: "About App" }}
       />
+
+      {isAuthenticated && (
+        <>
+          <Stack.Screen
+            name="ManageGroup"
+            component={ManageGroupScreen}
+            options={{ title: "Manage Group" }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ title: "Profile" }}
+          />
+          <Stack.Screen
+            name="ManageAdmin"
+            component={ManageAdminScreen}
+            options={{ title: "Manange Admin" }}
+          />
+          <Stack.Screen
+            name="EventsChurchScreen"
+            component={EventsChurchScreen}
+            options={{ title: "Events Church" }}
+          />
+          <Stack.Screen
+            name="DonateScreen"
+            component={DonateScreen}
+            options={{ title: "Donate" }}
+          />
+        </>
+      )}
     </Stack.Navigator>
   );
 };

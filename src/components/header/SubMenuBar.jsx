@@ -14,12 +14,12 @@ const libMap = { FontAwesome, FontAwesome5, MaterialIcons, Foundation };
 
 const MENUS = {
   church: [
-    { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome" },
-    { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome" },
-    { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5", roles: ["ADMIN"] },
-    { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5" },
-    { icon: "calendar", screen: "EventsChurchScreen", lib: "Foundation", roles: ["MEMBER"] },
-    { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons" },
+    { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome", color: "#FFD166" }, // жёлтый
+    { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome", color: "#FF4444" },   // красный
+    { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5", roles: ["ADMIN"], color: "#06D6A0" }, // зелёный
+    { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5", color: "#118AB2" },  // синий
+    { icon: "calendar", screen: "EventsChurchScreen", lib: "FontAwesome", roles: ["MEMBER"], color: "#EF476F" }, // розовый
+    { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons", color: "#FFA500" }, // оранжевый
   ],
 };
 
@@ -30,36 +30,34 @@ const SubMenuBar = ({
   hiddenScreens = [],
   disabledScreens = [],
 }) => {
-
   const rawItems = MENUS[selectedMenu] || [];
   const hiddenSet = useMemo(() => new Set(hiddenScreens), [hiddenScreens]);
   const disabledSet = useMemo(() => new Set(disabledScreens), [disabledScreens]);
 
   const { hasRole } = useUser();
 
-const items = useMemo(() => {
-  return rawItems
-    .filter((it) => {
-      // если у пункта есть ограничение по ролям
-      if (it.roles && !it.roles.some((r) => hasRole(r))) {
-        return false; // скрываем
-      }
-      return true;
-    })
-    .map((it) => {
-      if (typeof allow === "function") {
-        const res = allow(it);
-        if (res === "hidden" || res === false) return { ...it, state: "hidden" };
-        if (res === "disabled") return { ...it, state: "disabled" };
+  const items = useMemo(() => {
+    return rawItems
+      .filter((it) => {
+        if (it.roles && !it.roles.some((r) => hasRole(r))) {
+          return false; // скрываем
+        }
+        return true;
+      })
+      .map((it) => {
+        if (typeof allow === "function") {
+          const res = allow(it);
+          if (res === "hidden" || res === false)
+            return { ...it, state: "hidden" };
+          if (res === "disabled") return { ...it, state: "disabled" };
+          return { ...it, state: "enabled" };
+        }
+        if (hiddenSet.has(it.screen)) return { ...it, state: "hidden" };
+        if (disabledSet.has(it.screen)) return { ...it, state: "disabled" };
         return { ...it, state: "enabled" };
-      }
-      if (hiddenSet.has(it.screen)) return { ...it, state: "hidden" };
-      if (disabledSet.has(it.screen)) return { ...it, state: "disabled" };
-      return { ...it, state: "enabled" };
-    })
-    .filter((it) => it.state !== "hidden");
-}, [rawItems, allow, hiddenSet, disabledSet, hasRole]);
-
+      })
+      .filter((it) => it.state !== "hidden");
+  }, [rawItems, allow, hiddenSet, disabledSet, hasRole]);
 
   const scrollRef = useRef(null);
   const [showLeftFade, setShowLeftFade] = useState(false);
@@ -80,7 +78,7 @@ const items = useMemo(() => {
     []
   );
 
-  if (!selectedMenu) return null; // ✅ условие только после хуков
+  if (!selectedMenu) return null;
 
   return (
     <View style={[styles.wrap, shadowStyle]}>
@@ -134,7 +132,11 @@ const items = useMemo(() => {
               accessibilityState={{ disabled }}
               accessibilityLabel={it.screen}
             >
-              <Icon name={it.icon} size={20} color={COLORS.white} />
+              <Icon
+                name={it.icon}
+                size={20}
+                color={disabled ? COLORS.disabledIcon : it.color || COLORS.white}
+              />
               {disabled && (
                 <View style={styles.lockBadge}>
                   <MaterialIcons name="lock" size={12} color={COLORS.white} />
