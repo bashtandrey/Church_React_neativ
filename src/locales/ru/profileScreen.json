@@ -15,5 +15,6 @@
   "profileInfo": "Профиль",
   "groupName": "Название группы",
   "groupLeader": "Лидер группы",
-  "groupLeaderPhone": "Телефон лидера"
+  "groupLeaderPhone": "Телефон лидера",
+  "buttonGotoGroup": "Перейти к группе"
 }

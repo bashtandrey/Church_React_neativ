@@ -46,7 +46,7 @@ const NavButton = ({ icon, isActive, onPress, accessibilityLabel }) => (
 const Header = ({ selectedMenu, setSelectedMenu }) => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { isAdmin, isAuthenticated } = useUser();
+  const { isAdmin, isDonationView, isAuthenticated } = useUser();
 
   const [langIndex, setLangIndex] = useState(
     Math.max(0, LANGS.findIndex((l) => l.code === i18n.language))
@@ -149,22 +149,24 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
               onPress={() =>
                 setSelectedMenu(churchActive ? null : "church")
               }
-              icon={<FontAwesome5 name="place-of-worship" size={20} color="white" />}
+              icon={<FontAwesome5 name="place-of-worship" size={20} color="lightblue" />}
             />
 
-            {/* <NavButton
-              accessibilityLabel="Events"
-              isActive={isRoute("eventsChurch")}
-              // onPress={() => navigation.navigate("eventsChurch")}
-              icon={<Foundation name="calendar" size={sizeIcon+4} color="white" />}
-            /> */}
 
             {isAuthenticated && isAdmin && (
               <NavButton
                 accessibilityLabel="Admin"
-                isActive={adminActive}
+                isActive={isRoute("ManageAdmin")}
                 onPress={() => navigation.navigate("ManageAdmin")}
-                icon={<FontAwesome name="users" size={sizeIcon} color="white" />}
+                icon={<FontAwesome name="users" size={sizeIcon} color="red" />}
+              />
+            )}
+            {isAuthenticated && isDonationView && (
+              <NavButton
+                accessibilityLabel="Donation"
+                isActive={isRoute("Donation")}
+                onPress={() => navigation.navigate("Donation")}
+                icon={<FontAwesome5 name="donate" size={sizeIcon} color="lightgreen" />}
               />
             )}
 
@@ -179,7 +181,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
 
         {/* ПРАВО: Авторизация/профиль */}
         <View style={styles.right}>
-          <AuthButtons sizeIcon={20} />
+          <AuthButtons sizeIcon={sizeIcon} setSelectedMenu={setSelectedMenu} />
         </View>
       </View>
     </>

@@ -21,8 +21,8 @@ import AnnouncementsScreen from "@/screens/church/announcementsScreen/Announceme
 import YouTubeScreen from "@/screens/church/youTubeScreen/YouTubeScreen";
 import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScreen";
 import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
-import EventsChurch from "@/screens/eventsChurch/EventsChurch";
-
+import EventsChurchScreen from "@/screens/eventsChurch/EventsChurchScreen";
+import ManageGroupScreen from "@/screens/manageGroupScreen/ManageGroupScreen";
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
@@ -72,9 +72,14 @@ const MainNavigator = () => {
         options={{ title: "About Church" }}
       />
       <Stack.Screen
-        name="eventsChurch"
-        component={EventsChurch}
+        name="EventsChurchScreen"
+        component={EventsChurchScreen}
         options={{ title: "Events Church" }}
+      />
+      <Stack.Screen
+        name="ManageGroup"
+        component={ManageGroupScreen}
+        options={{ title: "Manage Group" }}
       />
 
       <Stack.Screen
@@ -110,18 +115,17 @@ const App = () => {
   const navigationRef = useNavigationContainerRef();
   const responseListener = useRef();
 
-  const appStateRef = useRef < AppStateStatus > AppState.currentState;
+  const appStateRef = useRef(AppState.currentState);
   const lastReloadAt = useRef(0);
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  });
-
   useEffect(() => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
     registerAndSendPushToken();
     checkForAppUpdate(navigationRef.current);
 

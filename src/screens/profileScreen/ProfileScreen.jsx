@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useUser } from "@/context/UserContext";
 import Toast from "react-native-toast-message";
@@ -10,6 +10,7 @@ import EmailActionModal from "@/components/users/userCard/actionUser/emailAction
 import ChangePasswordModal from "@/components/users/userCard/actionUser/changePasswordModal/ChangePasswordModal";
 import { useTranslation } from "react-i18next";
 import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import i18n from "@/i18n/";
 
 const Badge = ({ ok, textOk, textWarn }) => {
   return (
@@ -140,7 +141,7 @@ const ProfileScreen = () => {
             </Text>
           )}
         </SectionCard>
-      
+
         {/* Группа – только если не GUEST и есть данные группы */}
         {user?.mapGroup && (
           <SectionCard
@@ -152,6 +153,22 @@ const ProfileScreen = () => {
                 color={COLORS.title}
                 style={{ marginRight: 8 }}
               />
+            }
+            right={
+              user.mapGroup.isLeaderGroup && (
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ManageGroup", {
+                      leaderId: user.mapGroup.leaderId,
+                    })
+                  }
+                  style={styles.manageBtn}
+                >
+                  <Text style={styles.manageBtnText}>
+                    {t("buttonGotoGroup")}
+                  </Text>
+                </TouchableOpacity>
+              )
             }
           >
             <Row
@@ -182,10 +199,13 @@ const ProfileScreen = () => {
           }
         >
           <View style={styles.chipsWrap}>
-            {user.roles.map((role) => (
-              <Chip key={role}>{role}</Chip>
+            {user.roles.map((role, index) => (
+              <Chip key={`${role.code}-${index}`}>
+                {i18n.language === "ru" ? role.russianName : role.englishName}
+              </Chip>
             ))}
           </View>
+
           {hasGUEST && <Text style={styles.note}>{t("selectedRoles")}</Text>}
         </SectionCard>
 

@@ -4,6 +4,9 @@ const CONFIG = {
   development: {
     API_URL: "http://192.168.1.154:8090",
   },
+  development1: {
+    API_URL: "http://192.168.0.110:8090",
+  },
   production: {
     API_URL: "https://server.churchriveroflife.com",
   },
@@ -22,7 +25,7 @@ export default () => ({
     splash: {
       image: "./src/assets/splash-icon.png",
       resizeMode: "contain",
-      backgroundColor: "#ffffff"
+      backgroundColor: "#ffffff",
     },
     ios: {
       supportsTablet: true,
@@ -31,10 +34,10 @@ export default () => ({
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         NSAppTransportSecurity: {
-          NSAllowsArbitraryLoads: true
+          NSAllowsArbitraryLoads: true,
         },
-        NSFaceIDUsageDescription: "This app uses Face ID for authentication"
-      }
+        NSFaceIDUsageDescription: "This app uses Face ID for authentication",
+      },
     },
     android: {
       package: "com.bashtandrey.churchapp",
@@ -42,23 +45,23 @@ export default () => ({
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
         foregroundImage: "./src/assets/adaptive-icon.png",
-        backgroundColor: "#ffffff"
-      }
+        backgroundColor: "#ffffff",
+      },
     },
     web: {
-      favicon: "./src/assets/favicon.png"
+      favicon: "./src/assets/favicon.png",
     },
     extra: {
       eas: {
-        projectId: "4cf76abd-77bc-4b75-9458-881f18c0405b"
+        projectId: "4cf76abd-77bc-4b75-9458-881f18c0405b",
       },
       API_URL: CONFIG[ENV].API_URL,
-      APP_ENV: ENV
+      APP_ENV: ENV,
     },
     owner: "bashtandrey",
     plugins: [
       "expo-secure-store",
-      "expo-font",   // 🔹 Добавляем сюда
+      "expo-font", 
       [
         "expo-build-properties",
         {
@@ -66,15 +69,15 @@ export default () => ({
             deploymentTarget: "15.1",
             useFrameworks: "static",
             podfileProperties: {
-              "use_modular_headers!": "true"
+              "use_modular_headers!": "true",
             },
             buildSettings: {
-              "GCC_TREAT_WARNINGS_AS_ERRORS": "NO",
-              "WARNING_CFLAGS": "-Wno-strict-prototypes"
-            }
-          }
-        }
-      ]
-    ]
-  }
+              GCC_TREAT_WARNINGS_AS_ERRORS: "NO",
+              WARNING_CFLAGS: "-Wno-strict-prototypes",
+            },
+          },
+        },
+      ],
+    ],
+  },
 });

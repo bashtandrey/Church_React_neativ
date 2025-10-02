@@ -1,0 +1,9 @@
+{
+  "header": "Group",
+  "leaderTitle": "👤 Group Leader",
+  "birthdaysTitle": "🎂 Birthdays this month",
+  "todayMark": "✅ Today!",
+  "membersTitle": "👥 Members ({{count}})",
+  "copied": "Number copied",
+  "copyError": "Invalid number"
+}

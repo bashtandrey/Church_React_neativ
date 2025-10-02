@@ -1,17 +1,24 @@
 import React, { useMemo, useRef, useState } from "react";
 import { View, Pressable, ScrollView, Platform } from "react-native";
-import { MaterialIcons, FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import {
+  MaterialIcons,
+  FontAwesome,
+  FontAwesome5,
+  Foundation,
+} from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
+import { useUser } from "@/context/UserContext";
 import styles, { COLORS } from "./subMenuStyles";
 
-const libMap = { FontAwesome, FontAwesome5, MaterialIcons };
+const libMap = { FontAwesome, FontAwesome5, MaterialIcons, Foundation };
 
 const MENUS = {
   church: [
     { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome" },
     { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome" },
-    { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5" },
+    { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5", roles: ["ADMIN"] },
     { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5" },
+    { icon: "calendar", screen: "EventsChurchScreen", lib: "Foundation", roles: ["MEMBER"] },
     { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons" },
   ],
 };
@@ -19,32 +26,40 @@ const MENUS = {
 const SubMenuBar = ({
   selectedMenu,
   navigation,
-  // allow?: (item) => 'enabled' | 'disabled' | 'hidden' | true | false
   allow,
   hiddenScreens = [],
   disabledScreens = [],
 }) => {
-  if (!selectedMenu) return null;
 
   const rawItems = MENUS[selectedMenu] || [];
   const hiddenSet = useMemo(() => new Set(hiddenScreens), [hiddenScreens]);
   const disabledSet = useMemo(() => new Set(disabledScreens), [disabledScreens]);
 
-  const items = useMemo(() => {
-    return rawItems
-      .map((it) => {
-        if (typeof allow === "function") {
-          const res = allow(it);
-          if (res === "hidden" || res === false) return { ...it, state: "hidden" };
-          if (res === "disabled") return { ...it, state: "disabled" };
-          return { ...it, state: "enabled" }; // 'enabled' или true/undefined
-        }
-        if (hiddenSet.has(it.screen)) return { ...it, state: "hidden" };
-        if (disabledSet.has(it.screen)) return { ...it, state: "disabled" };
+  const { hasRole } = useUser();
+
+const items = useMemo(() => {
+  return rawItems
+    .filter((it) => {
+      // если у пункта есть ограничение по ролям
+      if (it.roles && !it.roles.some((r) => hasRole(r))) {
+        return false; // скрываем
+      }
+      return true;
+    })
+    .map((it) => {
+      if (typeof allow === "function") {
+        const res = allow(it);
+        if (res === "hidden" || res === false) return { ...it, state: "hidden" };
+        if (res === "disabled") return { ...it, state: "disabled" };
         return { ...it, state: "enabled" };
-      })
-      .filter((it) => it.state !== "hidden");
-  }, [rawItems, allow, hiddenSet, disabledSet]);
+      }
+      if (hiddenSet.has(it.screen)) return { ...it, state: "hidden" };
+      if (disabledSet.has(it.screen)) return { ...it, state: "disabled" };
+      return { ...it, state: "enabled" };
+    })
+    .filter((it) => it.state !== "hidden");
+}, [rawItems, allow, hiddenSet, disabledSet, hasRole]);
+
 
   const scrollRef = useRef(null);
   const [showLeftFade, setShowLeftFade] = useState(false);
@@ -54,7 +69,8 @@ const SubMenuBar = ({
   const onScroll = (e) => {
     const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
     const atStart = contentOffset.x <= 1;
-    const atEnd = contentOffset.x + layoutMeasurement.width >= contentSize.width - 1;
+    const atEnd =
+      contentOffset.x + layoutMeasurement.width >= contentSize.width - 1;
     setShowLeftFade(!atStart);
     setShowRightFade(!atEnd);
   };
@@ -63,6 +79,8 @@ const SubMenuBar = ({
     () => (Platform.OS === "ios" ? styles.shadowIOS : styles.shadowAndroid),
     []
   );
+
+  if (!selectedMenu) return null; // ✅ условие только после хуков
 
   return (
     <View style={[styles.wrap, shadowStyle]}>
@@ -108,7 +126,9 @@ const SubMenuBar = ({
                 pressed && !disabled && styles.itemPressed,
                 disabled && styles.itemDisabled,
               ]}
-              android_ripple={!disabled ? { borderless: true, radius: 26 } : undefined}
+              android_ripple={
+                !disabled ? { borderless: true, radius: 26 } : undefined
+              }
               hitSlop={8}
               accessibilityRole="button"
               accessibilityState={{ disabled }}

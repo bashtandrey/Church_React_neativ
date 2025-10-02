@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import * as SecureStore from "expo-secure-store";
 import { logOutAPI } from "@/api/authAPI";
 import { setLogOut } from "@/context/logOutHelper";
@@ -12,6 +18,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUserState] = useState(null);
   const isAuthenticated = !!user;
 
+  // загрузка пользователя из SecureStore
   useEffect(() => {
     const loadUser = async () => {
       try {
@@ -26,10 +33,24 @@ export const UserProvider = ({ children }) => {
     loadUser();
   }, []);
 
+  // logout
+  const logOut = useCallback(async () => {
+    try {
+      await logOutAPI();
+      await SecureStore.deleteItemAsync(USER_KEY);
+      await SecureStore.deleteItemAsync(TOKEN_KEY);
+      setUserState(null);
+    } catch (e) {
+      console.error("Failed to logout", e);
+    }
+  }, []);
+
+  // регистрируем глобальный logout helper
   useEffect(() => {
     setLogOut(logOut);
   }, [logOut]);
 
+  // setUser (обновление или очистка)
   const setUser = async (userData) => {
     try {
       if (userData) {
@@ -48,35 +69,36 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const logOut = async () => {
-    try {
-      logOutAPI();
-      await SecureStore.deleteItemAsync(USER_KEY);
-      await SecureStore.deleteItemAsync(TOKEN_KEY);
-      setUserState(null);
-    } catch (e) {
-      console.error("Failed to logout", e);
-    }
-  };
-  const isReviewer = user?.reviewer ?? false;
+  // 🔑 Доступ к ролям
+  const roles = user?.roles || []; // массив объектов { code, russianName, englishName }
+
   const hasRole = (rolePrefix) =>
-    user?.roles?.some((r) => r.startsWith(rolePrefix));
+    roles.some((r) => r.code.startsWith(rolePrefix));
 
-  const isUserAdmin = user?.roles?.includes("USER_ADMIN") ?? false;
-  const isMemberAdmin = user?.roles?.includes("MEMBER_ADMIN") ?? false;
-  const isAdmin = !!(isUserAdmin || isMemberAdmin);
-  const isVerseOfDayEditor =
-    user?.roles?.includes("VERSE_OF_DAY_EDITOR") ?? false;
-  const isPrayerCardEditor =
-    user?.roles?.includes("PRAYER_CARD_EDITOR") ?? false;
-  const isYearReadingPlanEditor =
-    user?.roles?.includes("YEAR_READING_PLAN_EDITOR") ?? false;
+  const isReviewer = user?.reviewer ?? false;
 
-  const isAnnouncementsEditor =
-    user?.roles?.includes("ANNOUNCEMENTS_EDITOR") ?? false;
-  const isYouTubeEditor = user?.roles?.includes("YOUTUBE_EDITOR") ?? false;
+  const isUserAdmin = roles.some((r) => r.code === "USER_ADMIN");
+  const isMemberAdmin = roles.some((r) => r.code === "MEMBER_ADMIN");
+  const isAdmin = isUserAdmin || isMemberAdmin;
+  const isVerseOfDayEditor = roles.some(
+    (r) => r.code === "VERSE_OF_DAY_EDITOR"
+  );
+  const isPrayerCardEditor = roles.some((r) => r.code === "PRAYER_CARD_EDITOR");
+  const isYearReadingPlanEditor = roles.some(
+    (r) => r.code === "YEAR_READING_PLAN_EDITOR"
+  );
+  const isAnnouncementsEditor = roles.some(
+    (r) => r.code === "ANNOUNCEMENTS_EDITOR"
+  );
+  const isYouTubeEditor = roles.some((r) => r.code === "YOUTUBE_EDITOR");
+  const isEventsChurchEditor = roles.some(
+    (r) => r.code === "EVENTS_CHURCH_EDITOR"
+  );
+  const isDonationEditor = roles.some((r) => r.code === "DONATION_EDITOR");
+  const isDonationView =
+    roles.some((r) => r.code === "DONATION_VIEW") || isDonationEditor;
 
-  const hasGUEST = user?.roles?.includes("GUEST") ?? false;
+  const hasGUEST = roles.some((r) => r.code === "GUEST");
 
   return (
     <UserContext.Provider
@@ -94,8 +116,12 @@ export const UserProvider = ({ children }) => {
         isYouTubeEditor,
         isReviewer,
         isPrayerCardEditor,
+        isEventsChurchEditor,
         hasGUEST,
         isVerseOfDayEditor,
+        isDonationEditor,
+        isDonationView,
+        roles,
       }}
     >
       {children}

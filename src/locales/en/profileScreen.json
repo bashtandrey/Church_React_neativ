@@ -15,5 +15,6 @@
   "profileInfo": "Profile",
   "groupName": "Group Name: ",
   "groupLeader": "Group Leader: ",
-  "groupLeaderPhone": "Group Leader Phone: "
+  "groupLeaderPhone": "Group Leader Phone: ",
+  "buttonGotoGroup": "Go to Group"
 }

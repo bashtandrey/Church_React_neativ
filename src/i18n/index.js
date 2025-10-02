@@ -35,6 +35,9 @@ import ruUserCreateForm from "@/locales/ru/userCreateForm.json";
 import enRequestMember from "@/locales/en/requestMember.json";
 import ruRequestMember from "@/locales/ru/requestMember.json";
 
+import enManageGroup from "@/locales/en/manageGroupScreen.json";
+import ruManageGroup from "@/locales/ru/manageGroupScreen.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -48,6 +51,7 @@ const resources = {
     eventsChurch: enEventsChurch,
     userCreateForm: enUserCreateForm,
     requestMember: enRequestMember,
+    manageGroupScreen: enManageGroup,
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -61,6 +65,7 @@ const resources = {
     eventsChurch: ruEventsChurch,
     userCreateForm: ruUserCreateForm,
     requestMember: ruRequestMember,
+    manageGroupScreen : ruManageGroup,
   },
 };
 

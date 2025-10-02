@@ -173,3 +173,23 @@ export async function setLeader(groupId, leaderId) {
     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
   }
 }
+export async function getMemberGroup(leaderId) {
+  const url =
+    memberGroupAPI + "getMemberGroup?leaderId=" + encodeURIComponent(leaderId);
+    let response;
+  
+  try {
+    response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+    });
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return await response.json();
+    } else {
+      throw new Error("Неверный тип контента от сервера");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

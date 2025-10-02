@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useUser } from "@/context/UserContext";
 import styles from "./authButtonsStyles";
 
-const AuthButtons = ({ sizeIcon }) => {
+const AuthButtons = ({ sizeIcon, setSelectedMenu }) => {
   const navigation = useNavigation();
   const [showSignUpModal, setShowSignUpModal] = useState(false);
   const [showRequestMemberModal, setShowRequestMemberModal] = useState(false);
@@ -45,7 +45,6 @@ const AuthButtons = ({ sizeIcon }) => {
                   setUserId(newUserId);
                   setShowSignUpModal(false);
                   setShowRequestMemberModal(true);
-                  console.log("Created user ID:", newUserId);
                 }}
               />
               <Pressable
@@ -81,7 +80,14 @@ const AuthButtons = ({ sizeIcon }) => {
             <FontAwesome name="user-circle-o" size={sizeIcon} color="white" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={logOut} style={styles.authButton}>
+          <TouchableOpacity
+            onPress={ async () => {
+              navigation.navigate("Welcome");
+              setSelectedMenu?.(null);
+              await logOut();
+            }}
+            style={styles.authButton}
+          >
             <Entypo name="log-out" size={sizeIcon} color="white" />
           </TouchableOpacity>
         </>

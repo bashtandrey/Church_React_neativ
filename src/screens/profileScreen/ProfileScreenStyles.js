@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
 
 export const COLORS = {
-  bg: "#EAF4FF",            // светлый голубой фон
+  bg: "#EAF4FF", // светлый голубой фон
   cardBg: "#FFFFFF",
   border: "#D6E9FF",
-  title: "#1C3D6E",         // насыщенный синий для заголовков
+  title: "#1C3D6E", // насыщенный синий для заголовков
   text: "#2E4A6B",
   muted: "#5E7BA6",
   good: "#17a673",
@@ -13,7 +13,7 @@ export const COLORS = {
   chipBg: "#E1F0FF",
   chipText: "#224E8F",
 
-  btnPrimaryBg: "#3B82F6",  // bright blue
+  btnPrimaryBg: "#3B82F6", // bright blue
   btnPrimaryText: "#FFFFFF",
   btnWarnBg: "#FFD166",
   btnWarnText: "#1F2A44",
@@ -165,6 +165,20 @@ const styles = StyleSheet.create({
 
   btnDisabled: {
     opacity: 0.6,
+  },
+  manageBtn: {
+    backgroundColor: COLORS.btnPrimaryBg,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    alignSelf: "center",
+  },
+
+  manageBtnText: {
+    color: COLORS.btnPrimaryText,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.2,
   },
 
   badge: {
