@@ -1,129 +1,194 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
-
-SafeAreaView,
-View,
-Text,
-TextInput,
-TouchableOpacity,
-ScrollView,
-StyleSheet,
-Alert,
-} from 'react-native';
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  TextInput,
+  Alert,
+} from "react-native";
+import Layout from "@/components/Layout";
+import styles, { COLORS } from "./DonateScreenStyles";
+import Toast from "react-native-toast-message";
+import ModalTrigger from "@/components/common/ModalTrigger";
+import { Ionicons } from "@expo/vector-icons";
+import { useReviewerGuard } from "@/hooks/useReviewerGuard";
+import {
+  fetchAllDonateProgram,
+  saveDonationProgram,
+  deleteDonationProgram,
+} from "@/api/donationAPI";
+import DataLoaderWrapper from "@/components/DataLoaderWrapper";
+import { useTranslation } from "react-i18next";
+import DonateProgramCard from "@/components/donation/DonateProgramCard";
+import SaveDonationProgramModal from "@/components/donation/modal/SaveDonationProgramModal";
 
 const DonateScreens = ({ navigation }) => {
-const [amount, setAmount] = useState('');
-const [note, setNote] = useState('');
+  const { t } = useTranslation("donateScreen");
+  const [donatePrograms, setDonatePrograms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
-const presetAmounts = [50, 100, 200];
+  const guard = useReviewerGuard();
 
-const handlePreset = (value) => setAmount(String(value));
+  const loadData = useCallback(() => {
+    setLoading(true);
+    return fetchAllDonateProgram()
+      .then((res) => setDonatePrograms(Array.isArray(res) ? res : []))
+      .catch((error) => {
+        Toast.show({
+          type: "error",
+          text1: t("errorTitle"),
+          text2: error?.message || t("errorLoad"),
+          position: "top",
+        });
+      })
+      .finally(() => setLoading(false));
+  }, [t]);
 
-const handleDonate = () => {
-    const parsed = parseFloat(amount);
-    if (!parsed || parsed <= 0) {
-        Alert.alert('Помилка', 'Введіть суму пожертвування');
-        return;
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const filteredPrograms = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return donatePrograms;
+    return donatePrograms.filter((p) =>
+      p.programName.toLowerCase().includes(q)
+    );
+  }, [donatePrograms, search]);
+
+  const handleSaveSubmit = async (data) => {
+    console.log(data);
+    const response = await saveDonationProgram(data);
+    if (response) {
+      loadData();
+      Toast.show({
+        type: "success",
+        text1: t("success"),
+        text2: data.idProgram ? t("updated") : t("created"),
+      });
     }
-    // TODO: інтегрувати платіжну логіку (Stripe, PayPal і т.д.)
-    console.log('Donate:', { amount: parsed, note });
-    Alert.alert('Дякуємо!', `Ви пожертвували ${parsed} грн`);
-    setAmount('');
-    setNote('');
-    // navigation.navigate('ThankYou'); // розкоментуйте при наявності екрану подяки
-};
+  };
 
-return (
-    <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.content}>
-            <Text style={styles.title}>Пожертвування</Text>
+  const handleDelete = (program) => {
+    Alert.alert(
+      t("confirmDelete"),
+      `${t("deleteMessage")} "${program.programName}"?`,
+      [
+        { text: t("cancel"), style: "cancel" },
+        {
+          text: t("delete"),
+          style: "destructive",
+          onPress: async () => {
+            await deleteDonationProgram(program.programId);
+            loadData();
+            Toast.show({ type: "success", text1: t("deleted") });
+          },
+        },
+      ]
+    );
+  };
 
-            <Text style={styles.label}>Оберіть суму</Text>
-            <View style={styles.presets}>
-                {presetAmounts.map((p) => (
-                    <TouchableOpacity
-                        key={p}
-                        style={[
-                            styles.presetButton,
-                            String(p) === amount && styles.presetButtonActive,
-                        ]}
-                        onPress={() => handlePreset(p)}
-                    >
-                        <Text
-                            style={[
-                                styles.presetText,
-                                String(p) === amount && styles.presetTextActive,
-                            ]}
-                        >
-                            {p} грн
-                        </Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
+  return (
+    <Layout>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.headerRow}>
+          <Text style={styles.title}>{t("title")}</Text>
 
-            <Text style={styles.label}>Інша сума</Text>
-            <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                placeholder="Введіть суму у грн"
-                value={amount}
-                onChangeText={setAmount}
+          <ModalTrigger
+            opener={(open) => (
+              <Pressable
+                onPress={() => guard(open)}
+                style={({ pressed }) => [
+                  { padding: 6 },
+                  pressed && { opacity: 0.6 },
+                ]}
+              >
+                <Ionicons name="add-circle" size={28} color={COLORS.primary} />
+              </Pressable>
+            )}
+          >
+            {({ close }) => (
+              <SaveDonationProgramModal
+                visible
+                onClose={close}
+                onSubmit={handleSaveSubmit}
+              />
+            )}
+          </ModalTrigger>
+        </View>
+
+        {/* SEARCH */}
+        <View style={styles.controls}>
+          <View style={styles.searchBox}>
+            <Ionicons
+              name="search-outline"
+              size={18}
+              color={COLORS.muted}
+              style={{ marginRight: 6 }}
             />
-
-            <Text style={styles.label}>Примітка (необов'язково)</Text>
             <TextInput
-                style={[styles.input, styles.textArea]}
-                placeholder="Наприклад: на потреби церкви"
-                value={note}
-                onChangeText={setNote}
-                multiline
+              value={search}
+              onChangeText={setSearch}
+              placeholder={t("searchPlaceholder")}
+              placeholderTextColor={COLORS.muted}
+              style={styles.searchInput}
+              returnKeyType="search"
             />
+            {search.length > 0 && (
+              <Pressable onPress={() => setSearch("")} hitSlop={8}>
+                <Ionicons name="close-circle" size={18} color={COLORS.muted} />
+              </Pressable>
+            )}
+          </View>
 
-            <TouchableOpacity
-                style={[styles.donateButton, !amount && styles.donateButtonDisabled]}
-                onPress={handleDonate}
-                disabled={!amount}
-            >
-                <Text style={styles.donateText}>Пожертвувати</Text>
-            </TouchableOpacity>
+          <Text style={styles.counterText}>
+            {filteredPrograms.length} / {donatePrograms.length}
+          </Text>
+        </View>
+
+        {/* LIST */}
+        <ScrollView contentContainerStyle={{ paddingVertical: 12 }}>
+          <DataLoaderWrapper
+            loading={loading}
+            data={donatePrograms}
+            onRetry={loadData}
+          >
+            {filteredPrograms.map((program) => (
+              <ModalTrigger
+                key={program.programId}
+                opener={(open) => (
+                  <DonateProgramCard
+                    key={program.programId}
+                    program={program}
+                    onPress={() =>
+                      navigation.navigate("DonationEntryScreens", {
+                        programId: program.programId,
+                        programName: program.programName,
+                      })
+                    }
+                    onEdit={() => guard(open)}
+                    onDelete={handleDelete}
+                  />
+                )}
+              >
+                {({ close }) => (
+                  <SaveDonationProgramModal
+                    visible
+                    onClose={close}
+                    program={program}
+                    onSubmit={handleSaveSubmit}
+                  />
+                )}
+              </ModalTrigger>
+            ))}
+          </DataLoaderWrapper>
         </ScrollView>
-    </SafeAreaView>
-);
+      </View>
+    </Layout>
+  );
 };
 
 export default DonateScreens;
-
-const styles = StyleSheet.create({
-container: { flex: 1, backgroundColor: '#fff' },
-content: { padding: 20 },
-title: { fontSize: 24, fontWeight: '700', marginBottom: 20, color: '#222' },
-label: { fontSize: 14, marginTop: 12, marginBottom: 8, color: '#444' },
-presets: { flexDirection: 'row', gap: 10 },
-presetButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-    marginRight: 10,
-},
-presetButtonActive: { backgroundColor: '#2b6cb0' },
-presetText: { color: '#333', fontWeight: '600' },
-presetTextActive: { color: '#fff' },
-input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: '#fff',
-},
-textArea: { minHeight: 80, textAlignVertical: 'top' },
-donateButton: {
-    marginTop: 24,
-    backgroundColor: '#2b6cb0',
-    paddingVertical: 14,
-    borderRadius: 8,
-    alignItems: 'center',
-},
-donateButtonDisabled: { backgroundColor: '#a0b4d0' },
-donateText: { color: '#fff', fontWeight: '700', fontSize: 16 },
-}); 

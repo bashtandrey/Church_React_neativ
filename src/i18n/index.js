@@ -38,6 +38,9 @@ import ruRequestMember from "@/locales/ru/requestMember.json";
 import enManageGroup from "@/locales/en/manageGroupScreen.json";
 import ruManageGroup from "@/locales/ru/manageGroupScreen.json";
 
+import enDonateScreen from "@/locales/en/donateScreen.json";
+import ruDonateScreen from "@/locales/ru/donateScreen.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -52,6 +55,7 @@ const resources = {
     userCreateForm: enUserCreateForm,
     requestMember: enRequestMember,
     manageGroupScreen: enManageGroup,
+    donateScreen: enDonateScreen,
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -66,6 +70,7 @@ const resources = {
     userCreateForm: ruUserCreateForm,
     requestMember: ruRequestMember,
     manageGroupScreen : ruManageGroup,
+    donateScreen: ruDonateScreen,
   },
 };
 

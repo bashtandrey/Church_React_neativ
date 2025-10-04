@@ -23,7 +23,9 @@ import AboutChurchScreen from "@/screens/church/aboutChurchScreen/AboutChurchScr
 import LinkDonateScreen from "@/screens/church/donateScreens/LinkDonateScreen";
 import EventsChurchScreen from "@/screens/eventsChurch/EventsChurchScreen";
 import ManageGroupScreen from "@/screens/manageGroupScreen/ManageGroupScreen";
-import DonateScreen from "@/screens/church/donateScreens/donateScreens";
+import DonateScreen from "@/screens/church/donateScreens/DonateScreens";
+import DonationEntryScreens from "@/screens/church/donateScreens/DonationEntryScreens";
+import AddDonationEntryScreen from "@/components/donation/AddDonationEntryScreen";
 
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
@@ -31,7 +33,7 @@ import RNRestart from "react-native-restart";
 import "@/i18n";
 
 const MainNavigator = () => {
-  const {isAuthenticated } = useUser();
+  const { isAuthenticated } = useUser();
   const Stack = createNativeStackNavigator();
 
   return (
@@ -111,6 +113,16 @@ const MainNavigator = () => {
             name="DonateScreen"
             component={DonateScreen}
             options={{ title: "Donate" }}
+          />
+          <Stack.Screen
+            name="DonationEntryScreens"
+            component={DonationEntryScreens}
+            options={{ title: "Donation Entry" }}
+          />
+          <Stack.Screen
+            name="AddDonationEntryScreen"
+            component={AddDonationEntryScreen}
+            options={{ title: "Add Donation Entry" }}
           />
         </>
       )}

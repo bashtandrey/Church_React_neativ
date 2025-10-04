@@ -23,9 +23,9 @@ export async function fetchAllEvents() {
 export async function saveEventChurch(eventChurch) {
   let url = "";
   if (eventChurch.id) {
-    url = eventsAPI + "editEvent";
+    url = eventsAPI + "editEvents";
   } else {
-    url = eventsAPI + "createEvent";
+    url = eventsAPI + "createEvents";
   }
   let response;
   try {
@@ -53,6 +53,6 @@ export async function deleteEvent(id) {
     return response;
   } catch (error) {
     console.log(error);
-    throw new Error(error?.error || "Network unavailable or server not responding");
+    throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
   }
 }
