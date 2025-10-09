@@ -13,7 +13,6 @@ export default function PrayerCard({ refreshKey }) {
   const [prayerCard, setPrayerCard] = useState([]);
   const [loadingPrayerCard, setLoadingPrayerCard] = useState(false);
   const [showPrayerCardModal, setShowPrayerCardModal] = useState(false);
-
   const guard = useReviewerGuard();
   const { isPrayerCardEditor } = useUser();
 
@@ -23,9 +22,11 @@ export default function PrayerCard({ refreshKey }) {
       .then((res) => setPrayerCard(res))
       .finally(() => setLoadingPrayerCard(false));
   };
+  console.log(prayerCard)
 
   // Первичная загрузка
   useEffect(() => {
+    
     updatePrayerCard();
   }, []);
 
