@@ -18,6 +18,7 @@ import {
   deleteDailyPlan,
 } from "@/api/bibleAPI";
 import styles from "./SetDayPlanStyles";
+import VersePicker from "../versePicker/VersePicker";
 
 const Step = {
   BOOK: "BOOK",

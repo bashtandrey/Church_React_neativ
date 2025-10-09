@@ -8,7 +8,8 @@ import SetPrayerCard from "@/components/prayerCard/SetPrayerCard";
 import { useUser } from "@/context/UserContext";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function PrayerCard({ refreshKey }) {   // 🔹 принимаем refreshKey
+export default function PrayerCard({ refreshKey }) {
+  // 🔹 принимаем refreshKey
   const [prayerCard, setPrayerCard] = useState([]);
   const [loadingPrayerCard, setLoadingPrayerCard] = useState(false);
   const [showPrayerCardModal, setShowPrayerCardModal] = useState(false);
@@ -60,8 +61,18 @@ export default function PrayerCard({ refreshKey }) {   // 🔹 принимае�
             </Text>
           ))}
           <Text style={styles.blessing}>{prayerCard.blessingMessage}</Text>
-          <Text style={styles.quote}>{prayerCard.bibleVerse}</Text>
-          <Text style={styles.source}>{prayerCard.bibleReference}</Text>
+          <View style={{ marginTop: 10 }}>
+            {Array.isArray(prayerCard.bibleVerse) ? (
+              prayerCard.bibleVerse.map((line, idx) => (
+                <Text key={idx} style={styles.quote}>
+                  {line}
+                </Text>
+              ))
+            ) : (
+              <Text style={styles.quote}>{prayerCard.bibleVerse}</Text>
+            )}
+            <Text style={styles.source}>{prayerCard.bibleReference}</Text>
+          </View>
         </DataLoaderWrapper>
       </View>
 

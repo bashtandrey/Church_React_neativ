@@ -1,4 +1,4 @@
-const ENV = process.env.APP_ENV || "development";
+const ENV = process.env.APP_ENV || "production";
 
 const CONFIG = {
   development: {
@@ -16,7 +16,7 @@ export default () => ({
   expo: {
     name: "Church River of Life",
     slug: "churchapp",
-    version: "1.3.1",
+    version: "1.3.2",
     scheme: "churchapp",
     orientation: "portrait",
     icon: "./src/assets/icon.png",
@@ -30,7 +30,7 @@ export default () => ({
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.bashtandrey.churchapp",
-      buildNumber: "40",
+      buildNumber: "45",
       infoPlist: {
         ITSAppUsesNonExemptEncryption: false,
         NSAppTransportSecurity: {
@@ -41,7 +41,7 @@ export default () => ({
     },
     android: {
       package: "com.bashtandrey.churchapp",
-      versionCode: "41",
+      versionCode: "46",
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
         foregroundImage: "./src/assets/adaptive-icon.png",

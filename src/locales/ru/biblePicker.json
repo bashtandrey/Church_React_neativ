@@ -1,13 +1,20 @@
 {
-  "selectBbook": "Выберите книгу...",
+  "selectBook": "Выберите книгу...",
   "langBook": "russianName",
   "selectedChapter": "Выберите главу...",
   "selectedVerse": "Выберите стих...",
   "book": "Книга: ",
   "langChapter": "Глава ",
   "langVerse": "Стих ",
+  "langOnlyOneVerse": "Только один стих",
+  "langFrom": "От",
+  "langTo": "До",
   "buttonShowVerse": "Показать стих",
   "buttonBack": "Назад",
   "buttonSave": "Сохранить",
-  "bibleLanguage": "RST"
+  "bibleLanguage": "RST",
+  "needSecondVerseTitle": "Требуется второй стих",
+  "needSecondVerseMessage": "Есдли вы хотите выбрать диапазон стихов, пожалуйста, выберите второй стих.",
+  "ok": "Так",
+  "cancel": "Нет"
 }

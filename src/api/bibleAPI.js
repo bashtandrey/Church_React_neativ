@@ -76,12 +76,8 @@ export async function getVerseText(
     throw new Error(error.message || "Неизвестная ошибка при получении стиха");
   }
 }
-export async function setDailyVerse(
-  selectedBook,
-  selectedChapter,
-  selectedVerse
-) {
-  const urlRequest = `${api}/setDailyVerse?number=${selectedBook}&chapter=${selectedChapter}&verses=${selectedVerse}`;
+export async function setDailyVerse(idDailyVerse) {
+  const urlRequest = `${api}/setDailyVerse?idDailyVerse=${idDailyVerse}`;
   try {
     const response = await apiRequest(urlRequest, {
       method: "POST",
@@ -100,6 +96,44 @@ export async function setDailyVerse(
     throw new Error(
       error.error || "bibleAPI: Неизвестная ошибка при установке стиха"
     );
+  }
+}
+export async function addedDailyVerse(data) {
+  const { book, chapter, verse } = data;
+  const urlRequest = `${api}/addedDailyVerse?number=${book}&chapter=${chapter}&verses=${verse}`;
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "POST",
+    });
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      return data;
+    } else {
+      throw new Error("bibleAPI:Неверный тип контента от сервера");
+    }
+  } catch (error) {
+    throw new Error(
+      error.error || "bibleAPI: Неизвестная ошибка при установке стиха"
+    );
+  }
+}
+export async function deleteDailyVerse(id) {
+  const urlRequest = `${api}/deleteDailyVerse?idDailyVerse=${id}`;
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`Ошибка сервера: ${response.status}`);
+    }
+    // Сервер возвращает пустое тело, просто возвращаем true
+    return true;
+  } catch (error) {
+    throw new Error(error.message);
   }
 }
 export async function getDailyPlan() {
@@ -213,4 +247,19 @@ export async function deleteDailyPlan(id) {
     throw new Error(error.message);
   }
 }
-
+export async function getListBibleVerseDay() {
+  const urlRequest = api + "/listBibleVerseDayDTO";
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "GET",
+    });
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      return await response.json();
+    } else {
+      throw new Error("Неверный тип контента от сервера");
+    }
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

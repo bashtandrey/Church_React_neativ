@@ -1,4 +1,3 @@
-// VerseDayCard.jsx
 import { useEffect, useState } from "react";
 import {
   View,
@@ -17,22 +16,30 @@ import { getVerseOfTheDay } from "@/api/bibleAPI";
 import SetDayVerse from "@/components/bible/setDayVerse/SetDayVerse";
 import { useTranslation } from "react-i18next";
 
-const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
-  const [verseDayData, setVerseDayData] = useState([]);
+const VerseCard = () => {
+  const [verseDayData, setVerseDayData] = useState(null);
   const [loadingVerseDay, setLoadingVerseDay] = useState(false);
   const [showSetVerseModal, setShowSetVerseModal] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const { isVerseOfDayEditor } = useUser();
   const guard = useReviewerGuard();
+  const { t } = useTranslation("common");
+
   const title = i18n.language === "ru" ? "Стих Дня" : "Verse of the Day";
   const langVerse = i18n.language === "ru" ? "verseRu" : "verseEn";
 
-  const { t } = useTranslation("common");
-
-  const verseDay = () => {
+  const verseDay = async () => {
     setLoadingVerseDay(true);
-    getVerseOfTheDay()
-      .then((res) => setVerseDayData(res))
-      .finally(() => setLoadingVerseDay(false));
+    try {
+      const res = await getVerseOfTheDay();
+      // ⚡️ создаём новый объект, чтобы гарантировать rerender
+      setVerseDayData({ ...res });
+    } catch (e) {
+      console.log("Ошибка загрузки стиха дня", e);
+    } finally {
+      setLoadingVerseDay(false);
+    }
   };
 
   // 🔹 Первичная загрузка
@@ -40,12 +47,16 @@ const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
     verseDay();
   }, []);
 
-  // 🔹 Перезагрузка при изменении refreshKey
+  // 🔹 Принудительная перезагрузка при refreshKey
   useEffect(() => {
-    if (refreshKey > 0) {
-      verseDay();
-    }
+    verseDay();
   }, [refreshKey]);
+
+  // 🔹 коллбек для обновления
+  const handleReload = () => {
+    setShowSetVerseModal(false);
+    setTimeout(() => setRefreshKey((k) => k + 1), 400);
+  };
 
   return (
     <>
@@ -59,19 +70,30 @@ const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
           </TouchableOpacity>
         )}
         <Text style={styles.sectionTitle}>{title}</Text>
+
         <DataLoaderWrapper
           loading={loadingVerseDay}
           data={verseDayData}
           onRetry={verseDay}
         >
-          <View style={styles.card}>
-            <Text style={styles.verse}>
-              {verseDayData?.[langVerse]?.verses}
-            </Text>
-            <Text style={styles.reference}>
-              {verseDayData?.[langVerse]?.info}
-            </Text>
-          </View>
+          {verseDayData && (
+            <View style={styles.card}>
+              {Array.isArray(verseDayData?.[langVerse]?.verses) ? (
+                verseDayData[langVerse].verses.map((line, i) => (
+                  <Text key={i} style={styles.verse}>
+                    {line}
+                  </Text>
+                ))
+              ) : (
+                <Text style={styles.verse}>
+                  {verseDayData?.[langVerse]?.verses}
+                </Text>
+              )}
+              <Text style={styles.reference}>
+                {verseDayData?.[langVerse]?.info}
+              </Text>
+            </View>
+          )}
         </DataLoaderWrapper>
       </View>
 
@@ -79,7 +101,7 @@ const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
         <View style={{ flex: 1, paddingTop: 40 }}>
           <SetDayVerse
             onClose={() => setShowSetVerseModal(false)}
-            reLoad={verseDay}
+            reLoad={handleReload} // 🔁 теперь точно вызовет перерисовку
           />
           <Pressable
             onPress={() => setShowSetVerseModal(false)}
@@ -96,4 +118,5 @@ const VerseCard = ({ refreshKey }) => {   // 🔹 добавляем проп
     </>
   );
 };
+
 export default VerseCard;

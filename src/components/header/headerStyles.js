@@ -3,7 +3,7 @@ import { StyleSheet, Platform } from "react-native";
 export const COLORS = {
   headerBg: "#0B2A4A",
   itemBg: "rgba(255,255,255,0.08)",
-  itemBgActive: "rgba(255,255,255,0.18)",
+  itemBgActive: "rgba(230, 213, 213, 0.18)",
   white: "#FFFFFF",
   border: "rgba(255,255,255,0.12)",
   divider: "rgba(255,255,255,0.10)",

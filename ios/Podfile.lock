@@ -11,9 +11,9 @@ PODS:
   - EXJSONUtils (0.15.0)
   - EXManifests (1.0.8):
     - ExpoModulesCore
-  - EXNotifications (0.32.11):
+  - EXNotifications (0.32.12):
     - ExpoModulesCore
-  - Expo (54.0.10):
+  - Expo (54.0.12):
     - ExpoModulesCore
     - hermes-engine
     - RCTRequired
@@ -38,15 +38,15 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-client (6.0.12):
+  - expo-dev-client (6.0.13):
     - EXManifests
     - expo-dev-launcher
     - expo-dev-menu
     - expo-dev-menu-interface
     - EXUpdatesInterface
-  - expo-dev-launcher (6.0.11):
+  - expo-dev-launcher (6.0.13):
     - EXManifests
-    - expo-dev-launcher/Main (= 6.0.11)
+    - expo-dev-launcher/Main (= 6.0.13)
     - expo-dev-menu
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -75,7 +75,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Main (6.0.11):
+  - expo-dev-launcher/Main (6.0.13):
     - EXManifests
     - expo-dev-launcher/Unsafe
     - expo-dev-menu
@@ -106,7 +106,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-launcher/Unsafe (6.0.11):
+  - expo-dev-launcher/Unsafe (6.0.13):
     - EXManifests
     - expo-dev-menu
     - expo-dev-menu-interface
@@ -136,9 +136,9 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu (7.0.11):
-    - expo-dev-menu/Main (= 7.0.11)
-    - expo-dev-menu/ReactNativeCompatibles (= 7.0.11)
+  - expo-dev-menu (7.0.13):
+    - expo-dev-menu/Main (= 7.0.13)
+    - expo-dev-menu/ReactNativeCompatibles (= 7.0.13)
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -161,7 +161,7 @@ PODS:
     - ReactNativeDependencies
     - Yoga
   - expo-dev-menu-interface (2.0.0)
-  - expo-dev-menu/Main (7.0.11):
+  - expo-dev-menu/Main (7.0.13):
     - EXManifests
     - expo-dev-menu-interface
     - ExpoModulesCore
@@ -188,7 +188,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - expo-dev-menu/ReactNativeCompatibles (7.0.11):
+  - expo-dev-menu/ReactNativeCompatibles (7.0.13):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -216,9 +216,9 @@ PODS:
     - ExpoModulesCore
   - ExpoClipboard (8.0.7):
     - ExpoModulesCore
-  - ExpoDevice (8.0.8):
+  - ExpoDevice (8.0.9):
     - ExpoModulesCore
-  - ExpoFileSystem (19.0.15):
+  - ExpoFileSystem (19.0.16):
     - ExpoModulesCore
   - ExpoFont (14.0.8):
     - ExpoModulesCore
@@ -236,7 +236,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLocalization (17.0.7):
     - ExpoModulesCore
-  - ExpoModulesCore (3.0.18):
+  - ExpoModulesCore (3.0.20):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -262,7 +262,7 @@ PODS:
   - ExpoSecureStore (15.0.7):
     - ExpoModulesCore
   - EXStructuredHeaders (5.0.0)
-  - EXUpdates (29.0.11):
+  - EXUpdates (29.0.12):
     - EASClient
     - EXManifests
     - ExpoModulesCore
@@ -2300,7 +2300,7 @@ DEPENDENCIES:
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
-  - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
+  - EXJSONUtils (from `../node_modules/expo-manifests/node_modules/expo-json-utils/ios`)
   - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
@@ -2420,7 +2420,7 @@ EXTERNAL SOURCES:
   EXImageLoader:
     :path: "../node_modules/expo-image-loader/ios"
   EXJSONUtils:
-    :path: "../node_modules/expo-json-utils/ios"
+    :path: "../node_modules/expo-manifests/node_modules/expo-json-utils/ios"
   EXManifests:
     :path: "../node_modules/expo-manifests/ios"
   EXNotifications:
@@ -2630,17 +2630,17 @@ SPEC CHECKSUMS:
   EXImageLoader: e501c001bc40b8326605e82e6e80363c80fe06b5
   EXJSONUtils: 1d3e4590438c3ee593684186007028a14b3686cd
   EXManifests: 7469efed75d694ce3c43a6da9c6f3886f66d3c26
-  EXNotifications: a9eb811deeb51fb8e50ef45569be6ffab3994648
-  Expo: 1cd9abd9defd18d40be911af623c6e833d5bacc3
-  expo-dev-client: b0363ce1f16a248d7c9b67ceaee2dbee058c1e05
-  expo-dev-launcher: 6ee60235ad034fa5101ee65e730c81ff3fe99584
-  expo-dev-menu: bb60ed33321a03c630e15c5045f1aa2785ba07df
+  EXNotifications: 7aab54f0e5f3023122bc95699eaff7c52bacb559
+  Expo: 536e83746e1a0f3c22b75e1e9070350fccbac648
+  expo-dev-client: 3d3eccb2814f0fe1ab7551efbaf13ba52e8feabf
+  expo-dev-launcher: c83645397bcbe77d4c2ce91596df753342cc3625
+  expo-dev-menu: e2fa9d301ffa0db1e4a9e53da58523a3210c80f2
   expo-dev-menu-interface: 600df12ea01efecdd822daaf13cc0ac091775533
   ExpoAsset: 3c3b7dd9b1318846a02ef05ce420e63d542aeb9f
   ExpoBlur: b5b7a26572b3c33a11f0b2aa2f95c17c4c393b76
   ExpoClipboard: 99109306a2d9ed2fbd16f6b856e6267b2afa8472
-  ExpoDevice: 123dfe3fc8ef2b9e169982280d27d68bdd1e824c
-  ExpoFileSystem: 72fef9c5cb92b9995eeee114a14acb66d94d5bd4
+  ExpoDevice: d85d332b903b658a596f166b01fee12ca1e443ff
+  ExpoFileSystem: 86f029bfb474f194ce861ba697364f661b578d64
   ExpoFont: d3e56c7cc03d9fd113b90a5513ad32b4bf46b0ff
   ExpoImageManipulator: dbf5b8fc805b55463811cb3da96ab60c532faae8
   ExpoImagePicker: bd0a5c81d7734548f6908a480609257e85d19ea8
@@ -2648,10 +2648,10 @@ SPEC CHECKSUMS:
   ExpoLinearGradient: f9e7182e5253d53b2de4134b69d70bbfc2d50588
   ExpoLocalAuthentication: 8f11d958b956fa372c0a49975f54ed1dc617ae1d
   ExpoLocalization: 6c6f0f89ad2822001ab0bc2eb6d4d980c77f080c
-  ExpoModulesCore: 470633df36cc688fc27b60ac9a4f78579a2332da
+  ExpoModulesCore: ffaeeab6bd868a3d29c56669237cc1272dd54866
   ExpoSecureStore: f44dee1354536bdb3d7fab8cc451ee737c41beca
   EXStructuredHeaders: c951e77f2d936f88637421e9588c976da5827368
-  EXUpdates: a8cf032306657ae4aa13a41ee4d57b9220c429d1
+  EXUpdates: 8e58be5901c047420e21c4bf6adaadf7abe383ad
   EXUpdatesInterface: 1436757deb0d574b84bba063bd024c315e0ec08b
   FBLazyVector: 9e0cd874afd81d9a4d36679daca991b58b260d42
   hermes-engine: 35c763d57c9832d0eef764316ca1c4d043581394
@@ -2734,6 +2734,6 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   Yoga: 2c1f55d9d91a1cec2fb8cc6dd27da33199ffdb52
 
-PODFILE CHECKSUM: 7f9836985b778961d9abcbf181c1600f3a852aeb
+PODFILE CHECKSUM: e5acc9c76a448b6faad2e5748cc2de5cb71a3ccc
 
 COCOAPODS: 1.16.2

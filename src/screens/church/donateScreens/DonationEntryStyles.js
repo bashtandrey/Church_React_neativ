@@ -1,6 +1,7 @@
 import { StyleSheet, Platform } from "react-native";
 
 export const COLORS = {
+  
   primary: "#007AFF",
   bg: "#F7F9FC",
   card: "#FFFFFF",
@@ -9,6 +10,8 @@ export const COLORS = {
   line: "#E5E7EB",
   success: "#16A34A",
   danger: "#DC2626",
+  title: "#1C3D6E",
+  cardBg: "#fff",
 };
 
 const shadow = Platform.select({
@@ -111,7 +114,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
   },
-
+memberHighlight: {
+    fontWeight: "700",
+    color: COLORS.primary,
+    fontSize: 14,
+    marginTop: 4,
+  },
+  expandHint: {
+    marginTop: 6,
+    fontSize: 12,
+    color: COLORS.muted,
+    fontStyle: "italic",
+  },
   primaryText: { color: "#fff", fontWeight: "700" },
 });
 

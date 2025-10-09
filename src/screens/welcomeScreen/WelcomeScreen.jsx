@@ -9,7 +9,7 @@ import i18n from "@/i18n/";
 
 const WelcomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0); // 🔹 меняем это при обновлении
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -32,7 +32,7 @@ const WelcomeScreen = () => {
         </Text>
       ),
     },
-    { key: "verse", render: () => <VerseDayCard refreshKey={refreshKey} /> },
+    { key: "verse", render: () => <VerseDayCard refreshKey={refreshKey}/> },
     { key: "dailyPlan", render: () => <DailyReadingPlan /> },
     { key: "prayer", render: () => <PrayerCard refreshKey={refreshKey} /> },
   ];

@@ -63,7 +63,6 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
   const isRoute = (name) => currentRouteName === name;
 
   const churchActive = selectedMenu === "church";
-  const adminActive = selectedMenu === "admin";
 
   const [showLeftFade, setShowLeftFade] = useState(false);
   const [showRightFade, setShowRightFade] = useState(false);
@@ -140,7 +139,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
               accessibilityLabel="Home"
               isActive={isRoute("Welcome")}
               onPress={() => navigation.navigate("Welcome")}
-              icon={<FontAwesome5 name="home" size={sizeIcon} color="white" />}
+              icon={<FontAwesome5 name="home" size={sizeIcon} color="#a3fbe2ff" />}
             />
 
             <NavButton
@@ -149,7 +148,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
               onPress={() =>
                 setSelectedMenu(churchActive ? null : "church")
               }
-              icon={<FontAwesome5 name="place-of-worship" size={20} color="lightblue" />}
+              icon={<FontAwesome5 name="place-of-worship" size={20} color="#a3d2fbff" />}
             />
 
 
@@ -158,7 +157,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
                 accessibilityLabel="Admin"
                 isActive={isRoute("ManageAdmin")}
                 onPress={() => navigation.navigate("ManageAdmin")}
-                icon={<FontAwesome name="users" size={sizeIcon} color="red" />}
+                icon={<FontAwesome name="users" size={sizeIcon} color="#c8c5eee2" />}
               />
             )}
             {isAuthenticated && isDonationView && (
@@ -166,7 +165,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
                 accessibilityLabel="Donate"
                 isActive={isRoute("DonateScreen")}
                 onPress={() => navigation.navigate("DonateScreen")}
-                icon={<FontAwesome5 name="donate" size={sizeIcon} color="lightgreen" />}
+                icon={<FontAwesome5 name="donate" size={sizeIcon} color="#e4ed81ff" />}
               />
             )}
 
@@ -174,7 +173,7 @@ const Header = ({ selectedMenu, setSelectedMenu }) => {
               accessibilityLabel="About"
               isActive={isRoute("AboutApp")}
               onPress={() => navigation.navigate("AboutApp")}
-              icon={<FontAwesome5 name="info-circle" size={sizeIcon} color="white" />}
+              icon={<FontAwesome5 name="info-circle" size={sizeIcon} color="#ffacaeff" />}
             />
           </ScrollView>
         </View>

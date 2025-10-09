@@ -37,14 +37,18 @@ export async function fetchAllDonateProgram() {
 export async function saveDonationProgram(data) {
   const { idProgram, nameProgram } = data;
   let url = "";
-console.log(data);
+  console.log(data);
   if (idProgram) {
-    url = api + "/editDonationProgram?idProgram=" +
+    url =
+      api +
+      "/editDonationProgram?idProgram=" +
       encodeURIComponent(idProgram) +
       "&nameProgram=" +
       encodeURIComponent(nameProgram);
   } else {
-    url = api + "/createDonationProgram?nameProgram=" +
+    url =
+      api +
+      "/createDonationProgram?nameProgram=" +
       encodeURIComponent(nameProgram);
   }
 
@@ -82,7 +86,8 @@ export async function deleteDonationProgram(id) {
   }
 }
 export async function getDonationEntryFromProgram(programId) {
-  const urlRequest = api + "/getDonationEntryFromProgram/" + encodeURIComponent(programId);
+  const urlRequest =
+    api + "/getDonationEntryFromProgram/" + encodeURIComponent(programId);
   try {
     const response = await apiRequest(urlRequest, {
       method: "POST",
@@ -115,3 +120,70 @@ export async function getMemberList() {
     throw new Error(error.message);
   }
 }
+export async function addIncome(programId, amount, memberId, description) {
+  
+  let url;
+  if (memberId!==null && memberId!==undefined) {
+    url =
+    api +
+    "/" +
+    programId +
+    "/income?amount=" +
+    encodeURIComponent(amount) +
+    "&memberId=" +
+    encodeURIComponent(memberId) +
+    "&description=" +
+    encodeURIComponent(description);
+  } else {
+    url =
+    api +
+    "/" +
+    programId +
+    "/income?amount=" +
+    encodeURIComponent(amount) +
+    "&description=" +
+    encodeURIComponent(description);
+  }
+  try {
+    const response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Server error: " + response.status);
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
+  }
+}
+export async function addOutcome(programId, amount, description) {
+  const url =
+    api +
+    "/" +
+    programId +
+    "/outcome?amount=" +
+    encodeURIComponent(amount) +
+    "&description=" +
+    encodeURIComponent(description);
+
+  try {
+    const response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Server error: " + response.status);
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
+  }
+}
+// export addOutcome(programId, amount, description)

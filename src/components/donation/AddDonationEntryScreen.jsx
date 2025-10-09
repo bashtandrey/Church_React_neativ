@@ -12,7 +12,7 @@ export default function AddDonationEntryScreen() {
   const { t } = useTranslation("donateScreen");
   const navigation = useNavigation();
   const route = useRoute();
-  const { type, programId } = route.params;
+  const { type, programId, loadData } = route.params;
 
   const [step, setStep] = useState(0);
   const [members, setMembers] = useState([]);
@@ -24,18 +24,19 @@ export default function AddDonationEntryScreen() {
   const [err, setErr] = useState("");
 
   // 🔹 Шаги зависят от типа
-  const steps = type === "INCOME"
-    ? [
-        t("form.memberLabel"),
-        t("form.descriptionLabel"),
-        t("form.amountLabel"),
-        t("form.confirmLabel"),
-      ]
-    : [
-        t("form.descriptionLabel"),
-        t("form.amountLabel"),
-        t("form.confirmLabel"),
-      ];
+  const steps =
+    type === "INCOME"
+      ? [
+          t("form.memberLabel"),
+          t("form.descriptionLabel"),
+          t("form.amountLabel"),
+          t("form.confirmLabel"),
+        ]
+      : [
+          t("form.descriptionLabel"),
+          t("form.amountLabel"),
+          t("form.confirmLabel"),
+        ];
 
   // 🔹 Загружаем список мемберов только для INCOME
   const loadMembers = useCallback(() => {
@@ -90,9 +91,7 @@ export default function AddDonationEntryScreen() {
       if (type === "OUTCOME") return parseFloat(amount) > 0;
     }
     if (step === 2) {
-      return type === "INCOME"
-        ? parseFloat(amount) > 0
-        : true; // для OUTCOME confirm всегда доступен
+      return type === "INCOME" ? parseFloat(amount) > 0 : true; // для OUTCOME confirm всегда доступен
     }
     return true;
   }, [step, type, memberId, description, amount]);
@@ -116,6 +115,7 @@ export default function AddDonationEntryScreen() {
       } else {
         await addOutcome(programId, amount, description);
       }
+      loadData();
       Toast.show({
         type: "success",
         text1: t("success"),

@@ -17,6 +17,27 @@ const styles = StyleSheet.create({
     position: "relative",
     marginVertical: 10,
   },
+  progressBarWrap: {
+  height: 6,
+  backgroundColor: "#e5e7eb",
+  borderRadius: 6,
+  marginBottom: 6,
+  overflow: "hidden",
+},
+
+progressBarFill: {
+  height: "100%",
+  backgroundColor: "#10b981",
+  borderRadius: 6,
+},
+
+progressText: {
+  textAlign: "center",
+  color: "#374151",
+  marginBottom: 10,
+  fontWeight: "600",
+},
+
   greeting: {
     fontSize: 20,
     fontWeight: "bold",

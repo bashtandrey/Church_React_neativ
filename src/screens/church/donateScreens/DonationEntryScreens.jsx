@@ -85,6 +85,7 @@ const DonationEntryScreens = () => {
                 navigation.navigate("AddDonationEntryScreen", {
                   type: "INCOME",
                   programId,
+                  loadData,
                 });
               }}
               style={styles.btn}
@@ -97,6 +98,7 @@ const DonationEntryScreens = () => {
                 navigation.navigate("AddDonationEntryScreen", {
                   type: "OUTCOME",
                   programId,
+                  loadData,
                 });
               }}
               style={styles.btn}

@@ -1,13 +1,20 @@
 {
-  "selectBbook": "Select a book...",
+  "selectBook": "Select a book...",
   "langBook": "englishName",
   "selectedChapter": "Select a Chapter...",
   "selectedVerse": "Selected Verse...",
   "book": "Book: ",
   "langChapter": "Chapter ",
   "langVerse": "Verse ",
+  "langFrom": "From:",
+  "langTo": "To:",
+  "langOnlyOneVerse": "Only one verse",
   "buttonShowVerse": "Show verse",
   "buttonBack": "Back",
   "buttonSave": "Save",
-  "bibleLanguage":"NASB"
+  "bibleLanguage":"NASB",
+    "needSecondVerseTitle": "Second verse required",
+  "needSecondVerseMessage": "If you want to select a range of verses, please select the second verse.",
+  "ok": "Yes",
+  "cancel": "No"
 }
