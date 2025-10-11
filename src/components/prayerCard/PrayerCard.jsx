@@ -22,7 +22,6 @@ export default function PrayerCard({ refreshKey }) {
       .then((res) => setPrayerCard(res))
       .finally(() => setLoadingPrayerCard(false));
   };
-  console.log(prayerCard)
 
   // Первичная загрузка
   useEffect(() => {

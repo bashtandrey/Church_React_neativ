@@ -152,8 +152,6 @@ const App = () => {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         const screen = response.notification.request.content.data?.screen;
-        console.log("APP:➡️ Переход по уведомлению:", screen);
-
         if (screen) {
           navigationRef.current?.navigate(screen);
         }

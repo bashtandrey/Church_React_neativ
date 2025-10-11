@@ -39,10 +39,8 @@ async function writeSentCache(token, userId) {
  */
 export async function registerAndSendPushToken(data = {}) {
   const userId = data?.userId ?? null;
-  console.log("registerAndSendPushToken: userId =", userId);
   try {
     if (!Device.isDevice) {
-      console.warn("pushTokenService: симулятор не поддерживает push-токены");
       return null;
     }
 

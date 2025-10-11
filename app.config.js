@@ -1,11 +1,11 @@
-const ENV = process.env.APP_ENV || "production";
+const ENV = process.env.APP_ENV || "development1";
 
 const CONFIG = {
   development: {
     API_URL: "http://192.168.1.154:8090",
   },
   development1: {
-    API_URL: "http://172.20.10.2:8090",
+    API_URL: "http://192.168.0.110:8090",
   },
   production: {
     API_URL: "https://server.churchriveroflife.com",
@@ -16,7 +16,7 @@ export default () => ({
   expo: {
     name: "Church River of Life",
     slug: "churchapp",
-    version: "1.3.2",
+    version: "1.3.3",
     scheme: "churchapp",
     orientation: "portrait",
     icon: "./src/assets/icon.png",
@@ -41,7 +41,7 @@ export default () => ({
     },
     android: {
       package: "com.bashtandrey.churchapp",
-      versionCode: "46",
+      versionCode: "47",
       edgeToEdgeEnabled: true,
       adaptiveIcon: {
         foregroundImage: "./src/assets/adaptive-icon.png",
