@@ -60,55 +60,55 @@ const DonationEntryScreens = () => {
 
   return (
     <Layout>
-      <DataLoaderWrapper loading={loading} data={entries} onRetry={loadData}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>{programName}</Text>
-            <Text
-              style={[
-                styles.total,
-                total > 0
-                  ? { color: COLORS.success }
-                  : total < 0
-                  ? { color: COLORS.danger }
-                  : { color: COLORS.muted },
-              ]}
-            >
-              {t("total")}: {total.toFixed(2)} $
-            </Text>
-          </View>
-
-          <View style={styles.actions}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate("AddDonationEntryScreen", {
-                  type: "INCOME",
-                  programId,
-                  loadData,
-                });
-              }}
-              style={styles.btn}
-            >
-              <Ionicons name="add-circle" size={22} color={COLORS.success} />
-              <Text style={styles.btnText}>{t("income")}</Text>
-            </Pressable>
-            <Pressable
-              onPress={() => {
-                navigation.navigate("AddDonationEntryScreen", {
-                  type: "OUTCOME",
-                  programId,
-                  loadData,
-                });
-              }}
-              style={styles.btn}
-            >
-              <Ionicons name="remove-circle" size={22} color={COLORS.danger} />
-              <Text style={styles.btnText}>{t("outcome")}</Text>
-            </Pressable>
-          </View>
+      {/* HEADER */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>{programName}</Text>
+          <Text
+            style={[
+              styles.total,
+              total > 0
+                ? { color: COLORS.success }
+                : total < 0
+                ? { color: COLORS.danger }
+                : { color: COLORS.muted },
+            ]}
+          >
+            {t("total")}: {total.toFixed(2)} $
+          </Text>
         </View>
 
+        <View style={styles.actions}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("AddDonationEntryScreen", {
+                type: "INCOME",
+                programId,
+                loadData,
+              });
+            }}
+            style={styles.btn}
+          >
+            <Ionicons name="add-circle" size={22} color={COLORS.success} />
+            <Text style={styles.btnText}>{t("income")}</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("AddDonationEntryScreen", {
+                type: "OUTCOME",
+                programId,
+                loadData,
+              });
+            }}
+            style={styles.btn}
+          >
+            <Ionicons name="remove-circle" size={22} color={COLORS.danger} />
+            <Text style={styles.btnText}>{t("outcome")}</Text>
+          </Pressable>
+        </View>
+      </View>
+      
+      <DataLoaderWrapper loading={loading} data={entries} onRetry={loadData}>
         {/* TABS */}
         <View style={styles.tabs}>
           <Pressable
