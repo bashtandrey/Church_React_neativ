@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Text, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import styles, { COLORS } from "@/screens/church/donateScreens/DonateScreenStyles";
+import styles, {
+  COLORS,
+} from "@/screens/church/donateScreens/DonateScreenStyles";
 import { useTranslation } from "react-i18next";
 
 const DonateProgramCard = ({ program, onPress, onEdit, onDelete }) => {
@@ -15,13 +17,15 @@ const DonateProgramCard = ({ program, onPress, onEdit, onDelete }) => {
       <View style={styles.cardHeader}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text style={styles.cardTitle}>{program.programName}</Text>
-          <Pressable
-            onPress={() => onEdit(program)}
-            hitSlop={8}
-            style={{ marginLeft: 8 }}
-          >
-            <Feather name="edit-2" size={16} color={COLORS.primary} />
-          </Pressable>
+          {program.isEnabled && (
+            <Pressable
+              onPress={() => onEdit(program)}
+              hitSlop={8}
+              style={{ marginLeft: 8 }}
+            >
+              <Feather name="edit-2" size={16} color={COLORS.primary} />
+            </Pressable>
+          )}
         </View>
 
         <Text
