@@ -22,8 +22,10 @@ import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { useTranslation } from "react-i18next";
 import DonateProgramCard from "@/components/donation/DonateProgramCard";
 import SaveDonationProgramModal from "@/components/donation/modal/SaveDonationProgramModal";
+import { useUser } from "@/context/UserContext";
 
 const DonateScreens = ({ navigation }) => {
+  const { isDonationEditor } = useUser();
   const { t } = useTranslation("donateScreen");
   const [donatePrograms, setDonatePrograms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,27 +99,33 @@ const DonateScreens = ({ navigation }) => {
         <View style={styles.headerRow}>
           <Text style={styles.title}>{t("title")}</Text>
 
-          <ModalTrigger
-            opener={(open) => (
-              <Pressable
-                onPress={() => guard(open)}
-                style={({ pressed }) => [
-                  { padding: 6 },
-                  pressed && { opacity: 0.6 },
-                ]}
-              >
-                <Ionicons name="add-circle" size={28} color={COLORS.primary} />
-              </Pressable>
-            )}
-          >
-            {({ close }) => (
-              <SaveDonationProgramModal
-                visible
-                onClose={close}
-                onSubmit={handleSaveSubmit}
-              />
-            )}
-          </ModalTrigger>
+          {isDonationEditor && (
+            <ModalTrigger
+              opener={(open) => (
+                <Pressable
+                  onPress={() => guard(open)}
+                  style={({ pressed }) => [
+                    { padding: 6 },
+                    pressed && { opacity: 0.6 },
+                  ]}
+                >
+                  <Ionicons
+                    name="add-circle"
+                    size={28}
+                    color={COLORS.primary}
+                  />
+                </Pressable>
+              )}
+            >
+              {({ close }) => (
+                <SaveDonationProgramModal
+                  visible
+                  onClose={close}
+                  onSubmit={handleSaveSubmit}
+                />
+              )}
+            </ModalTrigger>
+          )}
         </View>
 
         {/* SEARCH */}

@@ -94,6 +94,8 @@ export const UserProvider = ({ children }) => {
   const isEventsChurchEditor = roles.some(
     (r) => r.code === "EVENTS_CHURCH_EDITOR"
   );
+  const isMember = roles.some((r) => r.code === "MEMBER");
+
   const isDonationEditor = roles.some((r) => r.code === "DONATION_EDITOR");
   const isDonationView =
     roles.some((r) => r.code === "DONATION_VIEW") || isDonationEditor;
@@ -121,6 +123,7 @@ export const UserProvider = ({ children }) => {
         isVerseOfDayEditor,
         isDonationEditor,
         isDonationView,
+        isMember,
         roles,
       }}
     >

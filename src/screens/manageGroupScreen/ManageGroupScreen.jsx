@@ -17,13 +17,12 @@ const isBirthdayToday = (date, today) => {
 };
 
 const ManageGroupScreen = () => {
+  const { t } = useTranslation("manageGroupScreen");
   const route = useRoute();
   const { leaderId } = route.params;
-  const { t } = useTranslation("manageGroupScreen");
-
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState(null);
-
+  
   const loadData = () => {
     setLoading(true);
     getMemberGroup(leaderId)
@@ -33,8 +32,8 @@ const ManageGroupScreen = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
 
+  }, []);
   const today = startOfDay(new Date());
 
   // 📋 копировать телефон

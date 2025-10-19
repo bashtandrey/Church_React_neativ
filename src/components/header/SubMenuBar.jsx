@@ -16,7 +16,7 @@ const MENUS = {
   church: [
     { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome", color: "#FFD166" }, // жёлтый
     { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome", color: "#FF4444" },   // красный
-    { icon: "donate", screen: "LinkDonate", lib: "FontAwesome5", color: "#06D6A0" }, // зелёный
+    { icon: "volunteer-activism", screen: "LinkDonate", lib: "MaterialIcons", color: "#06D6A0" }, // зелёный
     { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5", color: "#118AB2" },  // синий
     { icon: "calendar", screen: "EventsChurchScreen", lib: "FontAwesome", color: "#EF476F" }, // розовый
     { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons", color: "#FFA500" }, // оранжевый

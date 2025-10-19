@@ -11,8 +11,10 @@ import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { getDonationEntryFromProgram } from "@/api/donationAPI";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import { useUser } from "@/context/UserContext";
 
 const DonationEntryScreens = () => {
+  const { isDonationEditor } = useUser();
   const route = useRoute();
   const { programId, programName } = route.params;
   const [entries, setEntries] = useState([]);
@@ -78,36 +80,38 @@ const DonationEntryScreens = () => {
           </Text>
         </View>
 
-        <View style={styles.actions}>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("AddDonationEntryScreen", {
-                type: "INCOME",
-                programId,
-                loadData,
-              });
-            }}
-            style={styles.btn}
-          >
-            <Ionicons name="add-circle" size={22} color={COLORS.success} />
-            <Text style={styles.btnText}>{t("income")}</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("AddDonationEntryScreen", {
-                type: "OUTCOME",
-                programId,
-                loadData,
-              });
-            }}
-            style={styles.btn}
-          >
-            <Ionicons name="remove-circle" size={22} color={COLORS.danger} />
-            <Text style={styles.btnText}>{t("outcome")}</Text>
-          </Pressable>
-        </View>
+        {isDonationEditor && (
+          <View style={styles.actions}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("AddDonationEntryScreen", {
+                  type: "INCOME",
+                  programId,
+                  loadData,
+                });
+              }}
+              style={styles.btn}
+            >
+              <Ionicons name="add-circle" size={22} color={COLORS.success} />
+              <Text style={styles.btnText}>{t("income")}</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                navigation.navigate("AddDonationEntryScreen", {
+                  type: "OUTCOME",
+                  programId,
+                  loadData,
+                });
+              }}
+              style={styles.btn}
+            >
+              <Ionicons name="remove-circle" size={22} color={COLORS.danger} />
+              <Text style={styles.btnText}>{t("outcome")}</Text>
+            </Pressable>
+          </View>
+        )}
       </View>
-      
+
       <DataLoaderWrapper loading={loading} data={entries} onRetry={loadData}>
         {/* TABS */}
         <View style={styles.tabs}>

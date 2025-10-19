@@ -85,13 +85,12 @@ const Row = ({ label, value, valueStyle }) => (
 const ProfileScreen = () => {
   const { t } = useTranslation("profileScreen");
   const navigation = useNavigation();
-  const { user, hasGUEST, logOut } = useUser();
+  const { isMember, user, hasGUEST, logOut } = useUser();
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
   const emailOk = !!user?.emailVerified;
   const emailColor = emailOk ? COLORS.good : COLORS.warn;
-
   const handleEmailButton = () => {
     if (emailOk) {
       setShowEmailModal(true);
@@ -144,10 +143,7 @@ const ProfileScreen = () => {
               {user.memberDTO?.id && (
                 <ModalTrigger
                   opener={(open) => (
-                    <TouchableOpacity
-                      onPress={open}
-                      style={styles.editBtn}
-                    >
+                    <TouchableOpacity onPress={open} style={styles.editBtn}>
                       <Feather name="edit-2" size={16} color={COLORS.primary} />
                       <Text style={styles.editBtnText}>{t("edit")}</Text>
                     </TouchableOpacity>
@@ -222,12 +218,14 @@ const ProfileScreen = () => {
                 style={{ marginRight: 8 }}
               />
             }
+            
             right={
-              user.mapGroup.isLeaderGroup && (
+              isMember && (
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("ManageGroup", {
-                      leaderId: user.mapGroup.leaderId,
+                      leaderId: user.mapGroup.leaderId.id,
+                      memberId: user.memberDTO.id,
                     })
                   }
                   style={styles.manageBtn}
