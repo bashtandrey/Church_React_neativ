@@ -13,10 +13,10 @@ import { fetchAllMemberGroup, assignUserToGroup } from "@/api/authAPI";
 
 export default function RequestMember({ onClose, reLoad, newUserId }) {
   const { t } = useTranslation("requestMember");
-  const [step, setStep] = useState(1);         // 1: член? -> 2: выбор группы
+  const [step, setStep] = useState(1); // 1: член? -> 2: выбор группы
   const [loading, setLoading] = useState(false);
   const [loadErr, setLoadErr] = useState(null);
-  const [groups, setGroups] = useState([]);    // [{id, groupName, leader}]
+  const [groups, setGroups] = useState([]); // [{id, groupName, leader}]
   const [selectedGroupId, setSelectedGroupId] = useState(null);
 
   // ШАГ 1 — член церкви?
@@ -24,7 +24,10 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
     Toast.show({
       type: "info",
       text1: t("toasts.guestTitle", "Информация"),
-      text2: t("toasts.guestBody", "Пользователь будет зарегистрирован как гость."),
+      text2: t(
+        "toasts.guestBody",
+        "Пользователь будет зарегистрирован как гость."
+      ),
       position: "top",
     });
     onClose?.(newUserId ?? null, { groupId: null });
@@ -33,32 +36,35 @@ export default function RequestMember({ onClose, reLoad, newUserId }) {
   const handleMemberYes = () => setStep(2);
 
   // ШАГ 2 — загрузить группы при входе
-useEffect(() => {
-  if (step !== 2) return;
-  let canceled = false;
-  (async () => {
-    setLoading(true);
-    setLoadErr(null);
-    try {
-      console.log("1");
-      const data = await fetchAllMemberGroup();
-      console.log("2");
-      const arr = (Array.isArray(data) ? data : []).map(({ idGroup, nameGroup, leader }) => ({
-        id: idGroup,
-        groupName: nameGroup,
-        leader: leader || "",
-      }));
-      if (!canceled) setGroups(arr);
-    } catch (e) {
-      if (!canceled) setLoadErr(e?.error || e?.message || "Ошибка загрузки");
-    } finally {
-      if (!canceled) setLoading(false);
-    }
-  })();
+  useEffect(() => {
+    if (step !== 2) return;
+    let canceled = false;
+    (async () => {
+      setLoading(true);
+      setLoadErr(null);
+      try {
+        console.log("1");
+        const data = await fetchAllMemberGroup();
+        console.log("2");
+        const arr = (Array.isArray(data) ? data : []).map(
+          ({ idGroup, nameGroup, leader }) => ({
+            id: idGroup,
+            groupName: nameGroup,
+            leader: leader || "",
+          })
+        );
+        if (!canceled) setGroups(arr);
+      } catch (e) {
+        if (!canceled) setLoadErr(e?.error || e?.message || "Ошибка загрузки");
+      } finally {
+        if (!canceled) setLoading(false);
+      }
+    })();
 
-  return () => { canceled = true; };
-}, [step]);
-
+    return () => {
+      canceled = true;
+    };
+  }, [step]);
 
   const selectedGroup = groups.find((g) => g.id === selectedGroupId) || null;
 
@@ -91,7 +97,9 @@ useEffect(() => {
     <View style={styles.container}>
       <View style={styles.formCard}>
         <View style={styles.titleBadge}>
-          <Text style={styles.titleText}>{t("title", "Подтверждение статуса")}</Text>
+          <Text style={styles.titleText}>
+            {t("title", "Подтверждение статуса")}
+          </Text>
         </View>
 
         {step === 1 && (
@@ -125,9 +133,7 @@ useEffect(() => {
             {loading && <ActivityIndicator style={{ marginVertical: 12 }} />}
 
             {loadErr && (
-              <Text style={[styles.info, { color: "#d32f2f" }]}>
-                {loadErr}
-              </Text>
+              <Text style={[styles.info, { color: "#d32f2f" }]}>{loadErr}</Text>
             )}
 
             {!loading && !loadErr && (
@@ -147,7 +153,8 @@ useEffect(() => {
                         <View
                           style={[
                             styles.listItemRadioDot,
-                            selectedGroupId === item.id && styles.listItemRadioDotOn,
+                            selectedGroupId === item.id &&
+                              styles.listItemRadioDotOn,
                           ]}
                         />
                       </View>
@@ -159,13 +166,15 @@ useEffect(() => {
                       </View>
                     </TouchableOpacity>
                   )}
-                  ItemSeparatorComponent={() => <View style={styles.listSeparator} />}
+                  ItemSeparatorComponent={() => (
+                    <View style={styles.listSeparator} />
+                  )}
                   ListEmptyComponent={
                     <Text style={styles.info}>
                       {t("emptyGroups", "Группы не найдены")}
                     </Text>
                   }
-                  style={{ maxHeight: 260 }}
+                  contentContainerStyle={{ paddingBottom: 40 }}
                 />
 
                 <View style={styles.buttonsRow}>
@@ -179,14 +188,19 @@ useEffect(() => {
                   >
                     <Text style={styles.buttonText}>
                       {selectedGroup
-                        ? t("buttons.chooseWithName", { name: selectedGroup.groupName, defaultValue: `Выбрать: ${selectedGroup.groupName}` })
+                        ? t("buttons.chooseWithName", {
+                            name: selectedGroup.groupName,
+                            defaultValue: `Выбрать: ${selectedGroup.groupName}`,
+                          })
                         : t("buttons.choose", "Выбрать")}
                     </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     style={[styles.button, styles.buttonSecondary]}
-                    onPress={() => onClose?.(newUserId ?? null, { groupId: null })}
+                    onPress={() =>
+                      onClose?.(newUserId ?? null, { groupId: null })
+                    }
                   >
                     <Text style={styles.buttonText}>
                       {t("buttons.unknown", "Группа неизвестна")}

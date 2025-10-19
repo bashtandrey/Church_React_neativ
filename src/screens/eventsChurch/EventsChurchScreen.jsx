@@ -39,7 +39,7 @@ const EventsChurchScreen = () => {
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const { isEventsChurchEditor } = useUser();
+  const { isAuthenticated, isEventsChurchEditor } = useUser();
 
   const handleCreateSubmit = async ({ data }) => {
     const response = await saveEventChurch(data);
@@ -96,7 +96,9 @@ const EventsChurchScreen = () => {
   };
 
   useEffect(() => {
-    loadData();
+    if (isAuthenticated) {
+      loadData();
+    }
   }, []);
 
   const onRefresh = async () => {
@@ -200,62 +202,70 @@ const EventsChurchScreen = () => {
             )}
           </ModalTrigger>
         )}
-        <DataLoaderWrapper loading={loading} data={events} onRetry={loadData}>
-          {/* календарь */}
+        {isAuthenticated ? (
+          <DataLoaderWrapper loading={loading} data={events} onRetry={loadData}>
+            {/* календарь */}
 
-          <Calendar
-            onDayPress={(day) => setSelectedDate(day.dateString)}
-            onMonthChange={(month) => {
-              setCurrentMonth(new Date(month.dateString));
-              setSelectedDate(null);
-            }}
-            markedDates={markedDates}
-            theme={{
-              todayTextColor: "#007bff",
-              selectedDayBackgroundColor: "#007bff",
-            }}
-          />
+            <Calendar
+              onDayPress={(day) => setSelectedDate(day.dateString)}
+              onMonthChange={(month) => {
+                setCurrentMonth(new Date(month.dateString));
+                setSelectedDate(null);
+              }}
+              markedDates={markedDates}
+              theme={{
+                todayTextColor: "#007bff",
+                selectedDayBackgroundColor: "#007bff",
+              }}
+            />
 
-          {/* список */}
-          <Text style={{ fontSize: 16, marginTop: 10, fontWeight: "600" }}>
-            {selectedDate
-              ? `${t("title")} - ${selectedDate}`
-              : `${t("title")} (${currentMonth.toLocaleDateString(
-                  i18n.language,
-                  {
-                    month: "long",
-                    year: "numeric",
-                  }
-                )})`}
-          </Text>
+            {/* список */}
+            <Text style={{ fontSize: 16, marginTop: 10, fontWeight: "600" }}>
+              {selectedDate
+                ? `${t("title")} - ${selectedDate}`
+                : `${t("title")} (${currentMonth.toLocaleDateString(
+                    i18n.language,
+                    {
+                      month: "long",
+                      year: "numeric",
+                    }
+                  )})`}
+            </Text>
 
-          {eventsForList.length > 0 ? (
-            eventsForList.map((item) => (
-              <ModalTrigger
-                key={item.id}
-                opener={(open) => (
-                  <EventsChurchCard
-                    event={item}
-                    onEdit={() => guard(open)} // при нажатии "редактировать" открываем модалку
-                    onDelete={() => onDeleteEvent(item)}
-                    isEditor={isEventsChurchEditor}
-                  />
-                )}
-              >
-                {({ close }) => (
-                  <SaveEvenetChurchModal
-                    visible
-                    onClose={close}
-                    event={item} // передаём сюда event
-                    onSubmit={handleCreateSubmit}
-                  />
-                )}
-              </ModalTrigger>
-            ))
-          ) : (
-            <Text style={{ marginTop: 10 }}>{t("noEvents")}</Text>
-          )}
-        </DataLoaderWrapper>
+            {eventsForList.length > 0 ? (
+              eventsForList.map((item) => (
+                <ModalTrigger
+                  key={item.id}
+                  opener={(open) => (
+                    <EventsChurchCard
+                      event={item}
+                      onEdit={() => guard(open)} // при нажатии "редактировать" открываем модалку
+                      onDelete={() => onDeleteEvent(item)}
+                      isEditor={isEventsChurchEditor}
+                    />
+                  )}
+                >
+                  {({ close }) => (
+                    <SaveEvenetChurchModal
+                      visible
+                      onClose={close}
+                      event={item} // передаём сюда event
+                      onSubmit={handleCreateSubmit}
+                    />
+                  )}
+                </ModalTrigger>
+              ))
+            ) : (
+              <Text style={{ marginTop: 10 }}>{t("noEvents")}</Text>
+            )}
+          </DataLoaderWrapper>
+        ) : (
+          <View style={styles.container2}>
+            <Text style={styles.text}>
+              {t("notAuthenticated")}
+            </Text>
+          </View>
+        )}
       </ScrollView>
     </Layout>
   );

@@ -86,6 +86,11 @@ const MainNavigator = () => {
         component={AboutAppScreen}
         options={{ title: "About App" }}
       />
+          <Stack.Screen
+            name="EventsChurchScreen"
+            component={EventsChurchScreen}
+            options={{ title: "Events Church" }}
+          />
 
       {isAuthenticated && (
         <>
@@ -103,11 +108,6 @@ const MainNavigator = () => {
             name="ManageAdmin"
             component={ManageAdminScreen}
             options={{ title: "Manange Admin" }}
-          />
-          <Stack.Screen
-            name="EventsChurchScreen"
-            component={EventsChurchScreen}
-            options={{ title: "Events Church" }}
           />
           <Stack.Screen
             name="DonateScreen"

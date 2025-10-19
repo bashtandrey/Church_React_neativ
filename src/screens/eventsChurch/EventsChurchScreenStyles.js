@@ -5,6 +5,19 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
+  container2: {
+    flex: 1,
+    justifyContent: "center", 
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
+    padding: 20,
+  },
+  text: {
+    fontSize: 20,
+    textAlign: "center",
+    color: "#333",
+    fontWeight: "600",
+  },
   headerContainer: {
     alignItems: "flex-end",
     marginTop: 10,
