@@ -39,7 +39,7 @@ const EventsChurchScreen = () => {
   const [events, setEvents] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const { isAuthenticated, isEventsChurchEditor } = useUser();
+  const { isMember, isEventsChurchEditor } = useUser();
 
   const handleCreateSubmit = async ({ data }) => {
     const response = await saveEventChurch(data);
@@ -96,7 +96,7 @@ const EventsChurchScreen = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isMember) {
       loadData();
     }
   }, []);
@@ -202,7 +202,7 @@ const EventsChurchScreen = () => {
             )}
           </ModalTrigger>
         )}
-        {isAuthenticated ? (
+        {isMember ? (
           <DataLoaderWrapper loading={loading} data={events} onRetry={loadData}>
             {/* календарь */}
 

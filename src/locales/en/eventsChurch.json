@@ -1,6 +1,6 @@
 {
   "title": "Events Church",
-  "notAuthenticated": "Content is only available after authorization.",
+  "notAuthenticated": "Content is available only to authorized church members.",
   "createButton": "Create Event",
   "selectDate": "Select a date",
   "noEvents": "No events",

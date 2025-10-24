@@ -1,15 +1,17 @@
 import { useMemo, useState } from "react";
-import { View, Text, Pressable, Switch } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { View, Text, TouchableOpacity, Pressable, Switch } from "react-native";
+import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import styles, { COLORS } from "./UserCardStyles";
 import { toggleStatus } from "@/api/userAPI";
 import Toast from "react-native-toast-message";
 
+import EditLoginModal from "./actionUser/editLoginModal/EditLoginModal";
 import EditNameModal from "./actionUser/editNameModal/EditNameModal";
 import EmailActionModal from "./actionUser/emailActionModal/EmailActionModal";
 import ChangePasswordModal from "./actionUser/changePasswordModal/ChangePasswordModal";
 import DeleteUserModal from "./actionUser/deleteUserModal/DeleteUserModal";
 import RolesModal from "./actionUser/rolesModal/RolesModal";
+import ModalTrigger from "@/components/common/ModalTrigger";
 
 const UserCard = ({ user, reLoad }) => {
   const [isEditNameVisible, setEditNameVisible] = useState(false);
@@ -66,12 +68,22 @@ const UserCard = ({ user, reLoad }) => {
         </View>
 
         <View style={styles.headerTextArea}>
-          <Text style={styles.titleLine}>
-            <Text style={styles.idText}>#{id}</Text>
-            <Text style={styles.dot}> · </Text>
-            <Text style={styles.loginText}>{login}</Text>
-            {superUser && <Text style={styles.superShield}> 🛡️</Text>}
-          </Text>
+          <ModalTrigger
+            opener={(open) => (
+              <TouchableOpacity onPress={open}>
+                <Text style={styles.titleLine}>
+                  <Text style={styles.idText}>Id:{id}</Text>
+                  <Text style={styles.dot}> · </Text>
+                  <Text style={styles.loginText}>{login}</Text>
+                  {superUser && <Text style={styles.superShield}> 🛡️</Text>}
+                </Text>
+              </TouchableOpacity>
+            )}
+          >
+            {({ close }) => (
+              <EditLoginModal visible onClose={close} user={user} reLoad={reLoad}/>
+            )}
+          </ModalTrigger>
 
           <Pressable
             style={({ pressed }) => [

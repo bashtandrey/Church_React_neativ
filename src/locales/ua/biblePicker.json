@@ -1,0 +1,20 @@
+{
+  "selectBook": "Виберіть книгу...",
+  "langBook": "ukrainianName",
+  "selectedChapter": "Виберіть розділ...",
+  "selectedVerse": "Виберіть вірш...",
+  "book": "Книга: ",
+  "langChapter": "Розділ ",
+  "langVerse": "Вірш ",
+  "langOnlyOneVerse": "Лише один вірш",
+  "langFrom": "Від",
+  "langTo": "До",
+  "buttonShowVerse": "Показати вірш",
+  "buttonBack": "Назад",
+  "buttonSave": "Зберегти",
+  "bibleLanguage": "UBT",
+  "needSecondVerseTitle": "Потрібен другий вірш",
+  "needSecondVerseMessage": "Якщо ви хочете вибрати діапазон віршів, будь ласка, виберіть другий вірш.",
+  "ok": "Так",
+  "cancel": "Ні"
+}

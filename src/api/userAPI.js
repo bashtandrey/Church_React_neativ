@@ -232,6 +232,30 @@ export async function editUser(data) {
     }
   }
 }
+export async function editLogin(data) {
+  const action = "?userAction=EDIT_LOGIN";
+  const urlRequest = userApi + "editRoleAdmin" + action;
+  const { id, login, onSuccess, onError } = data;
+
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ id, login }),
+    });
+
+    if (onSuccess) {
+      onSuccess(response.message); // передаем сообщение успеха наверх
+    }
+  } catch (error) {
+    if (onError) {
+      onError(error.error);
+    }
+  }
+}
 export async function deleteUser(data) {
   const urlRequest = userApi + "delete";
   const { id, checkDelete, onSuccess, onError } = data;

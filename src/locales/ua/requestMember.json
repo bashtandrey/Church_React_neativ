@@ -1,0 +1,23 @@
+{
+  "title": "Підтвердження статусу",
+  "questionMember": "Ви є членом церкви?",
+  "questionGroupChoose": "Виберіть групу користувача",
+  "buttons": {
+    "yes": "Так",
+    "no": "Ні",
+    "choose": "Вибрати",
+    "chooseWithName": "Вибрати: {{name}}",
+    "unknown": "Група невідома"
+  },
+  "hintMember": "Це можна змінити пізніше у профілі.",
+  "emptyGroups": "Груп не знайдено",
+  "toasts": {
+    "guestTitle": "Інформація",
+    "guestBody": "Користувача буде зареєстровано як гостя.",
+    "groupSavedTitle": "Групу призначено",
+    "groupSavedBody": "Призначення збережено"
+  },
+  "errors": {
+    "title": "Помилка"
+  }
+}

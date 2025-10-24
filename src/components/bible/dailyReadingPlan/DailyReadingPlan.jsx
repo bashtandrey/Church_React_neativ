@@ -27,6 +27,7 @@ const DailyReadingPlan = ({ reloadFlag }) => {
         {t("title")}
         {i18n.language == "ru" && readingPlan.dateRU}
         {i18n.language == "en" && readingPlan.dateEN}
+        {i18n.language == "ua" && readingPlan.dateUA}
       </Text>
       <View style={styles.readingSection}>
         <DataLoaderWrapper
@@ -39,6 +40,9 @@ const DailyReadingPlan = ({ reloadFlag }) => {
           )}
           {i18n.language == "en" && (
             <Text style={styles.readingPlan}>{readingPlan.descriptionEng}</Text>
+          )}
+          {i18n.language == "ua" && (
+            <Text style={styles.readingPlan}>{readingPlan.descriptionUA}</Text>
           )}
           <Text style={styles.readingNote}>{t("readingNote")}</Text>
         </DataLoaderWrapper>

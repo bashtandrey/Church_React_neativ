@@ -26,7 +26,7 @@ import ManageGroupScreen from "@/screens/manageGroupScreen/ManageGroupScreen";
 import DonateScreen from "@/screens/church/donateScreens/DonateScreens";
 import DonationEntryScreens from "@/screens/church/donateScreens/DonationEntryScreens";
 import AddDonationEntryScreen from "@/components/donation/AddDonationEntryScreen";
-
+import LibraryBookScreen from "@/screens/library/libraryBookScreen/LibraryBookScreen";
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
@@ -86,14 +86,39 @@ const MainNavigator = () => {
         component={AboutAppScreen}
         options={{ title: "About App" }}
       />
+
+      {isAuthenticated && (
+        <>
           <Stack.Screen
             name="EventsChurchScreen"
             component={EventsChurchScreen}
             options={{ title: "Events Church" }}
           />
-
-      {isAuthenticated && (
-        <>
+          <Stack.Screen
+            name="LibraryBookScreen"
+            component={LibraryBookScreen}
+            options={{ title: "Books" }}
+          />
+          {/* <Stack.Screen
+            name="LibraryPersonScreen"
+            component={LibraryPersonScreen}
+            options={{ title: "Person" }}
+          /> */}
+          {/* <Stack.Screen
+            name="LibraryEnterScreen"
+            component={LibraryEnterScreen}
+            options={{ title: "Enter" }}
+          /> */}
+          {/* <Stack.Screen
+            name="LibraryExitScreen"
+            component={LibraryExitScreen}
+            options={{ title: "Exit" }}
+          /> */}
+          {/* <Stack.Screen
+            name="LibrarySettingsScreen"
+            component={LibrarySettingsScreen}
+            options={{ title: "Settings" }}
+          /> */}
           <Stack.Screen
             name="ManageGroup"
             component={ManageGroupScreen}

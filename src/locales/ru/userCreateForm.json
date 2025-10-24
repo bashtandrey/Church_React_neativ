@@ -13,7 +13,8 @@
   },
   "buttons": {
     "next": "Далее",
-    "create": "Создать"
+    "create": "Создать",
+    "cancel": "Закрыть"
   },
   "errors": {
     "firstNameRequired": "Введите имя",

@@ -17,7 +17,7 @@ const COLORS = {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: COLORS.bg },
-  scroll: { flexGrow: 1, justifyContent: "center", padding: 24 },
+  scroll: { flexGrow: 1,  padding: 24 },
 
   card: {
     backgroundColor: COLORS.card,

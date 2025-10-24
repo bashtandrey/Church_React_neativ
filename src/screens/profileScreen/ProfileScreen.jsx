@@ -13,6 +13,7 @@ import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import i18n from "@/i18n/";
 import SaveMemberModal from "@/components/member/modals/SaveMemberModal";
 import ModalTrigger from "@/components/common/ModalTrigger";
+import EditLoginModal from "@/components/users/userCard/actionUser/editLoginModal/EditLoginModal";
 import { saveMember } from "@/api/membersAPI";
 const Badge = ({ ok, textOk, textWarn }) => {
   return (
@@ -85,7 +86,7 @@ const Row = ({ label, value, valueStyle }) => (
 const ProfileScreen = () => {
   const { t } = useTranslation("profileScreen");
   const navigation = useNavigation();
-  const { isMember, user, hasGUEST, logOut } = useUser();
+  const { user, hasGUEST, logOut } = useUser();
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
@@ -171,7 +172,22 @@ const ProfileScreen = () => {
             <Row label={t("idUser")} value={String(user.id)} />
           )}
 
-          <Row label={t("login")} value={user.login} />
+          <ModalTrigger
+            opener={(open) => (
+              <TouchableOpacity onPress={open}>
+                <Row label={t("login")} value={user.login} valueStyle={{ color: "#3c417aff" }}/>
+              </TouchableOpacity>
+            )}
+          >
+            {({ close }) => (
+              <EditLoginModal
+                visible
+                onClose={close}
+                user={user}
+                reLoad={logOut}
+              />
+            )}
+          </ModalTrigger>
 
           {/* Если есть memberDTO, используем его имя/фамилию */}
           <Row
@@ -218,14 +234,12 @@ const ProfileScreen = () => {
                 style={{ marginRight: 8 }}
               />
             }
-            
             right={
-              isMember && (
+              user.mapGroup && (
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("ManageGroup", {
                       leaderId: user.mapGroup.leaderId.id,
-                      memberId: user.memberDTO.id,
                     })
                   }
                   style={styles.manageBtn}

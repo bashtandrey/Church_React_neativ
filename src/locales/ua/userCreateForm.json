@@ -1,0 +1,32 @@
+{
+  "titles": {
+    "stepNames": "Ім’я та Прізвище",
+    "stepEmail": "Email",
+    "stepCredentials": "Логін і Пароль"
+  },
+  "placeholders": {
+    "firstName": "Ім’я",
+    "lastName": "Прізвище",
+    "email": "Email",
+    "login": "Логін",
+    "password": "Пароль"
+  },
+  "buttons": {
+    "next": "Далі",
+    "create": "Створити",
+    "cancel": "Закрити"
+  },
+  "errors": {
+    "firstNameRequired": "Введіть ім’я",
+    "lastNameRequired": "Введіть прізвище",
+    "emailInvalid": "Неправильний формат email",
+    "emailExists": "Такий email вже існує",
+    "loginExists": "Такий логін вже існує",
+    "fillCredentials": "Введіть логін і пароль",
+    "unknown": "Невідома помилка"
+  },
+  "toasts": {
+    "successTitle": "Успішно",
+    "successBody": "Користувача створено"
+  }
+}

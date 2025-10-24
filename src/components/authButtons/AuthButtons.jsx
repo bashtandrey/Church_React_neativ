@@ -4,22 +4,19 @@ import Entypo from "react-native-vector-icons/Entypo";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import UserCreateForm from "@/components/users/userCreateForm/UserCreateForm";
-import RequestMember from "@/components/users/requestMember/RequestMember";
-
+import ModalTrigger from "@/components/common/ModalTrigger";
 import { useNavigation } from "@react-navigation/native";
 import { useUser } from "@/context/UserContext";
 import styles from "./authButtonsStyles";
+import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 
 const AuthButtons = ({ sizeIcon, setSelectedMenu }) => {
   const navigation = useNavigation();
-  const [showSignUpModal, setShowSignUpModal] = useState(false);
-  const [showRequestMemberModal, setShowRequestMemberModal] = useState(false);
-
-  const [userId, setUserId] = useState(null);
+  const guard = useReviewerGuard();
   const { isAuthenticated, logOut } = useUser();
   return (
     <View style={styles.container}>
-      {!isAuthenticated ? (
+      {!isAuthenticated && (
         <>
           <TouchableOpacity
             onPress={() => navigation.navigate("LogIn")}
@@ -27,51 +24,30 @@ const AuthButtons = ({ sizeIcon, setSelectedMenu }) => {
           >
             <Entypo name="login" size={sizeIcon} color="white" />
           </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => setShowSignUpModal(true)}
-            style={styles.authButton}
-          >
-            <MaterialIcons
-              name="person-add-alt"
-              size={sizeIcon}
-              color="white"
-            />
-          </TouchableOpacity>
-          <Modal visible={showSignUpModal} animationType="slide">
-            <View style={{ flex: 1, paddingTop: 40 }}>
-              <UserCreateForm
-                onClose={(newUserId) => {
-                  setUserId(newUserId);
-                  setShowSignUpModal(false);
-                  setShowRequestMemberModal(true);
-                }}
-              />
-              <Pressable
-                onPress={() => setShowSignUpModal(false)}
-                style={{
-                  padding: 10,
-                  backgroundColor: "#eee",
-                  alignItems: "center",
-                }}
+          <ModalTrigger
+            opener={(open) => (
+              <TouchableOpacity
+                onPress={() => guard(open)}
+                style={styles.authButton}
               >
-                <Text>Закрыть</Text>
-              </Pressable>
-            </View>
-          </Modal>
-
-          <Modal visible={showRequestMemberModal} animationType="slide">
-            <View style={{ flex: 1, paddingTop: 40 }}>
-              <RequestMember
-                onClose={() => {
-                  setShowRequestMemberModal(false);
-                }}
-                newUserId={userId}
+                <MaterialIcons
+                  name="person-add-alt"
+                  size={sizeIcon}
+                  color="white"
+                />
+              </TouchableOpacity>
+            )}
+          >
+            {({ close }) => (
+              <UserCreateForm
+                visible
+                onClose={close}
               />
-            </View>
-          </Modal>
+            )}
+          </ModalTrigger>
         </>
-      ) : (
+      )}
+      {isAuthenticated && (
         <>
           <TouchableOpacity
             onPress={() => navigation.navigate("Profile")}
@@ -79,9 +55,8 @@ const AuthButtons = ({ sizeIcon, setSelectedMenu }) => {
           >
             <FontAwesome name="user-circle-o" size={sizeIcon} color="white" />
           </TouchableOpacity>
-
           <TouchableOpacity
-            onPress={ async () => {
+            onPress={async () => {
               navigation.navigate("Welcome");
               setSelectedMenu?.(null);
               await logOut();

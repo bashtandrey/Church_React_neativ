@@ -15,6 +15,7 @@ import { getPushPermissionStatus } from "@/api/PushTokenService";
 import Layout from "@/components/Layout";
 import i18n from "@/i18n";
 import { useTranslation } from "react-i18next";
+import CountryFlag from "react-native-country-flag";
 
 const AboutAppScreen = () => {
   const { t } = useTranslation("aboutApp");
@@ -76,18 +77,21 @@ const AboutAppScreen = () => {
             <TouchableOpacity
               style={[
                 styles.langButton,
+                language === "ua" ? styles.langButtonActive : null,
+              ]}
+              onPress={() => changeLanguage("ua")}
+            >
+              <CountryFlag isoCode="UA" size={16} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.langButton,
                 language === "ru" ? styles.langButtonActive : null,
               ]}
               onPress={() => changeLanguage("ru")}
             >
-              <Text
-                style={[
-                  styles.langText,
-                  language === "ru" ? styles.langTextActive : null,
-                ]}
-              >
-                RU
-              </Text>
+              <CountryFlag isoCode="RU" size={16} />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -97,14 +101,7 @@ const AboutAppScreen = () => {
               ]}
               onPress={() => changeLanguage("en")}
             >
-              <Text
-                style={[
-                  styles.langText,
-                  language === "en" ? styles.langTextActive : null,
-                ]}
-              >
-                EN
-              </Text>
+              <CountryFlag isoCode="US" size={16} />
             </TouchableOpacity>
           </View>
         </View>

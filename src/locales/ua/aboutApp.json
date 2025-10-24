@@ -1,0 +1,13 @@
+{
+  "title": "Про застосунок",
+  "application": "Застосунок",
+  "version": "Версія застосунку",
+  "push": "Push-сповіщення",
+  "developer": "Розробник",
+  "contact": "Контакти",
+  "available": "Доступна",
+  "buttonUpdated": "Оновити застосунок",
+  "enabled": "Увімкнено",
+  "disabled": "Вимкнено",
+  "selectedLanguage": "Вибрати мову"
+}

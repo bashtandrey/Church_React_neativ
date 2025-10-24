@@ -13,7 +13,8 @@
   },
   "buttons": {
     "next": "Next",
-    "create": "Create"
+    "create": "Create",
+    "cancel": "Cancel"
   },
   "errors": {
     "firstNameRequired": "First Name is required",

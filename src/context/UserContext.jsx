@@ -101,6 +101,8 @@ export const UserProvider = ({ children }) => {
     roles.some((r) => r.code === "DONATION_VIEW") || isDonationEditor;
 
   const hasGUEST = roles.some((r) => r.code === "GUEST");
+  const isLibrarryEditor = roles.some((r) => r.code === "LIBRARY_EDITOR");
+  const isLibrarryAdmin = roles.some((r) => r.code === "LIBRARY_ADMIN");
 
   return (
     <UserContext.Provider
@@ -124,6 +126,8 @@ export const UserProvider = ({ children }) => {
         isDonationEditor,
         isDonationView,
         isMember,
+        isLibrarryEditor,
+        isLibrarryAdmin,
         roles,
       }}
     >

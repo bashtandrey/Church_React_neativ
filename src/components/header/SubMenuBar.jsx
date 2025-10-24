@@ -5,21 +5,90 @@ import {
   FontAwesome,
   FontAwesome5,
   Foundation,
+  Ionicons,
 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useUser } from "@/context/UserContext";
 import styles, { COLORS } from "./subMenuStyles";
 
-const libMap = { FontAwesome, FontAwesome5, MaterialIcons, Foundation };
+const libMap = {
+  FontAwesome,
+  FontAwesome5,
+  MaterialIcons,
+  Foundation,
+  Ionicons,
+};
 
 const MENUS = {
   church: [
-    { icon: "bullhorn", screen: "Announcements", lib: "FontAwesome", color: "#FFD166" }, // жёлтый
-    { icon: "youtube-play", screen: "YouTube", lib: "FontAwesome", color: "#FF4444" },   // красный
-    { icon: "volunteer-activism", screen: "LinkDonate", lib: "MaterialIcons", color: "#06D6A0" }, // зелёный
-    { icon: "bible", screen: "PlanVersesYear", lib: "FontAwesome5", color: "#118AB2" },  // синий
-    { icon: "calendar", screen: "EventsChurchScreen", lib: "FontAwesome", color: "#EF476F" }, // розовый
-    { icon: "announcement", screen: "AboutChurch", lib: "MaterialIcons", color: "#FFA500" }, // оранжевый
+    {
+      icon: "bullhorn",
+      screen: "Announcements",
+      lib: "FontAwesome",
+      color: "#FFD166",
+    }, // жёлтый
+    {
+      icon: "youtube-play",
+      screen: "YouTube",
+      lib: "FontAwesome",
+      color: "#FF4444",
+    }, // красный
+    {
+      icon: "volunteer-activism",
+      screen: "LinkDonate",
+      lib: "MaterialIcons",
+      color: "#06D6A0",
+    }, // зелёный
+    {
+      icon: "bible",
+      screen: "PlanVersesYear",
+      lib: "FontAwesome5",
+      color: "#118AB2",
+    }, // синий
+    {
+      icon: "calendar",
+      screen: "EventsChurchScreen",
+      lib: "FontAwesome",
+      color: "#EF476F",
+    }, // розовый
+    {
+      icon: "announcement",
+      screen: "AboutChurch",
+      lib: "MaterialIcons",
+      color: "#FFA500",
+    }, // оранжевый
+  ],
+  library: [
+    {
+      icon: "book-outline",
+      screen: "LibraryBookScreen",
+      lib: "Ionicons",
+      color: "#FFD166",
+    }, // жёлтый
+    {
+      icon: "person-outline",
+      screen: "LibraryPersonScreen",
+      lib: "Ionicons",
+      color: "#FF4444",
+    }, // красный
+    {
+      icon: "enter-outline",
+      screen: "LibraryEnterScreen",
+      lib: "Ionicons",
+      color: "#06D6A0",
+    }, // зелёный
+    {
+      icon: "exit-outline",
+      screen: "LibraryExitScreen",
+      lib: "Ionicons",
+      color: "#118AB2",
+    }, // синий
+    {
+      icon: "settings-outline",
+      screen: "LibrarySettingsScreen",
+      lib: "Ionicons",
+      color: "#EF476F",
+    }, // розовый
   ],
 };
 
@@ -32,7 +101,10 @@ const SubMenuBar = ({
 }) => {
   const rawItems = MENUS[selectedMenu] || [];
   const hiddenSet = useMemo(() => new Set(hiddenScreens), [hiddenScreens]);
-  const disabledSet = useMemo(() => new Set(disabledScreens), [disabledScreens]);
+  const disabledSet = useMemo(
+    () => new Set(disabledScreens),
+    [disabledScreens]
+  );
 
   const { hasRole } = useUser();
 
@@ -40,7 +112,7 @@ const SubMenuBar = ({
     return rawItems
       .filter((it) => {
         if (it.roles && !it.roles.some((r) => hasRole(r))) {
-          return false; // скрываем
+          return false;
         }
         return true;
       })
@@ -52,6 +124,8 @@ const SubMenuBar = ({
           if (res === "disabled") return { ...it, state: "disabled" };
           return { ...it, state: "enabled" };
         }
+        if (it.hidden) return { ...it, state: "hidden" };
+        if (it.disabled) return { ...it, state: "disabled" };
         if (hiddenSet.has(it.screen)) return { ...it, state: "hidden" };
         if (disabledSet.has(it.screen)) return { ...it, state: "disabled" };
         return { ...it, state: "enabled" };
@@ -135,7 +209,9 @@ const SubMenuBar = ({
               <Icon
                 name={it.icon}
                 size={20}
-                color={disabled ? COLORS.disabledIcon : it.color || COLORS.white}
+                color={
+                  disabled ? COLORS.disabledIcon : it.color || COLORS.white
+                }
               />
               {disabled && (
                 <View style={styles.lockBadge}>

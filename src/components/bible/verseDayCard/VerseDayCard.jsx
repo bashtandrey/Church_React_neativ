@@ -24,16 +24,12 @@ const VerseCard = () => {
 
   const { isVerseOfDayEditor } = useUser();
   const guard = useReviewerGuard();
-  const { t } = useTranslation("common");
-
-  const title = i18n.language === "ru" ? "Стих Дня" : "Verse of the Day";
-  const langVerse = i18n.language === "ru" ? "verseRu" : "verseEn";
+  const { t } = useTranslation("verseDayCard");
 
   const verseDay = async () => {
     setLoadingVerseDay(true);
     try {
       const res = await getVerseOfTheDay();
-      // ⚡️ создаём новый объект, чтобы гарантировать rerender
       setVerseDayData({ ...res });
     } catch (e) {
       console.log("Ошибка загрузки стиха дня", e);
@@ -69,7 +65,7 @@ const VerseCard = () => {
             <FontAwesome name="pencil" size={20} color="rgba(3, 86, 9, 0.7)" />
           </TouchableOpacity>
         )}
-        <Text style={styles.sectionTitle}>{title}</Text>
+        <Text style={styles.sectionTitle}>{t("title")}</Text>
 
         <DataLoaderWrapper
           loading={loadingVerseDay}
@@ -78,19 +74,19 @@ const VerseCard = () => {
         >
           {verseDayData && (
             <View style={styles.card}>
-              {Array.isArray(verseDayData?.[langVerse]?.verses) ? (
-                verseDayData[langVerse].verses.map((line, i) => (
+              {Array.isArray(verseDayData?.[t("langVerse")]?.verses) ? (
+                verseDayData[t("langVerse")].verses.map((line, i) => (
                   <Text key={i} style={styles.verse}>
                     {line}
                   </Text>
                 ))
               ) : (
                 <Text style={styles.verse}>
-                  {verseDayData?.[langVerse]?.verses}
+                  {verseDayData?.[t("langVerse")]?.verses}
                 </Text>
               )}
               <Text style={styles.reference}>
-                {verseDayData?.[langVerse]?.info}
+                {verseDayData?.[t("langVerse")]?.info}
               </Text>
             </View>
           )}
@@ -101,18 +97,8 @@ const VerseCard = () => {
         <View style={{ flex: 1, paddingTop: 40 }}>
           <SetDayVerse
             onClose={() => setShowSetVerseModal(false)}
-            reLoad={handleReload} // 🔁 теперь точно вызовет перерисовку
+            reLoad={handleReload} 
           />
-          <Pressable
-            onPress={() => setShowSetVerseModal(false)}
-            style={{
-              padding: 10,
-              backgroundColor: "#eee",
-              alignItems: "center",
-            }}
-          >
-            <Text>{t("buttonClose")}</Text>
-          </Pressable>
         </View>
       </Modal>
     </>

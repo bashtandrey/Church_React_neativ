@@ -14,7 +14,7 @@ export default StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     paddingTop: 40,
-    backgroundColor: COLORS.bg, // ← был #fff
+    backgroundColor: COLORS.bg,
   },
 
   // необязательно, но чуть приятнее
@@ -72,6 +72,7 @@ export default StyleSheet.create({
   button: {
     backgroundColor: COLORS.primary,
     padding: 12,
+    margin: 5,
     borderRadius: 10,
     alignItems: "center",
     // лёгкая тень

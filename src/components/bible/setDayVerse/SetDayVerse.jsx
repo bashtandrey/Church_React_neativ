@@ -12,7 +12,7 @@ import VerseList from "./VerseList";
 import VersePicker from "../versePicker/VersePicker";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n/";
-import { addedDailyVerse} from "@/api/bibleAPI";
+import { addedDailyVerse } from "@/api/bibleAPI";
 
 const SetVerseBible = ({ onClose, reLoad }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -35,7 +35,7 @@ const SetVerseBible = ({ onClose, reLoad }) => {
     setShowList((prev) => !prev);
   };
   const handleSave = (data) => {
-    addedDailyVerse(data)
+    addedDailyVerse(data);
     onClose();
     reLoad();
   };
@@ -45,7 +45,15 @@ const SetVerseBible = ({ onClose, reLoad }) => {
       key: "title",
       render: () => (
         <View style={styles.headerRow}>
+          {/* Левая кнопка — закрыть */}
+          <TouchableOpacity onPress={onClose}>
+            <Ionicons name="close-circle-outline" size={28} color="#ef4444" />
+          </TouchableOpacity>
+
+          {/* Заголовок */}
           <Text style={styles.title}>{t("title")}</Text>
+
+          {/* Правая кнопка — открыть/закрыть пикер */}
           <TouchableOpacity onPress={togglePicker}>
             <Ionicons
               name={showPicker ? "remove-circle-outline" : "add-circle-outline"}
