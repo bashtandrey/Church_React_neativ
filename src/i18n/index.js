@@ -58,6 +58,10 @@ import uaVerseDayCard from "@/locales/ua/verseDayCard.json";
 import enVerseDayCard from "@/locales/en/verseDayCard.json";
 import ruVerseDayCard from "@/locales/ru/verseDayCard.json";
 
+import uaBookScreen from "@/locales/ua/bookScreen.json";
+import enBookScreen from "@/locales/en/bookScreen.json";
+import ruBookScreen from "@/locales/ru/bookScreen.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -74,6 +78,8 @@ const resources = {
     manageGroupScreen: enManageGroup,
     donateScreen: enDonateScreen,
     verseDayCard: enVerseDayCard,
+    bookScreen: enBookScreen,
+
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -90,6 +96,8 @@ const resources = {
     manageGroupScreen: ruManageGroup,
     donateScreen: ruDonateScreen,
     verseDayCard: ruVerseDayCard,
+    bookScreen: ruBookScreen,
+
   },
   ua: {
     aboutApp: uaAboutApp,
@@ -106,6 +114,8 @@ const resources = {
     manageGroupScreen: uaManageGroup,
     donateScreen: uaDonateScreen,
     verseDayCard: uaVerseDayCard,
+    bookScreen: uaBookScreen,
+
   },
 };
 

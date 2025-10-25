@@ -61,7 +61,7 @@ const MENUS = {
   library: [
     {
       icon: "book-outline",
-      screen: "LibraryBookScreen",
+      screen: "BookScreen",
       lib: "Ionicons",
       color: "#FFD166",
     }, // жёлтый

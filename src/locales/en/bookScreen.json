@@ -1,0 +1,11 @@
+{
+  "title": "Book",
+  "createButton": "Added Book",
+  "searchPlaceholder": "Find a book",
+  "noBooks": "No books found",
+  "all": "All",
+  "available": "Available",
+  "issued": "Issued",
+  "noResults": "No results found",
+  "foundCount": "Found: {{count}}"
+}

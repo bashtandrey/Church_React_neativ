@@ -204,7 +204,6 @@ const EventsChurchScreen = () => {
         )}
         {isMember ? (
           <DataLoaderWrapper loading={loading} data={events} onRetry={loadData}>
-            {/* календарь */}
 
             <Calendar
               onDayPress={(day) => setSelectedDate(day.dateString)}

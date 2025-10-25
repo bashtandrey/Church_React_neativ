@@ -26,7 +26,7 @@ import ManageGroupScreen from "@/screens/manageGroupScreen/ManageGroupScreen";
 import DonateScreen from "@/screens/church/donateScreens/DonateScreens";
 import DonationEntryScreens from "@/screens/church/donateScreens/DonationEntryScreens";
 import AddDonationEntryScreen from "@/components/donation/AddDonationEntryScreen";
-import LibraryBookScreen from "@/screens/library/libraryBookScreen/LibraryBookScreen";
+import BookScreen from "@/screens/library/bookScreen/BookScreen";
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
@@ -95,8 +95,8 @@ const MainNavigator = () => {
             options={{ title: "Events Church" }}
           />
           <Stack.Screen
-            name="LibraryBookScreen"
-            component={LibraryBookScreen}
+            name="BookScreen"
+            component={BookScreen}
             options={{ title: "Books" }}
           />
           {/* <Stack.Screen

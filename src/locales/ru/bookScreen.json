@@ -1,0 +1,11 @@
+{
+  "title": "Книги",
+  "createButton": "Добавить книгу",
+  "searchPlaceholder": "Найти книгу",
+  "noBooks": "Книги не найдены",
+  "all": "Все",
+  "available": "В библиотеке",
+  "issued": "На руках",
+  "noResults": "Ничего не найдено",
+  "foundCount": "Найдено: {{count}}"
+}
