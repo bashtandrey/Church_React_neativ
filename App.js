@@ -27,6 +27,11 @@ import DonateScreen from "@/screens/church/donateScreens/DonateScreens";
 import DonationEntryScreens from "@/screens/church/donateScreens/DonationEntryScreens";
 import AddDonationEntryScreen from "@/components/donation/AddDonationEntryScreen";
 import BookScreen from "@/screens/library/bookScreen/BookScreen";
+import BookHistoryScreen from "@/screens/library/bookHistory/BookHistoryScreen";
+import EnterBookScreen from "@/screens/library/enterBook/EnterBookScreen";
+import ReturnBookScreen from "@/screens/library/returnBook/ReturnBookScreen";
+
+
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
@@ -99,20 +104,25 @@ const MainNavigator = () => {
             component={BookScreen}
             options={{ title: "Books" }}
           />
+          <Stack.Screen
+            name="BookHistory"
+            component={BookHistoryScreen}
+            options={{ title: "Book History" }}
+          />
+          <Stack.Screen
+            name="EnterBook"
+            component={EnterBookScreen}
+            options={{ title: "Enter Book" }}
+          />
+          <Stack.Screen
+            name="ReturnBook"
+            component={ReturnBookScreen}
+            options={{ title: "Return Book" }}
+          />
           {/* <Stack.Screen
             name="LibraryPersonScreen"
             component={LibraryPersonScreen}
             options={{ title: "Person" }}
-          /> */}
-          {/* <Stack.Screen
-            name="LibraryEnterScreen"
-            component={LibraryEnterScreen}
-            options={{ title: "Enter" }}
-          /> */}
-          {/* <Stack.Screen
-            name="LibraryExitScreen"
-            component={LibraryExitScreen}
-            options={{ title: "Exit" }}
           /> */}
           {/* <Stack.Screen
             name="LibrarySettingsScreen"

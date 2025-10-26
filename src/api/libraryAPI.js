@@ -1,9 +1,8 @@
 import { apiRequest } from "./globalFuntions.js";
-const eventsAPI = "/api/v1/library/";
-
+const bookAPI = "/api/v1/library/";
 
 export async function fetchAllBook() {
-  const urlRequest = eventsAPI + "fetchAllBook";
+  const urlRequest = bookAPI + "fetchAllBook";
   try {
     const response = await apiRequest(urlRequest, {
       method: "GET",
@@ -20,39 +19,69 @@ export async function fetchAllBook() {
   }
 }
 
-// export async function saveEventChurch(eventChurch) {
-//   let url = "";
-//   if (eventChurch.id) {
-//     url = eventsAPI + "editEvents";
-//   } else {
-//     url = eventsAPI + "createEvents";
-//   }
-//   let response;
-//   try {
-//     response = await apiRequest(url, {
-//       method: "POST",
-//       credentials: "include",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(eventChurch),
-//     });
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
-//   }
-// }
-// export async function deleteEvent(id) {
-//   if (!id) throw new Error("Empty event id");
-//   const url = eventsAPI + "delete/" + encodeURIComponent(id);
-//   let response;
-//   try {
-//     response = await apiRequest(url, {
-//       method: "DELETE",
-//       credentials: "include",
-//     });
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error(error?.error || "Сеть недоступна или сервер не отвечает");
-//   }
-// }
+export async function deleteBook(id) {
+  const urlRequest = bookAPI + "deleteBook/" + encodeURIComponent(id);
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    if (response.status === 204) {
+      return {
+        success: true,
+        status: response.status,
+        message: response.message || "Book deleted successfully",
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error.error || "Network error",
+      field: error.field,
+    };
+  }
+}
+export async function saveBook(data) {
+  const urlRequest = bookAPI + "saveBook";
+  const { id, serial, nameBook, publishingYear, publishingHouse, description } =
+    data;
+
+  try {
+    const response = await apiRequest(urlRequest, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        id,
+        serial,
+        nameBook,
+        publishingYear,
+        publishingHouse,
+        description,
+      }),
+    });
+
+    if (response.status === 201 || response.status === 200) {
+      return {
+        success: true,
+        status: response.status,
+        message:
+          response.message ||
+          (response.status === 201
+            ? "Book created successfully"
+            : "Book updated successfully"),
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error.error || "Network error",
+      field: error.field,
+    };
+  }
+}

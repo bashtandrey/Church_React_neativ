@@ -77,4 +77,17 @@ export default StyleSheet.create({
     marginTop: 8,
     color: "#007AFF",
   },
+  actionRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 10,
+    paddingVertical: 4,
+    borderTopWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+  actionBtn: {
+    padding: 8,
+    borderRadius: 8,
+  },
 });

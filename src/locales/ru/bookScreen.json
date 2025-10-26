@@ -7,5 +7,51 @@
   "available": "В библиотеке",
   "issued": "На руках",
   "noResults": "Ничего не найдено",
-  "foundCount": "Найдено: {{count}}"
+  "foundCount": "Найдено: {{count}}",
+  "createForm": {
+    "createTitle": "Add Book",
+    "editTitle": "Edit Book",
+    "serial": "Serial Number",
+    "nameBook": "Book Title",
+    "publishingYear": "Year of Publication",
+    "publishingHouse": "Publishing House",
+    "description": "Description",
+    "errors": {
+      "serialRequired": "Enter the serial number",
+      "nameRequired": "Enter the book title"
+    },
+    "buttons": {
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "toasts": {
+      "successTitle": "Success",
+      "successCreate": "Book added successfully",
+      "successEdit": "Changes saved",
+      "successDelete": "Book deleted",
+      "errorTitle": "Error",
+      "unknownError": "An unknown error occurred"
+    }
+  },
+  "bookCard": {
+    "alert": {
+      "delete": {
+        "title": "Подтверждение удаления",
+        "message": "Удалить книгу «{{name}}»?",
+        "cancel": "Отмена",
+        "confirm": "Удалить"
+      }
+    },
+    "status": {
+      "issued": "На руках",
+      "available": "В библиотеке"
+    },
+    "field": {
+      "holder": "У кого",
+      "publishingHouse": "Издательство",
+      "year": "Год"
+    }
+  }
 }

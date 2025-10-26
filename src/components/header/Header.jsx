@@ -69,7 +69,7 @@ const Header = ({
 
   useEffect(() => {
     // ---- Блокировка определённых пунктов ----
-    const restricted = ["LibraryBookScreen", "EventsChurchScreen"];
+    const restricted = ["BookScreen", "EventsChurchScreen"];
 
     if (isAuthenticated && isMember) {
       setDisabledScreens((prev) => {

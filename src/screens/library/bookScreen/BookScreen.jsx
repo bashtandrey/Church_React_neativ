@@ -13,8 +13,9 @@ import { fetchAllBook } from "@/api/libraryAPI";
 import { useTranslation } from "react-i18next";
 import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { useUser } from "@/context/UserContext";
-import ModalTrigger from "@/components/common/ModalTrigger";
 import BookCard from "@/components/library/book/BookCard";
+import ModalTrigger from "@/components/common/ModalTrigger";
+import SaveBookModal from "@/components/library/book/modal/saveBookModal/SaveBookModal";
 import { Ionicons } from "@expo/vector-icons";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 import { LinearGradient } from "expo-linear-gradient";
@@ -102,7 +103,13 @@ const BookScreen = () => {
                 </Pressable>
               )}
             >
-              {({ close }) => console.log("Создание книги")}
+              {({ close }) => (
+                <SaveBookModal
+                  visible
+                  onClose={close}
+                  reLoad={loadData}
+                />
+              )}
             </ModalTrigger>
           )}
         </View>
