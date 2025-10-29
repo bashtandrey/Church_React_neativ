@@ -27,11 +27,16 @@ import DonateScreen from "@/screens/church/donateScreens/DonateScreens";
 import DonationEntryScreens from "@/screens/church/donateScreens/DonationEntryScreens";
 import AddDonationEntryScreen from "@/components/donation/AddDonationEntryScreen";
 import BookScreen from "@/screens/library/bookScreen/BookScreen";
-import BookHistoryScreen from "@/screens/library/bookHistory/BookHistoryScreen";
 import EnterBookScreen from "@/screens/library/enterBook/EnterBookScreen";
 import ReturnBookScreen from "@/screens/library/returnBook/ReturnBookScreen";
+import LibraryCardScreen from "@/screens/library/libraryCard/LibraryCardScreen";
+import ReturnBookFromReader from "@/screens/library/returnBookFromReader/ReturnBookFromReaderScreen";
+import BookHistoryFromBookScreen from "@/screens/library/bookHistoryFromBook/BookHistoryFromBookScreen";
+import BookHistoryFromLibraryCard from "@/screens/library/bookHistoryFromLibraryCard/BookHistoryFromLibraryCard";
 
 
+
+ReturnBookFromReader;
 import { AppState, AppStateStatus } from "react-native";
 import RNRestart from "react-native-restart";
 
@@ -104,9 +109,15 @@ const MainNavigator = () => {
             component={BookScreen}
             options={{ title: "Books" }}
           />
+          
           <Stack.Screen
-            name="BookHistory"
-            component={BookHistoryScreen}
+            name="BookHistoryFromBookScreen"
+            component={BookHistoryFromBookScreen}
+            options={{ title: "Book History" }}
+          />
+          <Stack.Screen
+            name="BookHistoryFromLibraryCard"
+            component={BookHistoryFromLibraryCard}
             options={{ title: "Book History" }}
           />
           <Stack.Screen
@@ -119,16 +130,16 @@ const MainNavigator = () => {
             component={ReturnBookScreen}
             options={{ title: "Return Book" }}
           />
-          {/* <Stack.Screen
-            name="LibraryPersonScreen"
-            component={LibraryPersonScreen}
-            options={{ title: "Person" }}
-          /> */}
-          {/* <Stack.Screen
-            name="LibrarySettingsScreen"
-            component={LibrarySettingsScreen}
-            options={{ title: "Settings" }}
-          /> */}
+          <Stack.Screen
+            name="ReturnBookFromReader"
+            component={ReturnBookFromReader}
+            options={{ title: "Return Book" }}
+          />
+          <Stack.Screen
+            name="LibraryCardScreen"
+            component={LibraryCardScreen}
+            options={{ title: "Library Card" }}
+          />
           <Stack.Screen
             name="ManageGroup"
             component={ManageGroupScreen}

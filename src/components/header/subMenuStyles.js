@@ -24,12 +24,13 @@ export default StyleSheet.create({
     backgroundColor: COLORS.bg,
     paddingVertical: 8,
     paddingHorizontal: 8,
+    alignItems: "center",
   },
   shadowIOS,
   shadowAndroid,
 
   scrollContent: {
-    paddingHorizontal: 4,
+    paddingHorizontsal: 4,
     alignItems: "center",
   },
 

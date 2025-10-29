@@ -67,28 +67,16 @@ const MENUS = {
     }, // жёлтый
     {
       icon: "person-outline",
-      screen: "LibraryPersonScreen",
+      screen: "LibraryCardScreen",
       lib: "Ionicons",
       color: "#FF4444",
     }, // красный
     {
       icon: "enter-outline",
-      screen: "LibraryEnterScreen",
+      screen: "EnterBook",
       lib: "Ionicons",
       color: "#06D6A0",
     }, // зелёный
-    {
-      icon: "exit-outline",
-      screen: "LibraryExitScreen",
-      lib: "Ionicons",
-      color: "#118AB2",
-    }, // синий
-    {
-      icon: "settings-outline",
-      screen: "LibrarySettingsScreen",
-      lib: "Ionicons",
-      color: "#EF476F",
-    }, // розовый
   ],
 };
 

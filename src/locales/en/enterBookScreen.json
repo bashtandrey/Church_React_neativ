@@ -1,0 +1,15 @@
+{
+    "book": "Book",
+    "bookNotSelected": "Book not selected",
+    "card": "Card",
+    "cardNotSelected": "Card not selected",
+    "nothingFound": "Nothing found",
+    "cancel": "Cancel",
+    "save": "Save",
+    "searchBooks": "Search books (name/number)",
+    "searchCards": "Search cards (first name/last name)",
+    "success": "Success",
+    "issueSaved": "The issue has been saved.",
+    "error": "Error",
+    "failedToSave": "Failed to save."
+}

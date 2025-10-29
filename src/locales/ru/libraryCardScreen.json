@@ -1,0 +1,35 @@
+{
+  "title": "Библиотечная карта",
+  "createButton": "Создать карту",
+  "searchPlaceholder": "Поиск по имени или фамилии",
+  "foundCount": "{{count}} карт найдено",
+  "noResults": "Карты не найдены",
+  "noCards": "Нет созданных библиотечных карт",
+  "all": "Все",
+  "haveBook": "С книгой",
+  "withoutBook": "Без книги",
+  "createForm": {
+    "createTitle": "Создать библиотечную карту",
+    "editTitle": "Редактировать карту",
+    "chooseModeQuestion": "Выберите способ создания:",
+    "withMember": "Создать с участником",
+    "withoutMember": "Создать без участника",
+    "backToMode": "Назад к выбору способа",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "noFreeMembers": "Нет доступных участников без библиотечной карты",
+    "buttons": {
+      "create": "Создать",
+      "save": "Сохранить",
+      "cancel": "Отмена",
+      "back": "Назад"
+    },
+    "toasts": {
+      "successTitle": "Успешно",
+      "successCreate": "Карта успешно создана",
+      "successEdit": "Карта обновлена",
+      "errorTitle": "Ошибка",
+      "unknownError": "Неизвестная ошибка"
+    }
+  }
+}

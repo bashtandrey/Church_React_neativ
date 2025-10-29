@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		3B9E0E4989950D1912BFEB0D /* Pods_ChurchRiverofLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B027D290CD699CF9C6B0FF6F /* Pods_ChurchRiverofLife.framework */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		87EC4F565FFCED716AC2C1FA /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DB242C4CE2CD430727B68E /* ExpoModulesProvider.swift */; };
-		A101E697FF50DCC8D4ED58EC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 563EAE7C6E729581AFCF088E /* PrivacyInfo.xcprivacy */; };
+		61A915B5007C67DB49570DC9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 4F52C3DD8A87F0D8AFD35FB5 /* PrivacyInfo.xcprivacy */; };
+		B6FC65F8165622C7B7FC5350 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA0390725C1EBB38EE4D33 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		D26CADF6AF366D3B4E017183 /* Pods_ChurchRiverofLife.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE291172B3C1873D45D2C558 /* Pods_ChurchRiverofLife.framework */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00B48C1FBD6CF16EA6633E32 /* Pods-ChurchRiverofLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.release.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.release.xcconfig"; sourceTree = "<group>"; };
-		05DB242C4CE2CD430727B68E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ChurchRiverofLife/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ChurchRiverofLife.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChurchRiverofLife.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ChurchRiverofLife/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ChurchRiverofLife/Info.plist; sourceTree = "<group>"; };
-		563EAE7C6E729581AFCF088E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ChurchRiverofLife/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		4F52C3DD8A87F0D8AFD35FB5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ChurchRiverofLife/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		79BA0390725C1EBB38EE4D33 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-ChurchRiverofLife/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		87F75A9923E7A21141ED7573 /* Pods-ChurchRiverofLife.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.release.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = ChurchRiverofLife/SplashScreen.storyboard; sourceTree = "<group>"; };
-		AE302F2EDC0C677D971C53BE /* Pods-ChurchRiverofLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.debug.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.debug.xcconfig"; sourceTree = "<group>"; };
+		B027D290CD699CF9C6B0FF6F /* Pods_ChurchRiverofLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChurchRiverofLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ChurchRiverofLife/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* ChurchRiverofLife-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "ChurchRiverofLife-Bridging-Header.h"; path = "ChurchRiverofLife/ChurchRiverofLife-Bridging-Header.h"; sourceTree = "<group>"; };
-		FE291172B3C1873D45D2C558 /* Pods_ChurchRiverofLife.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ChurchRiverofLife.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFFF223092A8B5B23AF958C8 /* Pods-ChurchRiverofLife.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChurchRiverofLife.debug.xcconfig"; path = "Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D26CADF6AF366D3B4E017183 /* Pods_ChurchRiverofLife.framework in Frameworks */,
+				3B9E0E4989950D1912BFEB0D /* Pods_ChurchRiverofLife.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				563EAE7C6E729581AFCF088E /* PrivacyInfo.xcprivacy */,
+				4F52C3DD8A87F0D8AFD35FB5 /* PrivacyInfo.xcprivacy */,
 			);
 			name = ChurchRiverofLife;
 			sourceTree = "<group>";
@@ -62,17 +62,17 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				FE291172B3C1873D45D2C558 /* Pods_ChurchRiverofLife.framework */,
+				B027D290CD699CF9C6B0FF6F /* Pods_ChurchRiverofLife.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		777EB51AA1554D8CF42BBCBB /* ChurchRiverofLife */ = {
+		444DE1F920D3F5CFAB461DD6 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				05DB242C4CE2CD430727B68E /* ExpoModulesProvider.swift */,
+				AF966A492A5E6A361466F1A3 /* ChurchRiverofLife */,
 			);
-			name = ChurchRiverofLife;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +89,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				C31B3D7F5ACF7929DCE7349A /* Pods */,
-				EEF9B6B475EB33B4BE362CAF /* ExpoModulesProviders */,
+				DD003E9BEF03E2443FF5F92A /* Pods */,
+				444DE1F920D3F5CFAB461DD6 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,6 +105,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AF966A492A5E6A361466F1A3 /* ChurchRiverofLife */ = {
+			isa = PBXGroup;
+			children = (
+				79BA0390725C1EBB38EE4D33 /* ExpoModulesProvider.swift */,
+			);
+			name = ChurchRiverofLife;
+			sourceTree = "<group>";
+		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,22 +122,14 @@
 			path = ChurchRiverofLife/Supporting;
 			sourceTree = "<group>";
 		};
-		C31B3D7F5ACF7929DCE7349A /* Pods */ = {
+		DD003E9BEF03E2443FF5F92A /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AE302F2EDC0C677D971C53BE /* Pods-ChurchRiverofLife.debug.xcconfig */,
-				00B48C1FBD6CF16EA6633E32 /* Pods-ChurchRiverofLife.release.xcconfig */,
+				FFFF223092A8B5B23AF958C8 /* Pods-ChurchRiverofLife.debug.xcconfig */,
+				87F75A9923E7A21141ED7573 /* Pods-ChurchRiverofLife.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		EEF9B6B475EB33B4BE362CAF /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				777EB51AA1554D8CF42BBCBB /* ChurchRiverofLife */,
-			);
-			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ChurchRiverofLife" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				4B0987E410C53054274145D7 /* [Expo] Configure project */,
+				8D2B82F09D143012553AFACE /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				974494BF1834E6266C0238E4 /* [CP] Embed Pods Frameworks */,
+				526899F78132033282883919 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				A101E697FF50DCC8D4ED58EC /* PrivacyInfo.xcprivacy in Resources */,
+				61A915B5007C67DB49570DC9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,29 +242,27 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4B0987E410C53054274145D7 /* [Expo] Configure project */ = {
+		526899F78132033282883919 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/ChurchRiverofLife/ChurchRiverofLife.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-ChurchRiverofLife/expo-configure-project.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-ChurchRiverofLife/ExpoModulesProvider.swift",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ChurchRiverofLife/expo-configure-project.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -312,27 +310,29 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		974494BF1834E6266C0238E4 /* [CP] Embed Pods Frameworks */ = {
+		8D2B82F09D143012553AFACE /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			inputFileListPaths = (
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/ChurchRiverofLife/ChurchRiverofLife.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-ChurchRiverofLife/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-ChurchRiverofLife/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ChurchRiverofLife/Pods-ChurchRiverofLife-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-ChurchRiverofLife/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -342,7 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				87EC4F565FFCED716AC2C1FA /* ExpoModulesProvider.swift in Sources */,
+				B6FC65F8165622C7B7FC5350 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +351,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE302F2EDC0C677D971C53BE /* Pods-ChurchRiverofLife.debug.xcconfig */;
+			baseConfigurationReference = FFFF223092A8B5B23AF958C8 /* Pods-ChurchRiverofLife.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -387,7 +387,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 00B48C1FBD6CF16EA6633E32 /* Pods-ChurchRiverofLife.release.xcconfig */;
+			baseConfigurationReference = 87F75A9923E7A21141ED7573 /* Pods-ChurchRiverofLife.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

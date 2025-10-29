@@ -62,6 +62,22 @@ import uaBookScreen from "@/locales/ua/bookScreen.json";
 import enBookScreen from "@/locales/en/bookScreen.json";
 import ruBookScreen from "@/locales/ru/bookScreen.json";
 
+import uaLibraryCardScreen from "@/locales/ua/libraryCardScreen.json";
+import enLibraryCardScreen from "@/locales/en/libraryCardScreen.json";
+import ruLibraryCardScreen from "@/locales/ru/libraryCardScreen.json";
+
+import uaEnterBookScreen from "@/locales/ua/enterBookScreen.json";
+import enEnterBookScreen from "@/locales/en/enterBookScreen.json";
+import ruEnterBookScreen from "@/locales/ru/enterBookScreen.json";
+
+import uaReturnBookScreen from "@/locales/ua/returnBookScreen.json";
+import enReturnBookScreen from "@/locales/en/returnBookScreen.json";
+import ruReturnBookScreen from "@/locales/ru/returnBookScreen.json";
+
+import uaBookHistoryScreen from "@/locales/ua/bookHistoryScreen.json";
+import enBookHistoryScreen from "@/locales/en/bookHistoryScreen.json";
+import ruBookHistoryScreen from "@/locales/ru/bookHistoryScreen.json";
+
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -79,7 +95,10 @@ const resources = {
     donateScreen: enDonateScreen,
     verseDayCard: enVerseDayCard,
     bookScreen: enBookScreen,
-
+    libraryCardScreen: enLibraryCardScreen,
+    enterBookScreen: enEnterBookScreen,
+    returnBookScreen: enReturnBookScreen,
+    bookHistoryScreen: enBookHistoryScreen,
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -97,6 +116,10 @@ const resources = {
     donateScreen: ruDonateScreen,
     verseDayCard: ruVerseDayCard,
     bookScreen: ruBookScreen,
+    libraryCardScreen: ruLibraryCardScreen,
+    enterBookScreen: ruEnterBookScreen,
+    returnBookScreen: ruReturnBookScreen,
+    bookHistoryScreen: ruBookHistoryScreen,
 
   },
   ua: {
@@ -115,7 +138,10 @@ const resources = {
     donateScreen: uaDonateScreen,
     verseDayCard: uaVerseDayCard,
     bookScreen: uaBookScreen,
-
+    libraryCardScreen: uaLibraryCardScreen,
+    enterBookScreen: uaEnterBookScreen,
+    returnBookScreen: uaReturnBookScreen,
+    bookHistoryScreen: uaBookHistoryScreen,
   },
 };
 

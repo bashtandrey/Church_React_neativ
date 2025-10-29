@@ -1,0 +1,11 @@
+{
+  "reader": "Reader",
+  "book": "Book",
+  "cancel": "Cancel",
+  "confirm": "Return book",
+  "success": "Success",
+  "error": "Error",
+  "bookReturned": "The book has been successfully returned",
+  "bookReturnFailed": "Failed to return the book",
+  "networkError": "Network error"
+}

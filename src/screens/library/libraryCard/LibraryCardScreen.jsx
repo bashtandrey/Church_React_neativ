@@ -1,43 +1,40 @@
-import React, { useState, useEffect, useRef } from "react";
-import Layout from "@/components/Layout";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  FlatList,
   View,
   Text,
-  Pressable,
-  TextInput,
+  FlatList,
   ScrollView,
   Animated,
+  TextInput,
+  Pressable,
 } from "react-native";
-import { fetchAllBook } from "@/api/libraryAPI";
+import Layout from "@/components/Layout";
+import { fetchAllLibraryCard } from "@/api/libraryAPI";
 import { useTranslation } from "react-i18next";
 import DataLoaderWrapper from "@/components/DataLoaderWrapper";
-import { useUser } from "@/context/UserContext";
-import BookCard from "@/components/library/book/BookCard";
-import ModalTrigger from "@/components/common/ModalTrigger";
-import SaveBookModal from "@/components/library/modal/saveBookModal/SaveBookModal";
-import { Ionicons } from "@expo/vector-icons";
-import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 import { LinearGradient } from "expo-linear-gradient";
-import styles from "./BookScreenStyles";
+import ModalTrigger from "@/components/common/ModalTrigger";
+import { Ionicons } from "@expo/vector-icons";
+import styles from "./LibraryCardScreenStyles";
+import SaveLibraryCardModal from "@/components/library/modal/saveLibraryCardModal/SaveLibraryCardModal";
+import LibraryCard from "@/components/library/libraryCard/LibraryCard";
 
-const BookScreen = () => {
-  const { t } = useTranslation("bookScreen");
-  const guard = useReviewerGuard();
-  const [loading, setLoading] = useState(false);
-  const [bookData, setBookData] = useState([]);
+const LibraryCardScreen = () => {
+  const { t } = useTranslation("libraryCardScreen");
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
-  const { isMember, isLibrarryAdmin } = useUser();
 
   const FILTERS = [
     { key: "all", label: t("all") },
-    { key: "available", label: t("available") },
-    { key: "issued", label: t("issued") },
+    { key: "haveBook", label: t("haveBook") },
+    { key: "withoutBook", label: t("withoutBook") },
+
   ];
 
-  // 🔸 Плавное появление
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
   const fadeIn = () => {
     fadeAnim.setValue(0);
     Animated.timing(fadeAnim, {
@@ -47,11 +44,12 @@ const BookScreen = () => {
     }).start();
   };
 
-  const loadData = async () => {
-    setLoading(true);
+  const loadCards = async () => {
     try {
-      const res = await fetchAllBook();
-      setBookData(res);
+      const data = await fetchAllLibraryCard();
+      setCards(data);
+    } catch (err) {
+      console.error("Error loading library cards:", err);
     } finally {
       setLoading(false);
       fadeIn();
@@ -59,26 +57,26 @@ const BookScreen = () => {
   };
 
   useEffect(() => {
-    if (isMember) loadData();
+    loadCards();
   }, []);
 
-  const filteredBooks = bookData.filter((b) => {
+  const filteredCards = cards.filter((card) => {
     const matchesSearch =
-      b.nameBook?.toLowerCase().includes(search.toLowerCase()) ||
-      b.serial?.toLowerCase().includes(search.toLowerCase());
+      card.firstName?.toLowerCase().includes(search.toLowerCase()) ||
+      card.lastName?.toLowerCase().includes(search.toLowerCase());
 
     const matchesFilter =
-      filter === "all" ? true : filter === "available" ? !b.issued : b.issued;
+      filter === "all" || (filter === "haveBook" && card.haveBook) || (filter === "withoutBook" && !card.haveBook)  ;
 
     return matchesSearch && matchesFilter;
   });
+  const totalCards = filteredCards.length;
 
   const renderItem = ({ item }) => (
-    <BookCard bookdata={item} reLoad={loadData} />
+    <View style={styles.card}>
+      <LibraryCard libraryCard={item} reLoad={loadCards} />
+    </View>
   );
-
-  // 🔸 Счётчик найденных
-  const totalBooks = filteredBooks.length;
 
   return (
     <Layout>
@@ -87,34 +85,24 @@ const BookScreen = () => {
         <View style={styles.headerRow}>
           <Text style={styles.title}>{t("title")}</Text>
 
-          {isLibrarryAdmin && (
-            <ModalTrigger
-              opener={(open) => (
-                <Pressable
-                  style={styles.createButton}
-                  onPress={() => guard(open)}
-                >
-                  <Ionicons
-                    name="add-circle-outline"
-                    size={22}
-                    color="#007AFF"
-                  />
-                  <Text style={styles.createText}>{t("createButton")}</Text>
-                </Pressable>
-              )}
-            >
-              {({ close }) => (
-                <SaveBookModal
-                  visible
-                  onClose={close}
-                  reLoad={loadData}
-                />
-              )}
-            </ModalTrigger>
-          )}
+          <ModalTrigger
+            opener={(open) => (
+              <Pressable style={styles.createButton} onPress={open}>
+                <Ionicons name="add-circle-outline" size={22} color="#007AFF" />
+                <Text style={styles.createText}>{t("createButton")}</Text>
+              </Pressable>
+            )}
+          >
+            {({ close }) => (
+              <SaveLibraryCardModal
+                visible
+                onClose={close}
+                reLoad={loadCards}
+              />
+            )}
+          </ModalTrigger>
         </View>
 
-        {/* Поиск */}
         <View style={styles.searchContainer}>
           <Ionicons name="search-outline" size={18} color="#555" />
           <TextInput
@@ -131,14 +119,12 @@ const BookScreen = () => {
           )}
         </View>
 
-        {/* 🔸 Счётчик найденных */}
         <Text style={styles.resultCount}>
-          {totalBooks > 0
-            ? t("foundCount", { count: totalBooks })
+          {totalCards > 0
+            ? t("foundCount", { count: totalCards })
             : t("noResults")}
         </Text>
 
-        {/* Фильтры */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -171,19 +157,17 @@ const BookScreen = () => {
             );
           })}
         </ScrollView>
-
-        {/* Список */}
-        <DataLoaderWrapper loading={loading} data={bookData} onRetry={loadData}>
+        <DataLoaderWrapper loading={loading} data={cards} onRetry={loadCards}>
           <Animated.View style={{ opacity: fadeAnim, flex: 1 }}>
             <FlatList
-              data={filteredBooks}
-              keyExtractor={(item) => `book-${item.id}`}
+              data={filteredCards}
+              keyExtractor={(item) => `card-${item.id}`}
               renderItem={renderItem}
               contentContainerStyle={styles.listContainer}
               refreshing={loading}
-              onRefresh={loadData}
+              onRefresh={loadCards}
               ListEmptyComponent={
-                <Text style={styles.emptyText}>{t("noBooks")}</Text>
+                <Text style={styles.emptyText}>{t("noCards")}</Text>
               }
             />
           </Animated.View>
@@ -192,5 +176,4 @@ const BookScreen = () => {
     </Layout>
   );
 };
-
-export default BookScreen;
+export default LibraryCardScreen;

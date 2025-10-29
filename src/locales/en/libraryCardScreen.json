@@ -1,0 +1,35 @@
+{
+  "title": "Library Card",
+  "createButton": "Create Card",
+  "searchPlaceholder": "Search by first or last name",
+  "foundCount": "{{count}} cards found",
+  "noResults": "No cards found",
+  "noCards": "No library cards created yet",
+  "all": "All",
+  "haveBook": "With book",
+  "withoutBook": "Without book",
+  "createForm": {
+    "createTitle": "Create Library Card",
+    "editTitle": "Edit Library Card",
+    "chooseModeQuestion": "Choose how to create the card:",
+    "withMember": "Create with a member",
+    "withoutMember": "Create without a member",
+    "backToMode": "Back to creation mode",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "noFreeMembers": "No available members without a library card",
+    "buttons": {
+      "create": "Create",
+      "save": "Save",
+      "cancel": "Cancel",
+      "back": "Back"
+    },
+    "toasts": {
+      "successTitle": "Success",
+      "successCreate": "Library card created successfully",
+      "successEdit": "Library card updated successfully",
+      "errorTitle": "Error",
+      "unknownError": "Unknown error"
+    }
+  }
+}

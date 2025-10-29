@@ -84,11 +84,11 @@ const Header = ({
     }
 
     // ---- Управление скрытыми пунктами ----
-    const hiddenForAdmin = ["LibrarySettingsScreen"];
+    const hiddenForAdmin = [];
     const hiddenForEditor = [
-      "LibraryExitScreen",
-      "LibraryEnterScreen",
-      "LibraryPersonScreen",
+      "ReturnBook",
+      "EnterBook",
+      "LibraryCardScreen",
     ];
 
     setHiddenScreens((prev) => {

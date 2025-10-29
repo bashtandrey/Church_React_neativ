@@ -13,7 +13,7 @@ import styles from "./BookCardStyle";
 import { useUser } from "@/context/UserContext";
 import { useTranslation } from "react-i18next";
 import ModalTrigger from "@/components/common/ModalTrigger";
-import SaveBookModal from "@/components/library/book/modal/saveBookModal/SaveBookModal";
+import SaveBookModal from "@/components/library/modal/saveBookModal/SaveBookModal";
 import { deleteBook } from "@/api/libraryAPI";
 import { useNavigation } from "@react-navigation/native";
 
@@ -172,7 +172,7 @@ const BookCard = ({ bookdata, reLoad }) => {
                     <Pressable
                       style={styles.actionBtn}
                       onPress={() =>
-                        navigation.navigate("BookHistory", {
+                        navigation.navigate("BookHistoryFromBookScreen", {
                           bookId: bookdata.id,
                         })
                       }

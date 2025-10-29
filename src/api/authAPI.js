@@ -15,9 +15,7 @@ export async function signIn(data) {
       },
       body: JSON.stringify({ login, password }),
     });
-
     const userData = await response.json();
-
     if (userData.accessToken) {
       await saveToken(userData.accessToken);
     }

@@ -175,7 +175,11 @@ const ProfileScreen = () => {
           <ModalTrigger
             opener={(open) => (
               <TouchableOpacity onPress={open}>
-                <Row label={t("login")} value={user.login} valueStyle={{ color: "#3c417aff" }}/>
+                <Row
+                  label={t("login")}
+                  value={user.login}
+                  valueStyle={{ color: "#3c417aff" }}
+                />
               </TouchableOpacity>
             )}
           >
@@ -281,7 +285,11 @@ const ProfileScreen = () => {
           <View style={styles.chipsWrap}>
             {user.roles.map((role, index) => (
               <Chip key={`${role.code}-${index}`}>
-                {i18n.language === "ru" ? role.russianName : role.englishName}
+                {i18n.language === "ru"
+                  ? role.russianName
+                  : i18n.language === "ua"
+                  ? role.ukrainianName
+                  : role.englishName}
               </Chip>
             ))}
           </View>

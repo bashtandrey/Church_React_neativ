@@ -1,8 +1,8 @@
-const ENV = process.env.APP_ENV || "development";
+const ENV = process.env.APP_ENV || "production";
 
 const CONFIG = {
   development: {
-    API_URL: "http://192.168.1.154:8090",
+    API_URL: "http://localhost:8090",
   },
   development1: {
     API_URL: "http://172.20.10.5:8090",
@@ -16,7 +16,7 @@ export default () => ({
   expo: {
     name: "Church River of Life",
     slug: "churchapp",
-    version: "1.3.3",
+    version: "1.3.4",
     scheme: "churchapp",
     orientation: "portrait",
     icon: "./src/assets/icon.png",
@@ -36,7 +36,7 @@ export default () => ({
         NSAppTransportSecurity: {
           NSAllowsArbitraryLoads: true,
         },
-        NSFaceIDUsageDescription: "This app uses Face ID for authentication",
+        // NSFaceIDUsageDescription: "This app uses Face ID for authentication",
       },
     },
     android: {

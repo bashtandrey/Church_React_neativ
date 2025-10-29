@@ -1,0 +1,35 @@
+{
+  "title": "Бібліотечна картка",
+  "createButton": "Створити картку",
+  "searchPlaceholder": "Пошук за ім'ям або прізвищем",
+  "foundCount": "{{count}} карток знайдено",
+  "noResults": "Картки не знайдено",
+  "noCards": "Немає створених бібліотечних карток",
+  "all": "Всі",
+  "haveBook": "З книгою",
+  "withoutBook": "Без книги",
+  "createForm": {
+    "createTitle": "Створити бібліотечну картку",
+    "editTitle": "Редагувати картку",
+    "chooseModeQuestion": "Виберіть спосіб створення:",
+    "withMember": "Створити з учасником",
+    "withoutMember": "Створити без учасника",
+    "backToMode": "Назад до вибору способу",
+    "firstName": "Ім’я",
+    "lastName": "Прізвище",
+    "noFreeMembers": "Немає доступних учасників без бібліотечної картки",
+    "buttons": {
+      "create": "Створити",
+      "save": "Зберегти",
+      "cancel": "Скасувати",
+      "back": "Назад"
+    },
+    "toasts": {
+      "successTitle": "Успішно",
+      "successCreate": "Картку успішно створено",
+      "successEdit": "Картку оновлено",
+      "errorTitle": "Помилка",
+      "unknownError": "Невідома помилка"
+    }
+  }
+}

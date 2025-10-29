@@ -22,7 +22,6 @@ export async function apiRequest(endpoint, options = {}) {
       ...options,
       headers,
     });
-
     if (!response.ok) {
       let errorData = { error: "Server error" };
 
