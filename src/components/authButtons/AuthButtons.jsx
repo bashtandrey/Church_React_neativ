@@ -38,12 +38,7 @@ const AuthButtons = ({ sizeIcon, setSelectedMenu }) => {
               </TouchableOpacity>
             )}
           >
-            {({ close }) => (
-              <UserCreateForm
-                visible
-                onClose={close}
-              />
-            )}
+            {({ close }) => <UserCreateForm visible onClose={close} />}
           </ModalTrigger>
         </>
       )}

@@ -78,6 +78,13 @@ import uaBookHistoryScreen from "@/locales/ua/bookHistoryScreen.json";
 import enBookHistoryScreen from "@/locales/en/bookHistoryScreen.json";
 import ruBookHistoryScreen from "@/locales/ru/bookHistoryScreen.json";
 
+<<<<<<< HEAD
+=======
+import uaRemember from "@/locales/ua/remember.json";
+import enRemember from "@/locales/en/remember.json";
+import ruRemember from "@/locales/ru/remember.json";
+
+>>>>>>> dd26ad7 (lib)
 const resources = {
   en: {
     aboutApp: enAboutApp,
@@ -99,6 +106,10 @@ const resources = {
     enterBookScreen: enEnterBookScreen,
     returnBookScreen: enReturnBookScreen,
     bookHistoryScreen: enBookHistoryScreen,
+<<<<<<< HEAD
+=======
+    remember: enRemember,
+>>>>>>> dd26ad7 (lib)
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -120,6 +131,10 @@ const resources = {
     enterBookScreen: ruEnterBookScreen,
     returnBookScreen: ruReturnBookScreen,
     bookHistoryScreen: ruBookHistoryScreen,
+<<<<<<< HEAD
+=======
+    remember: ruRemember,
+>>>>>>> dd26ad7 (lib)
 
   },
   ua: {
@@ -142,6 +157,10 @@ const resources = {
     enterBookScreen: uaEnterBookScreen,
     returnBookScreen: uaReturnBookScreen,
     bookHistoryScreen: uaBookHistoryScreen,
+<<<<<<< HEAD
+=======
+    remember: uaRemember,
+>>>>>>> dd26ad7 (lib)
   },
 };
 

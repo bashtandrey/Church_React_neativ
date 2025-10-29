@@ -1,0 +1,6 @@
+framework module Pods_ChurchRiverofLife {
+  umbrella header "Pods-ChurchRiverofLife-umbrella.h"
+
+  export *
+  module * { export * }
+}

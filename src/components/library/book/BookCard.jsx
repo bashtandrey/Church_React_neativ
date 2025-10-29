@@ -67,7 +67,11 @@ const BookCard = ({ bookdata, reLoad }) => {
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
           <Text style={styles.serial}>№ {bookdata.serial}</Text>
-          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+          <Text
+            style={styles.title}
+            numberOfLines={expanded ? undefined : 1}
+            ellipsizeMode={expanded ? undefined : "tail"}
+          >
             {bookdata.nameBook}
           </Text>
         </View>
@@ -93,25 +97,43 @@ const BookCard = ({ bookdata, reLoad }) => {
       </View>
 
       {/* 🔹 Индикатор разворота */}
-      {(isLibrarryEditor || isLibrarryAdmin) && (
-        <>
-          <View style={{ alignItems: "center" }}>
-            <Ionicons
-              name={expanded ? "chevron-up-outline" : "chevron-down-outline"}
-              size={20}
-              color="#666"
-            />
-          </View>
+      <View style={{ alignItems: "center" }}>
+        <Ionicons
+          name={expanded ? "chevron-up-outline" : "chevron-down-outline"}
+          size={20}
+          color="#666"
+        />
+      </View>
 
-          {expanded && (
-            <View style={styles.infoBlock}>
-              <Text style={styles.textSmall}>
-                {t("bookCard.field.publishingHouse")}:{" "}
-                <Text style={styles.textBold}>
-                  {bookdata.publishingHouse || "—"}
-                </Text>
+      {expanded && (
+        <View style={styles.infoBlock}>
+          <Text style={styles.textSmall}>
+            {t("bookCard.field.publishingHouse")}:{" "}
+            <Text style={styles.textBold}>
+              {bookdata.publishingHouse || "—"}
+            </Text>
+          </Text>
+
+          <Text style={styles.textSmall}>
+            {t("bookCard.field.year")}:{" "}
+            <Text style={styles.textBold}>
+              {bookdata.publishingYear || "—"}
+            </Text>
+          </Text>
+
+          {bookdata.description ? (
+            <Text style={styles.textDescription}>{bookdata.description}</Text>
+          ) : null}
+          {(isLibrarryEditor || isLibrarryAdmin) && isIssued && holder && (
+            <Text style={styles.holderText}>
+              📘 {t("bookCard.field.holder")}:{" "}
+              <Text style={styles.textBold}>
+                {holder.firstName} {holder.lastName}
               </Text>
+            </Text>
+          )}
 
+<<<<<<< HEAD
               <Text style={styles.textSmall}>
                 {t("bookCard.field.year")}:{" "}
                 <Text style={styles.textBold}>
@@ -180,45 +202,83 @@ const BookCard = ({ bookdata, reLoad }) => {
                       <Ionicons name="time-outline" size={20} color="#8E8E93" />
                     </Pressable>
                   </>
+=======
+          {/* 🔹 Кнопки действий */}
+          <View style={styles.actionRow}>
+            {isLibrarryEditor && (
+              <>
+                {isIssued ? (
+                  <Pressable
+                    style={styles.actionBtn}
+                    onPress={() =>
+                      navigation.navigate("ReturnBook", {
+                        book: bookdata,
+                      })
+                    }
+                  >
+                    <Ionicons name="exit-outline" size={20} color="#06D6A0" />
+                  </Pressable>
+                ) : (
+                  <Pressable
+                    style={styles.actionBtn}
+                    onPress={() =>
+                      navigation.navigate("EnterBook", {
+                        book: bookdata,
+                      })
+                    }
+                  >
+                    <Ionicons name="enter-outline" size={20} color="#118AB2" />
+                  </Pressable>
+>>>>>>> dd26ad7 (lib)
                 )}
-                {isLibrarryAdmin && (
-                  <>
-                    <ModalTrigger
-                      opener={(open) => (
-                        <Pressable style={styles.actionBtn} onPress={open}>
-                          <Ionicons
-                            name="create-outline"
-                            size={20}
-                            color="#007AFF"
-                          />
-                        </Pressable>
-                      )}
-                    >
-                      {({ close }) => (
-                        <SaveBookModal
-                          visible
-                          book={bookdata}
-                          onClose={close}
-                          reLoad={reLoad}
-                        />
-                      )}
-                    </ModalTrigger>
-                    <Pressable
-                      style={styles.actionBtn}
-                      onPress={() => handelDelete(bookdata)}
-                    >
+                {bookdata.history && (
+                  <Pressable
+                    style={styles.actionBtn}
+                    onPress={() =>
+                      navigation.navigate("BookHistoryFromBookScreen", {
+                        bookId: bookdata.id,
+                      })
+                    }
+                  >
+                    <Ionicons name="time-outline" size={20} color="#8E8E93" />
+                  </Pressable>
+                )}
+              </>
+            )}
+            {isLibrarryAdmin && (
+              <>
+                <ModalTrigger
+                  opener={(open) => (
+                    <Pressable style={styles.actionBtn} onPress={open}>
                       <Ionicons
-                        name="trash-outline"
+                        name="create-outline"
                         size={20}
-                        color="#FF3B30"
+                        color="#007AFF"
                       />
                     </Pressable>
-                  </>
+                  )}
+                >
+                  {({ close }) => (
+                    <SaveBookModal
+                      visible
+                      book={bookdata}
+                      onClose={close}
+                      reLoad={reLoad}
+                    />
+                  )}
+                </ModalTrigger>
+                {!bookdata.history && (
+                  <Pressable
+                    style={styles.actionBtn}
+                    onPress={() => handelDelete(bookdata)}
+                  >
+                    <Ionicons name="trash-outline" size={20} color="#FF3B30" />
+                  </Pressable>
                 )}
-              </View>
-            </View>
-          )}
-        </>
+              </>
+            )}
+          </View>
+        </View>
       )}
     </Pressable>
   );

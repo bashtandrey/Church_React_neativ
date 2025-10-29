@@ -1,0 +1,32 @@
+{
+  "titleGetLogin": "Отримати логін",
+  "subtitleEmailPrompt": "Введіть e-mail — надішлемо 6-значний код для отримання логіна.",
+  "titleEnterCode": "Введіть код",
+  "subtitleCodeSent": "Ми надіслали 6-значний код на {{email}}.",
+  "placeholders": {
+    "email": "email@example.com"
+  },
+  "buttons": {
+    "sendCode": "Надіслати код",
+    "verifyCode": "Підтвердити код"
+  },
+  "links": {
+    "backToLogin": "Назад до входу",
+    "home": "Головна",
+    "resend": "Надіслати код ще раз",
+    "resendIn": "Повтор через {{s}}с",
+    "changeEmail": "Змінити e-mail"
+  },
+  "errors": {
+    "emailInvalid": "Введіть коректний e-mail",
+    "codeInvalid": "Введіть 6 цифр"
+  },
+  "toast": {
+    "checkEmailTitle": "Перевірте пошту",
+    "failedTitle": "Не вдалося",
+    "loginFoundTitle": "Логін знайдено",
+    "loginFoundText": "Логін підставлено на екрані входу.",
+    "invalidCodeTitle": "Невірний код",
+    "codeResentTitle": "Код надіслано повторно"
+  }
+}

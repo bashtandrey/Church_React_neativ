@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,14 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import styles, { COLORS } from "./authStyles";
 import { signIn } from "@/api/authAPI";
 import { useUser } from "@/context/UserContext";
-
 const LoginScreen = () => {
+  const route = useRoute();
+  const prefill = route.params?.loginPrefill ?? "";
+
   const navigation = useNavigation();
   const { setUser } = useUser();
 
@@ -29,7 +31,12 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const canSubmit = login.trim().length > 0 && password.length >= 3 && !loading;
-
+  useEffect(() => {
+    if (route.params?.loginPrefill) {
+      setLogin(route.params.loginPrefill);
+      navigation.setParams({ loginPrefill: undefined });
+    }
+  }, [route.params?.loginPrefill]);
   const handleLogin = () => {
     if (!canSubmit) return;
     setLoading(true);
@@ -99,7 +106,12 @@ const LoginScreen = () => {
             {errors.login ? (
               <Text style={styles.errorText}>{errors.login}</Text>
             ) : null}
-
+            <Pressable
+              style={styles.footerItem}
+              onPress={() => navigation.navigate("RememberLogin")}
+            >
+              <Text style={styles.link}>Remember Login.</Text>
+            </Pressable>
             {/* Password */}
             <Text style={styles.inputLabel}>Password</Text>
             <View
@@ -140,7 +152,12 @@ const LoginScreen = () => {
             {errors.general ? (
               <Text style={styles.errorText}>{errors.general}</Text>
             ) : null}
-
+            <Pressable
+              style={styles.footerItem}
+              onPress={() => navigation.navigate("ForgotPassword")}
+            >
+              <Text style={styles.link}>Remember Password.</Text>
+            </Pressable>
             {/* Button */}
             <Pressable
               onPress={handleLogin}
@@ -163,7 +180,10 @@ const LoginScreen = () => {
             </Pressable>
 
             <View style={styles.footer}>
-              <Pressable onPress={() => navigation.navigate("Welcome")}>
+              <Pressable
+                style={styles.footerItem}
+                onPress={() => navigation.navigate("Welcome")}
+              >
                 <Text style={styles.link}>Go back</Text>
               </Pressable>
             </View>

@@ -1,0 +1,32 @@
+{
+  "titleGetLogin": "Get Login",
+  "subtitleEmailPrompt": "Enter your email — we'll send a 6-digit code to retrieve your login.",
+  "titleEnterCode": "Enter Code",
+  "subtitleCodeSent": "We sent a 6-digit code to {{email}}.",
+  "placeholders": {
+    "email": "email@example.com"
+  },
+  "buttons": {
+    "sendCode": "Send code",
+    "verifyCode": "Verify code"
+  },
+  "links": {
+    "backToLogin": "Back to Login",
+    "home": "Home",
+    "resend": "Resend code",
+    "resendIn": "Resend in {{s}}s",
+    "changeEmail": "Change email"
+  },
+  "errors": {
+    "emailInvalid": "Enter a valid email",
+    "codeInvalid": "Enter 6 digits"
+  },
+  "toast": {
+    "checkEmailTitle": "Check your email",
+    "failedTitle": "Failed",
+    "loginFoundTitle": "Login found",
+    "loginFoundText": "Your login is prefilled on the Login screen.",
+    "invalidCodeTitle": "Invalid code",
+    "codeResentTitle": "Code re-sent"
+  }
+}

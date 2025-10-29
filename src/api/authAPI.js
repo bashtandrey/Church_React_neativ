@@ -73,3 +73,50 @@ export async function assignUserToGroup(newUserId, selectedGroupId) {
     }
   );
 }
+export async function requestPasswordReset(email) {
+  const res = await apiRequest(`${apiAuth}requestResetPassword`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email }),
+  });
+  const data = await safeJson(res);
+  if (!res.ok) throw new Error(data?.message || "Request failed");
+  return { rid: data.rid, message: data.message };
+}
+
+export async function verifyResetCode(rid, code) {
+  const res = await apiRequest(`${apiAuth}verify-code`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ rid, code }),
+  });
+
+  const data = await safeJson(res);
+  if (!res.ok) {
+    throw new Error(data?.message || "Invalid code");
+  }
+
+  return {
+    login: data?.login ?? null,
+    message: data?.message ?? "Code verified",
+  };
+}
+
+
+export async function resetPasswordWithCode(rid, code, newPassword) {
+  const res = await apiRequest(`${apiAuth}reset-by-code`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ rid, code, newPassword }),
+  });
+  const data = await safeJson(res);
+  if (!res.ok) throw new Error(data?.message || "Reset failed");
+  return { message: data?.message || "Password updated" };
+}
+
+async function safeJson(res) {
+  try { return await res.json(); } catch { return {}; }
+}
