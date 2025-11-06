@@ -1,0 +1,15 @@
+{
+  "signIn": "Sign in",
+  "login": "Login",
+  "loginPlaceholder": "Enter your login",
+  "password": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "rememberLogin": "Forgot Login",
+  "forgotPassword": "Forgot Password",
+  "loginFailed": "Login failed. Try again.",
+  "signingIn": "Signing in…",
+  "loginButton": "Login",
+  "goBack": "Go Back",
+  "hide": "Hide",
+  "show": "Show"
+}

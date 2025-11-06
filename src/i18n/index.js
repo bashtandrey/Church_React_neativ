@@ -84,6 +84,10 @@ import uaRemember from "@/locales/ua/remember.json";
 import enRemember from "@/locales/en/remember.json";
 import ruRemember from "@/locales/ru/remember.json";
 
+import enLoginScreen from "@/locales/en/loginScreen.json";
+import ruLoginScreen from "@/locales/ru/loginScreen.json";
+import uaLoginScreen from "@/locales/ua/loginScreen.json";
+
 >>>>>>> dd26ad7 (lib)
 const resources = {
   en: {
@@ -109,7 +113,6 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: enRemember,
->>>>>>> dd26ad7 (lib)
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -134,7 +137,6 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: ruRemember,
->>>>>>> dd26ad7 (lib)
 
   },
   ua: {
@@ -160,7 +162,6 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: uaRemember,
->>>>>>> dd26ad7 (lib)
   },
 };
 

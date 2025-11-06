@@ -1,0 +1,15 @@
+{
+  "signIn": "Увійти",
+  "login": "Логін",
+  "loginPlaceholder": "Введіть ваш логін",
+  "password": "Пароль",
+  "passwordPlaceholder": "Введіть ваш пароль",
+  "rememberLogin": "Забули логін",
+  "forgotPassword": "Забули пароль?",
+  "loginFailed": "Помилка входу. Спробуйте ще раз.",
+  "signingIn": "Вхід в систему...",
+  "loginButton": "Логін",
+  "goBack": "Назад",
+  "hide": "Сховати",
+  "show": "Показати"
+}
