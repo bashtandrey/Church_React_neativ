@@ -88,6 +88,10 @@ import enLoginScreen from "@/locales/en/loginScreen.json";
 import ruLoginScreen from "@/locales/ru/loginScreen.json";
 import uaLoginScreen from "@/locales/ua/loginScreen.json";
 
+import enYouTubeScreen from "@/locales/en/youTubeScreen.json";
+import ruYouTubeScreen from "@/locales/ru/youTubeScreen.json";
+import uaYouTubeScreen from "@/locales/ua/youTubeScreen.json";
+
 >>>>>>> dd26ad7 (lib)
 const resources = {
   en: {
@@ -113,6 +117,7 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: enRemember,
+    loginScreen: enLoginScreen
   },
   ru: {
     aboutApp: ruAboutApp,
@@ -137,6 +142,7 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: ruRemember,
+    loginScreen: ruLoginScreen
 
   },
   ua: {
@@ -162,6 +168,7 @@ const resources = {
 <<<<<<< HEAD
 =======
     remember: uaRemember,
+    loginScreen: uaLoginScreen
   },
 };
 

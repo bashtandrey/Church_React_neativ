@@ -92,7 +92,12 @@ const VideoSaveForm = ({ onClose, reLoad, video }) => {
           style={styles.preview}
           javaScriptEnabled
           originWhitelist={["*"]}
-          source={{ uri: youTubeURL }}
+          source={{ 
+            uri: youTubeURL,
+            headers: {
+              Referer: "https://server.churchriveroflife.com/",
+            }, 
+          }}
           onError={(e) => console.log("Ошибка загрузки:", e.nativeEvent)}
         />
       )}

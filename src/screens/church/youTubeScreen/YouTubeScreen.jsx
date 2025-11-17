@@ -11,8 +11,10 @@ import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { fetchVideo } from "@/api/videoAPI";
 import { useUser } from "@/context/UserContext";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";
-
+import i18n from "@/i18n";
+import { useTranslation } from "react-i18next";
 const YouTubeScreen = () => {
+  const { t } = useTranslation("youTubeScreen");
   const [contentData, setContentData] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -40,7 +42,7 @@ const YouTubeScreen = () => {
               onPress={() => guard(() => setShowEditModal(true))}
             >
               <Ionicons name="add-circle-outline" size={24} color="#007AFF" />
-              <Text style={styles.createText}>Create Vide</Text>
+              <Text style={styles.createText}>{t("button.create_video")}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -72,7 +74,7 @@ const YouTubeScreen = () => {
               alignItems: "center",
             }}
           >
-            <Text>Закрыть</Text>
+            <Text>{t("button.close")}</Text>
           </Pressable>
         </View>
       </Modal>

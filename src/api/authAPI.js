@@ -104,7 +104,6 @@ export async function verifyResetCode(rid, code) {
   };
 }
 
-
 export async function resetPasswordWithCode(rid, code, newPassword) {
   const res = await apiRequest(`${apiAuth}reset-by-code`, {
     method: "POST",
@@ -118,5 +117,9 @@ export async function resetPasswordWithCode(rid, code, newPassword) {
 }
 
 async function safeJson(res) {
-  try { return await res.json(); } catch { return {}; }
+  try {
+    return await res.json();
+  } catch {
+    return {};
+  }
 }

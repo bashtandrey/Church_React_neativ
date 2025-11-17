@@ -3,8 +3,11 @@ import { FlatList, Text, TouchableOpacity } from "react-native";
 import moment from "moment";
 import VideoCard from "@/components/video/videoCard/VideoCard";
 import styles from "./VideoListCardStyles";
+import i18n from "@/i18n";
+import { useTranslation } from "react-i18next";
 
 const VideoListCard = ({ showActions, contentData, reLoad }) => {
+  const { t } = useTranslation("youTubeScreen");
   const [refreshing, setRefreshing] = useState(false);
   const currentYear = moment().format("YYYY");
   const currentMonth = moment().format("MM");
@@ -86,9 +89,7 @@ const VideoListCard = ({ showActions, contentData, reLoad }) => {
 
             months[monthNum].videos
               .sort((a, b) =>
-                moment(b.date, "MM/DD/YYYY").diff(
-                  moment(a.date, "MM/DD/YYYY")
-                )
+                moment(b.date, "MM/DD/YYYY").diff(moment(a.date, "MM/DD/YYYY"))
               )
               .forEach((video) => {
                 flat.push({ type: "video", video });
@@ -147,8 +148,7 @@ const VideoListCard = ({ showActions, contentData, reLoad }) => {
       data={flattened}
       keyExtractor={(item, index) => {
         if (item.type === "year") return `year-${item.year}`;
-        if (item.type === "month")
-          return `month-${item.year}-${item.monthNum}`;
+        if (item.type === "month") return `month-${item.year}-${item.monthNum}`;
         if (item.type === "video") return `video-${item.video.id}`;
         return index.toString();
       }}
@@ -156,9 +156,7 @@ const VideoListCard = ({ showActions, contentData, reLoad }) => {
       contentContainerStyle={styles.listContainer}
       refreshing={refreshing}
       onRefresh={handleRefresh}
-      ListEmptyComponent={
-        <Text style={styles.emptyText}>Нет видео</Text>
-      }
+      ListEmptyComponent={<Text style={styles.emptyText}>{t("videoList.empty")}</Text>}
     />
   );
 };
