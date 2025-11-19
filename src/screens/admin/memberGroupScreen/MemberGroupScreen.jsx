@@ -6,8 +6,8 @@ import {
   ActivityIndicator,
   TextInput,
   Pressable,
-  SafeAreaView,
 } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 
 import MemberGroupList from "@/components/memberGroup/memberGroupList/MemberGroupList";
@@ -77,87 +77,81 @@ const MemberGroupScreen = () => {
   }, [memberGroups, search]);
 
   return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          {/* HEADER */}
-          <View style={styles.headerRow}>
-            <Text style={styles.title}>Member Group</Text>
+    <View style={styles.container}>
+      {/* HEADER */}
+      <View style={styles.headerRow}>
+        <Text style={styles.title}>Member Group</Text>
 
-            <View style={styles.headerRow}>
-              <ModalTrigger
-                opener={(open) => (
-                  <Pressable
-                    onPress={() => guard(open)}
-                    style={({ pressed }) => [
-                      styles.createBtn,
-                      pressed && styles.pressed,
-                    ]}
-                    android_ripple={{ color: "#e5e7eb", radius: 24 }}
-                  >
-                    <Ionicons name="add" size={20} color={COLORS.primary} />
-                    <Text style={styles.createBtnText}>Create</Text>
-                  </Pressable>
-                )}
+        <View style={styles.headerRow}>
+          <ModalTrigger
+            opener={(open) => (
+              <Pressable
+                onPress={() => guard(open)}
+                style={({ pressed }) => [
+                  styles.createBtn,
+                  pressed && styles.pressed,
+                ]}
+                android_ripple={{ color: "#e5e7eb", radius: 24 }}
               >
-                {({ close }) => (
-                  <SaveGroupModal
-                    visible
-                    onClose={close}
-                    onSubmit={handleCreateSubmit}
-                  />
-                )}
-              </ModalTrigger>
-            </View>
-          </View>
-
-          {/* SEARCH + COUNTER */}
-          <View style={styles.controls}>
-            <View style={styles.searchBox}>
-              <Ionicons
-                name="search-outline"
-                size={18}
-                color={COLORS.muted}
-                style={{ marginRight: 6 }}
+                <Ionicons name="add" size={20} color={COLORS.primary} />
+                <Text style={styles.createBtnText}>Create</Text>
+              </Pressable>
+            )}
+          >
+            {({ visible, close }) => (
+              <SaveGroupModal
+                visible={visible}
+                onClose={close}
+                onSubmit={handleCreateSubmit}
               />
-              <TextInput
-                value={search}
-                onChangeText={setSearch}
-                placeholder="Search by group, leader, member, phone"
-                placeholderTextColor={COLORS.muted}
-                style={styles.searchInput}
-                returnKeyType="search"
-              />
-              {search.length > 0 && (
-                <Pressable
-                  onPress={() => setSearch("")}
-                  hitSlop={8}
-                  style={({ pressed }) => pressed && { opacity: 0.6 }}
-                >
-                  <Ionicons
-                    name="close-circle"
-                    size={18}
-                    color={COLORS.muted}
-                  />
-                </Pressable>
-              )}
-            </View>
+            )}
+          </ModalTrigger>
+        </View>
+      </View>
 
-            <Text style={styles.counterText}>
-              {filteredGroups.length} of {memberGroups.length}
-            </Text>
-          </View>
-
-          {/* LIST */}
-          {loading ? (
-            <View style={styles.loadingWrap}>
-              <ActivityIndicator size="large" color={COLORS.primary} />
-              <Text style={styles.loadingText}>Loading groups…</Text>
-            </View>
-          ) : (
-            <MemberGroupList contentData={filteredGroups} reLoad={loadData} />
+      {/* SEARCH + COUNTER */}
+      <View style={styles.controls}>
+        <View style={styles.searchBox}>
+          <Ionicons
+            name="search-outline"
+            size={18}
+            color={COLORS.muted}
+            style={{ marginRight: 6 }}
+          />
+          <TextInput
+            value={search}
+            onChangeText={setSearch}
+            placeholder="Search by group, leader, member, phone"
+            placeholderTextColor={COLORS.muted}
+            style={styles.searchInput}
+            returnKeyType="search"
+          />
+          {search.length > 0 && (
+            <Pressable
+              onPress={() => setSearch("")}
+              hitSlop={8}
+              style={({ pressed }) => pressed && { opacity: 0.6 }}
+            >
+              <Ionicons name="close-circle" size={18} color={COLORS.muted} />
+            </Pressable>
           )}
         </View>
-      </SafeAreaView>
+
+        <Text style={styles.counterText}>
+          {filteredGroups.length} of {memberGroups.length}
+        </Text>
+      </View>
+
+      {/* LIST */}
+      {loading ? (
+        <View style={styles.loadingWrap}>
+          <ActivityIndicator size="large" color={COLORS.primary} />
+          <Text style={styles.loadingText}>Loading groups…</Text>
+        </View>
+      ) : (
+        <MemberGroupList contentData={filteredGroups} reLoad={loadData} />
+      )}
+    </View>
   );
 };
 

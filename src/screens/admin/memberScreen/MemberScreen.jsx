@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   TextInput,
   Pressable,
-  SafeAreaView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -93,7 +92,6 @@ const MemberScreen = () => {
   }, [members, search, statusFilter]);
 
   return (
-      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           {/* HEADER */}
           <View style={styles.headerRow}>
@@ -114,9 +112,9 @@ const MemberScreen = () => {
                 </Pressable>
               )}
             >
-              {({ close }) => (
+              {({ visible, close }) => (
                 <SaveMemberModal
-                  visible
+                  visible={visible}
                   onClose={close}
                   onSubmit={handleCreateSubmit}
                 />
@@ -194,7 +192,6 @@ const MemberScreen = () => {
             <MemberList contentData={filteredMembers} reLoad={loadData} />
           )}
         </View>
-      </SafeAreaView>
   );
 };
 

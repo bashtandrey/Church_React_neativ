@@ -5,34 +5,32 @@ import DailyReadingPlan from "@/components/bible/dailyReadingPlan/DailyReadingPl
 import PrayerCard from "@/components/prayerCard/PrayerCard";
 import VerseDayCard from "@/components/bible/verseDayCard/VerseDayCard";
 import styles from "./WelcomeScreenStyles";
-import i18n from "@/i18n/";
-
+import { useTranslation } from "react-i18next";
 const WelcomeScreen = () => {
+    const { t, i18n } = useTranslation("welcomeScreen");
+  
   const [refreshing, setRefreshing] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    // тут можешь сделать await fetchData()
     setTimeout(() => {
-      setRefreshKey((prev) => prev + 1); // 🔹 заставляем карточки перерисоваться
+      setRefreshKey((prev) => prev + 1);
       setRefreshing(false);
     }, 1000);
   };
-
-  const title = i18n.language === "ru" ? "Добро пожаловать!" : "Welcome!";
 
   const data = [
     {
       key: "title",
       render: () => (
         <Text style={styles.title}>
-          {title}
+          {t("title")}
           {"\n Church River of Life!"}
         </Text>
       ),
     },
-    { key: "verse", render: () => <VerseDayCard refreshKey={refreshKey}/> },
+    { key: "verse", render: () => <VerseDayCard refreshKey={refreshKey} /> },
     { key: "dailyPlan", render: () => <DailyReadingPlan /> },
     { key: "prayer", render: () => <PrayerCard refreshKey={refreshKey} /> },
   ];

@@ -1,0 +1,8 @@
+{
+  "title": "Молитовна картка",
+  "familiesLabel": "Сім'ї:\n",
+  "copySuccessTitle": "Скопійовано",
+  "copySuccessMessage": "Молитовну картку скопійовано в буфер обміну",
+  "copyErrorTitle": "Помилка",
+  "copyErrorMessage": "Не вдалося скопіювати картку"
+}

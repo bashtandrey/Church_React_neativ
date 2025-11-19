@@ -12,6 +12,7 @@ export const COLORS = {
 export default StyleSheet.create({
   safe: {
     backgroundColor: COLORS.headerBg,
+    paddingTop: Platform.OS === "android" ? 25 : 0,
   },
   header: {
     backgroundColor: COLORS.headerBg,

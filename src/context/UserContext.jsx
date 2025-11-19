@@ -13,6 +13,7 @@ const UserContext = createContext();
 
 const USER_KEY = "user";
 const TOKEN_KEY = "accessToken";
+const REFRESH_TOKEN_KEY = "refreshToken";
 
 export const UserProvider = ({ children }) => {
   const [user, setUserState] = useState(null);
@@ -37,13 +38,19 @@ export const UserProvider = ({ children }) => {
   const logOut = useCallback(async () => {
     try {
       await logOutAPI();
+
       await SecureStore.deleteItemAsync(USER_KEY);
       await SecureStore.deleteItemAsync(TOKEN_KEY);
+      await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+      
       setUserState(null);
+      
     } catch (e) {
       console.error("Failed to logout", e);
     }
   }, []);
+
+
 
   // регистрируем глобальный logout helper
   useEffect(() => {
@@ -55,13 +62,23 @@ export const UserProvider = ({ children }) => {
     try {
       if (userData) {
         await SecureStore.setItemAsync(USER_KEY, JSON.stringify(userData));
+
         if (userData.accessToken) {
           await SecureStore.setItemAsync(TOKEN_KEY, userData.accessToken);
         }
+
+        if (userData.refreshToken) {
+          await SecureStore.setItemAsync(
+            REFRESH_TOKEN_KEY,
+            userData.refreshToken
+          );
+        }
+
         setUserState(userData);
       } else {
         await SecureStore.deleteItemAsync(USER_KEY);
         await SecureStore.deleteItemAsync(TOKEN_KEY);
+        await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
         setUserState(null);
       }
     } catch (e) {

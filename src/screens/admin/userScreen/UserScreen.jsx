@@ -7,11 +7,11 @@ import {
   ActivityIndicator,
   TextInput,
   Pressable,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import ModalTrigger from "@/components/common/ModalTrigger";
 
 import UserListCard from "@/components/users/userListCard/UserListCard";
 import UserCreateForm from "@/components/users/userCreateForm/UserCreateForm";
@@ -24,7 +24,6 @@ import { useReviewerGuard } from "@/hooks/useReviewerGuard";
 
 const UserScreen = () => {
   const [users, setUsers] = useState([]);
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const { isAdmin } = useUser();
@@ -68,7 +67,8 @@ const UserScreen = () => {
         if (statusFilter === "ACTIVE" && !u.enabled) return false;
         if (statusFilter === "BLOCKED" && !!u.enabled) return false;
         if (statusFilter === "UNVERIFIED" && !!u.emailVerified) return false;
-        if (statusFilter === "WITHOUT_MEMBER" && u.memberDTO!=null) return false;
+        if (statusFilter === "WITHOUT_MEMBER" && u.memberDTO != null)
+          return false;
         return true;
       })
       .filter((u) => {
@@ -87,26 +87,37 @@ const UserScreen = () => {
       });
   }, [users, search, statusFilter]);
 
-  const handleCreatePress = () => setShowCreateModal(true);
-
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <View style={styles.container}>
         {/* HEADER */}
         <View style={styles.headerRow}>
           <Text style={styles.title}>Users</Text>
-
-          <Pressable
-            onPress={() => guard(() => handleCreatePress())}
-            style={({ pressed }) => [
-              styles.createBtn,
-              pressed && styles.pressed,
-            ]}
-            android_ripple={{ color: "#e5e7eb", radius: 24 }}
-          >
-            <Ionicons name="add" size={20} color={COLORS.primary} />
-            <Text style={styles.createBtnText}>Create</Text>
-          </Pressable>
+          <View style={styles.headerRow}>
+            <ModalTrigger
+              opener={(open) => (
+                <Pressable
+                  onPress={() => guard(open)}
+                  style={({ pressed }) => [
+                    styles.createBtn,
+                    pressed && styles.pressed,
+                  ]}
+                  android_ripple={{ color: "#e5e7eb", radius: 24 }}
+                >
+                  <Ionicons name="add" size={20} color={COLORS.primary} />
+                  <Text style={styles.createBtnText}>Create</Text>
+                </Pressable>
+              )}
+            >
+              {({ visible, close }) => (
+                <UserCreateForm
+                  visible={visible}
+                  onClose={close}
+                  reLoad={loadData}
+                />
+              )}
+            </ModalTrigger>
+          </View>
         </View>
 
         {/* SEARCH + FILTERS */}
@@ -171,7 +182,6 @@ const UserScreen = () => {
             {filteredUsers.length} of {users.length}
           </Text>
         </View>
-
         {/* LIST */}
         {loading ? (
           <View style={styles.loadingWrap}>
@@ -182,36 +192,7 @@ const UserScreen = () => {
           <UserListCard contentData={filteredUsers} reLoad={loadData} />
         )}
       </View>
-
-      {/* CREATE MODAL */}
-      <Modal visible={showCreateModal} animationType="slide" transparent>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.modalWrap}
-        >
-          <Pressable
-            style={styles.backdrop}
-            onPress={() => setShowCreateModal(false)}
-          />
-          <View style={styles.modalCard}>
-            <UserCreateForm
-              onClose={() => setShowCreateModal(false)}
-              reLoad={loadData}
-            />
-            <Pressable
-              onPress={() => setShowCreateModal(false)}
-              style={({ pressed }) => [
-                styles.modalCloseBtn,
-                pressed && styles.pressed,
-              ]}
-              android_ripple={{ color: "#e5e7eb" }}
-            >
-              <Text style={styles.modalCloseText}>Close</Text>
-            </Pressable>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,6 +1,19 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  verseContainer: {
+    padding: 16,
+    marginVertical: 12,
+    backgroundColor: "#f0f4ff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+    width: "100%",
+  },
+
   card: {
     alignItems: "flex-start",
     backgroundColor: "#f3f3f3",
@@ -14,18 +27,57 @@ export default StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: "#eee",
-    position: "relative",
-    marginVertical: 10,
     width: "100%",
+  },
+
+  pressed: { opacity: 0.85 },
+
+  // заголовок в шапке карточки
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+
+  title: {
+    flex: 1,
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 10,
+    color: "#007AFF",
+    textAlign: "center",
+  },
+
+  iconRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  iconButton: {
+    backgroundColor: "#fff",
+    padding: 8,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  copyButton: {
+    marginRight: 8,
   },
 
   greeting: {
     fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 10,
     textAlign: "center",
-    color: "#007AFF",
+    marginBottom: 10,
+    lineHeight: 22,
+    fontWeight: "bold",
+    alignSelf: "stretch",
   },
+
   text: {
     fontSize: 16,
     textAlign: "center",
@@ -34,8 +86,6 @@ export default StyleSheet.create({
   },
 
   family: {
-    flexDirection: "row",
-    alignItems: "flex-start",
     width: "100%",
     fontSize: 16,
     fontWeight: "600",
@@ -65,32 +115,5 @@ export default StyleSheet.create({
     fontSize: 13,
     textAlign: "center",
     color: "#666",
-  },
-  verseContainer: {
-    padding: 16,
-    marginVertical: 12,
-    backgroundColor: "#f0f4ff", // нежный голубой фон
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3, // для Android
-    alignItems: "flex-start", // текст идет слева и переносится
-    width: "100%", // контейнер занимает всю ширину
-  },
-  editButton: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    backgroundColor: "#fff",
-    padding: 8,
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    zIndex: 10,
   },
 });

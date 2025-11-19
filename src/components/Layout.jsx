@@ -3,8 +3,8 @@ import { View, StyleSheet } from "react-native";
 import Header from "@/components/header/Header";
 import SubMenuBar from "@/components/header/SubMenuBar";
 import Footer from "@/components/footer/Footer";
-
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Layout = ({ children }) => {
   const [selectedMenu, setSelectedMenu] = useState(null);
@@ -14,37 +14,39 @@ const Layout = ({ children }) => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["bottom"]}>
       <Header
         selectedMenu={selectedMenu}
         setSelectedMenu={setSelectedMenu}
-
         hiddenScreens={hiddenScreens}
         setHiddenScreens={setHiddenScreens}
-
         disabledScreens={disabledScreens}
         setDisabledScreens={setDisabledScreens}
       />
-      <SubMenuBar 
-      selectedMenu={selectedMenu} 
-      navigation={navigation}
-      hiddenScreens={hiddenScreens}
-      disabledScreens={disabledScreens}
-       />
+
+      <SubMenuBar
+        selectedMenu={selectedMenu}
+        navigation={navigation}
+        hiddenScreens={hiddenScreens}
+        disabledScreens={disabledScreens}
+      />
+
       <View style={styles.content}>{children}</View>
+
       <Footer />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    backgroundColor: "#fff",
   },
   content: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
   },
 });
 

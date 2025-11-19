@@ -5,7 +5,6 @@ import {
   Pressable,
   StatusBar,
   Platform,
-  SafeAreaView,
   ScrollView,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -154,9 +153,6 @@ const Header = ({
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <SafeAreaView
-        style={[styles.safe, { backgroundColor: COLORS.headerBg }]}
-      />
       <View style={[styles.header, shadowStyle]}>
         {/* ЛЕВО: Логотип + язык */}
         <View style={styles.left}>

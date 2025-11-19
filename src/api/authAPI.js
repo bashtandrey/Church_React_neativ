@@ -1,10 +1,15 @@
 import { apiRequest } from "./globalFuntions.js";
-import { registerAndSendPushToken } from "@/api/PushTokenService";
-
+import {
+  saveToken,
+  saveUser,
+  getUser,
+  saveRefreshToken,
+  getToken,
+  getRefreshToken,
+} from "./tokenStorage";
 const apiAuth = "/api/v1/auth/";
 
-import { saveToken, saveUser, getUser } from "./tokenStorage";
-
+// Login 
 export async function signIn(data) {
   const { login, password, onSuccess, onError } = data;
   try {
@@ -15,27 +20,81 @@ export async function signIn(data) {
       },
       body: JSON.stringify({ login, password }),
     });
+
     const userData = await response.json();
+
     if (userData.accessToken) {
       await saveToken(userData.accessToken);
     }
+
+    if (userData.refreshToken) {
+      await saveRefreshToken(userData.refreshToken);
+    }
+
     await saveUser(userData);
-    await registerAndSendPushToken({ userId: userData.id });
-    onSuccess?.(userData);
+
+    if (onSuccess) {
+      await onSuccess(userData);
+    }
+
     return userData;
   } catch (error) {
     onError?.(error);
   }
 }
+
+// Logout
 export async function logOutAPI() {
+
+  const accessToken = await getToken();
+  const refreshToken = await getRefreshToken();
+
+  // Нечего отправлять — просто выходим
+  if (!accessToken && !refreshToken) {
+    return;
+  }
+
   try {
     await apiRequest(apiAuth + "logOut", {
-      method: "GET",
-      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      body: JSON.stringify({ refreshToken }),
     });
   } catch (error) {
     console.error("authAPI: Ошибка при выходе:", error);
   }
+}
+export async function refreshAccessToken() {
+  const refreshToken = await getRefreshToken();
+  if (!refreshToken) {
+    throw new Error("No refresh token");
+  }
+
+  const res = await apiRequest(apiAuth + "refresh", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Refresh failed");
+  }
+
+  const data = await res.json();
+
+  if (data.accessToken) {
+    await saveToken(data.accessToken);
+  }
+  if (data.refreshToken) {
+    await saveRefreshToken(data.refreshToken);
+  }
+  await saveUser(data);
+  return data;
 }
 
 export async function getCurrentUser() {

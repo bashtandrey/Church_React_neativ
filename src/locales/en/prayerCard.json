@@ -1,0 +1,8 @@
+{
+  "title": "Prayer Card",
+  "familiesLabel": "Families:\n",
+  "copySuccessTitle": "Copied",
+  "copySuccessMessage": "Prayer card has been copied to clipboard",
+  "copyErrorTitle": "Error",
+  "copyErrorMessage": "Failed to copy prayer card"
+}

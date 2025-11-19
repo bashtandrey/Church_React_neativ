@@ -14,6 +14,7 @@ import {
 import { useRoute, useNavigation } from "@react-navigation/native";
 import styles, { COLORS } from "./authStyles";
 import { signIn } from "@/api/authAPI";
+import { registerAndSendPushToken } from "@/api/PushTokenService";
 import { useUser } from "@/context/UserContext";
 import Layout from "@/components/Layout";
 import { useTranslation } from "react-i18next";
@@ -42,6 +43,8 @@ const LoginScreen = () => {
       navigation.setParams({ loginPrefill: undefined });
     }
   }, [route.params?.loginPrefill]);
+
+
   const handleLogin = () => {
     if (!canSubmit) return;
     setLoading(true);
@@ -49,7 +52,8 @@ const LoginScreen = () => {
     signIn({
       login,
       password,
-      onSuccess: (userData) => {
+      onSuccess: async (userData) => {
+        await registerAndSendPushToken({ userId: userData.id });
         setUser(userData);
         setLoading(false);
         navigation.navigate("Welcome");

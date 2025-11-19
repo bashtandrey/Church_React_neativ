@@ -9,7 +9,7 @@ import * as Notifications from "expo-notifications";
 
 import { registerAndSendPushToken } from "@/api/PushTokenService";
 import { checkForAppUpdate } from "@/api/checkUpdate";
-import { UserProvider, useUser } from "@/context/UserContext";
+import { UserProvider, useUser,isAuthenticated } from "@/context/UserContext";
 
 import Toast from "react-native-toast-message";
 
@@ -35,17 +35,8 @@ import LibraryCardScreen from "@/screens/library/libraryCard/LibraryCardScreen";
 import ReturnBookFromReader from "@/screens/library/returnBookFromReader/ReturnBookFromReaderScreen";
 import BookHistoryFromBookScreen from "@/screens/library/bookHistoryFromBook/BookHistoryFromBookScreen";
 import BookHistoryFromLibraryCard from "@/screens/library/bookHistoryFromLibraryCard/BookHistoryFromLibraryCard";
-<<<<<<< HEAD
-
-
-
-ReturnBookFromReader;
-import { AppState, AppStateStatus } from "react-native";
-import RNRestart from "react-native-restart";
-=======
 import ForgotPasswordScreen from "@/screens/forgotPasswordScreen/ForgotPasswordScreen";
 import RememberLoginScreen from "@/screens/rememberLoginScreen/RememberLoginScreen";
->>>>>>> dd26ad7 (lib)
 
 import "@/i18n";
 
@@ -103,83 +94,83 @@ function PublicScreens(Stack) {
   );
 }
 
-<<<<<<< HEAD
-      {isAuthenticated && (
-        <>
-          <Stack.Screen
-            name="EventsChurchScreen"
-            component={EventsChurchScreen}
-            options={{ title: "Events Church" }}
-          />
-          <Stack.Screen
-            name="BookScreen"
-            component={BookScreen}
-            options={{ title: "Books" }}
-          />
-          
-          <Stack.Screen
-            name="BookHistoryFromBookScreen"
-            component={BookHistoryFromBookScreen}
-            options={{ title: "Book History" }}
-          />
-          <Stack.Screen
-            name="BookHistoryFromLibraryCard"
-            component={BookHistoryFromLibraryCard}
-            options={{ title: "Book History" }}
-          />
-          <Stack.Screen
-            name="EnterBook"
-            component={EnterBookScreen}
-            options={{ title: "Enter Book" }}
-          />
-          <Stack.Screen
-            name="ReturnBook"
-            component={ReturnBookScreen}
-            options={{ title: "Return Book" }}
-          />
-          <Stack.Screen
-            name="ReturnBookFromReader"
-            component={ReturnBookFromReader}
-            options={{ title: "Return Book" }}
-          />
-          <Stack.Screen
-            name="LibraryCardScreen"
-            component={LibraryCardScreen}
-            options={{ title: "Library Card" }}
-          />
-          <Stack.Screen
-            name="ManageGroup"
-            component={ManageGroupScreen}
-            options={{ title: "Manage Group" }}
-          />
-          <Stack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{ title: "Profile" }}
-          />
-          <Stack.Screen
-            name="ManageAdmin"
-            component={ManageAdminScreen}
-            options={{ title: "Manange Admin" }}
-          />
-          <Stack.Screen
-            name="DonateScreen"
-            component={DonateScreen}
-            options={{ title: "Donate" }}
-          />
-          <Stack.Screen
-            name="DonationEntryScreens"
-            component={DonationEntryScreens}
-            options={{ title: "Donation Entry" }}
-          />
-          <Stack.Screen
-            name="AddDonationEntryScreen"
-            component={AddDonationEntryScreen}
-            options={{ title: "Add Donation Entry" }}
-          />
-        </>
-      )}
-=======
+{
+  isAuthenticated && (
+    <>
+      <Stack.Screen
+        name="EventsChurchScreen"
+        component={EventsChurchScreen}
+        options={{ title: "Events Church" }}
+      />
+      <Stack.Screen
+        name="BookScreen"
+        component={BookScreen}
+        options={{ title: "Books" }}
+      />
+
+      <Stack.Screen
+        name="BookHistoryFromBookScreen"
+        component={BookHistoryFromBookScreen}
+        options={{ title: "Book History" }}
+      />
+      <Stack.Screen
+        name="BookHistoryFromLibraryCard"
+        component={BookHistoryFromLibraryCard}
+        options={{ title: "Book History" }}
+      />
+      <Stack.Screen
+        name="EnterBook"
+        component={EnterBookScreen}
+        options={{ title: "Enter Book" }}
+      />
+      <Stack.Screen
+        name="ReturnBook"
+        component={ReturnBookScreen}
+        options={{ title: "Return Book" }}
+      />
+      <Stack.Screen
+        name="ReturnBookFromReader"
+        component={ReturnBookFromReader}
+        options={{ title: "Return Book" }}
+      />
+      <Stack.Screen
+        name="LibraryCardScreen"
+        component={LibraryCardScreen}
+        options={{ title: "Library Card" }}
+      />
+      <Stack.Screen
+        name="ManageGroup"
+        component={ManageGroupScreen}
+        options={{ title: "Manage Group" }}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ title: "Profile" }}
+      />
+      <Stack.Screen
+        name="ManageAdmin"
+        component={ManageAdminScreen}
+        options={{ title: "Manange Admin" }}
+      />
+      <Stack.Screen
+        name="DonateScreen"
+        component={DonateScreen}
+        options={{ title: "Donate" }}
+      />
+      <Stack.Screen
+        name="DonationEntryScreens"
+        component={DonationEntryScreens}
+        options={{ title: "Donation Entry" }}
+      />
+      <Stack.Screen
+        name="AddDonationEntryScreen"
+        component={AddDonationEntryScreen}
+        options={{ title: "Add Donation Entry" }}
+      />
+    </>
+  );
+}
 function AuthStack() {
   return (
     <Stack.Navigator
@@ -196,7 +187,6 @@ function AuthStack() {
         component={LoginScreen}
         options={{ title: "Login" }}
       />
->>>>>>> dd26ad7 (lib)
     </Stack.Navigator>
   );
 }

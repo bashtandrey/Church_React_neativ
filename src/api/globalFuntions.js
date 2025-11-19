@@ -5,11 +5,10 @@ import Constants from "expo-constants";
 const TOKEN_KEY = "accessToken";
 const API_URL = Constants.expoConfig.extra.API_URL;
 
-
-export async function apiRequest(endpoint, options = {}) {
+export async function apiRequest(endpoint, options = {}, isRetry = false) {
   try {
-    console.log("globalFunctions: API Request:", API_URL + endpoint, options);
     const token = await SecureStore.getItemAsync(TOKEN_KEY);
+
     const headers = {
       ...(options.headers || {}),
     };
@@ -22,39 +21,95 @@ export async function apiRequest(endpoint, options = {}) {
       ...options,
       headers,
     });
+
     if (!response.ok) {
-      let errorData = { error: "Server error" };
+      let errorData = { error: "Server error", status: response.status };
 
       try {
         const errorBody = await response.json();
-        if (
-          errorBody &&
-          (errorBody.field || errorBody.code || errorBody.error)
-        ) {
+
+        // ожидаем от бэка { message, code, field? }
+        if (errorBody && (errorBody.code || errorBody.message || errorBody.error)) {
           errorData = {
+            status: response.status,
             field: errorBody.field,
             code: errorBody.code,
-            error: errorBody.error,
+            // нормализуем message
+            message: errorBody.message || errorBody.error || "Server error",
           };
         } else {
           errorData = {
-            error: errorBody.message || JSON.stringify(errorBody),
+            status: response.status,
+            message: errorBody ? JSON.stringify(errorBody) : "Server error",
           };
         }
       } catch (e) {
-        const fallbackText = await response.text();
-        errorData = { error: fallbackText || "Unknown error" };
+        const fallbackText = await response.text().catch(() => "");
+        errorData = {
+          status: response.status,
+          message: fallbackText || "Unknown error",
+        };
       }
 
+      // ====== обработка JWT-ошибок ======
+      if (
+        errorData.status === 401 &&
+        errorData.code &&
+        errorData.code.startsWith("JWT_")
+      ) {
+        // пробуем обработать через errorJWT (там refresh или logout)
+        const handled = await errorJWT(errorData);
+
+        // если токен обновили и мы ещё не пытались повторить запрос — повторяем один раз
+        if (handled && !isRetry) {
+          const newToken = await SecureStore.getItemAsync(TOKEN_KEY);
+          const retryHeaders = {
+            ...(options.headers || {}),
+          };
+          if (newToken) {
+            retryHeaders["Authorization"] = `Bearer ${newToken}`;
+          }
+
+          const retryResponse = await fetch(API_URL + endpoint, {
+            ...options,
+            headers: retryHeaders,
+          });
+
+          if (!retryResponse.ok) {
+            // повторный запрос тоже упал — разбираем ошибку как обычно
+            let retryError = { error: "Server error", status: retryResponse.status };
+            try {
+              const body = await retryResponse.json();
+              retryError = {
+                status: retryResponse.status,
+                code: body.code,
+                field: body.field,
+                message: body.message || body.error || "Server error",
+              };
+            } catch {
+              const txt = await retryResponse.text().catch(() => "");
+              retryError = {
+                status: retryResponse.status,
+                message: txt || "Unknown error",
+              };
+            }
+            throw retryError;
+          }
+
+          return retryResponse;
+        }
+
+        // если handled = false (refresh не удался / logout) — просто кидаем ошибку дальше
+        throw errorData;
+      }
+
+      // не JWT-ошибка — кидаем как есть
       throw errorData;
     }
 
     return response;
   } catch (error) {
-    if (error.code === "JWT") {
-      errorJWT();
-    }
-    // console.error("globalFunctions: API request error:", error);
+    console.error("globalFunctions: API request error:", error);
     throw error;
   }
 }

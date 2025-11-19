@@ -133,76 +133,6 @@ const BookCard = ({ bookdata, reLoad }) => {
             </Text>
           )}
 
-<<<<<<< HEAD
-              <Text style={styles.textSmall}>
-                {t("bookCard.field.year")}:{" "}
-                <Text style={styles.textBold}>
-                  {bookdata.publishingYear || "—"}
-                </Text>
-              </Text>
-
-              {bookdata.description ? (
-                <Text style={styles.textDescription}>
-                  {bookdata.description}
-                </Text>
-              ) : null}
-
-              {isIssued && holder && (
-                <Text style={styles.holderText}>
-                  📘 {t("bookCard.field.holder")}:{" "}
-                  <Text style={styles.textBold}>
-                    {holder.firstName} {holder.lastName}
-                  </Text>
-                </Text>
-              )}
-
-              {/* 🔹 Кнопки действий */}
-              <View style={styles.actionRow}>
-                {isLibrarryEditor && (
-                  <>
-                    {isIssued ? (
-                      <Pressable
-                        style={styles.actionBtn}
-                        onPress={() =>
-                          navigation.navigate("ReturnBook", {
-                            book: bookdata,
-                          })
-                        }
-                      >
-                        <Ionicons
-                          name="exit-outline"
-                          size={20}
-                          color="#06D6A0"
-                        />
-                      </Pressable>
-                    ) : (
-                      <Pressable
-                        style={styles.actionBtn}
-                        onPress={() =>
-                          navigation.navigate("EnterBook", {
-                            book: bookdata,
-                          })
-                        }
-                      >
-                        <Ionicons
-                          name="enter-outline"
-                          size={20}
-                          color="#118AB2"
-                        />
-                      </Pressable>
-                    )}
-                    <Pressable
-                      style={styles.actionBtn}
-                      onPress={() =>
-                        navigation.navigate("BookHistoryFromBookScreen", {
-                          bookId: bookdata.id,
-                        })
-                      }
-                    >
-                      <Ionicons name="time-outline" size={20} color="#8E8E93" />
-                    </Pressable>
-                  </>
-=======
           {/* 🔹 Кнопки действий */}
           <View style={styles.actionRow}>
             {isLibrarryEditor && (
@@ -229,7 +159,6 @@ const BookCard = ({ bookdata, reLoad }) => {
                   >
                     <Ionicons name="enter-outline" size={20} color="#118AB2" />
                   </Pressable>
->>>>>>> dd26ad7 (lib)
                 )}
                 {bookdata.history && (
                   <Pressable
