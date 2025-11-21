@@ -121,28 +121,27 @@ export async function getMemberList() {
   }
 }
 export async function addIncome(programId, amount, memberId, description) {
-  
   let url;
-  if (memberId!==null && memberId!==undefined) {
+  if (memberId !== null && memberId !== undefined) {
     url =
-    api +
-    "/" +
-    programId +
-    "/income?amount=" +
-    encodeURIComponent(amount) +
-    "&memberId=" +
-    encodeURIComponent(memberId) +
-    "&description=" +
-    encodeURIComponent(description);
+      api +
+      "/" +
+      programId +
+      "/income?amount=" +
+      encodeURIComponent(amount) +
+      "&memberId=" +
+      encodeURIComponent(memberId) +
+      "&description=" +
+      encodeURIComponent(description);
   } else {
     url =
-    api +
-    "/" +
-    programId +
-    "/income?amount=" +
-    encodeURIComponent(amount) +
-    "&description=" +
-    encodeURIComponent(description);
+      api +
+      "/" +
+      programId +
+      "/income?amount=" +
+      encodeURIComponent(amount) +
+      "&description=" +
+      encodeURIComponent(description);
   }
   try {
     const response = await apiRequest(url, {
@@ -160,6 +159,7 @@ export async function addIncome(programId, amount, memberId, description) {
     throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
   }
 }
+
 export async function addOutcome(programId, amount, description) {
   const url =
     api +
@@ -186,4 +186,26 @@ export async function addOutcome(programId, amount, description) {
     throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
   }
 }
-// export addOutcome(programId, amount, description)
+export async function addedMemberInEntry(data) {
+  const { entryId, memberId } = data;
+  const url =
+    api +
+    "/addedMemberInEntry?entryId=" +
+    encodeURIComponent(entryId) +
+    " &memberId=" +
+    encodeURIComponent(memberId);
+  try {
+    const response = await apiRequest(url, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Server error: " + response.status);
+    }
+    return true;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
+  }
+}

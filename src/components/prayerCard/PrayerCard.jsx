@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, Modal, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import styles from "./PrayerCardStyles";
 import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import { useReviewerGuard } from "@/hooks/useReviewerGuard";

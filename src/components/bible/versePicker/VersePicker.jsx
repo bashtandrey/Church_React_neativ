@@ -11,13 +11,25 @@ import {
 import DataLoaderWrapper from "@/components/DataLoaderWrapper";
 import styles from "./VersePickerStyles";
 import { useTranslation } from "react-i18next";
-import i18n from "@/i18n/";
 
 const Step = {
   BOOK: "BOOK",
   CHAPTER: "CHAPTER",
   VERSE: "VERSE",
   PREVIEW: "PREVIEW",
+};
+
+const getBookLabel = (b, lang) => {
+  switch (lang) {
+    case "ru":
+      return b.russianName;
+    case "ua":
+    case "uk":
+      return b.ukrainianName;
+    case "en":
+    default:
+      return b.englishName;
+  }
 };
 
 const steps = [
@@ -27,22 +39,27 @@ const steps = [
   { key: Step.PREVIEW, label: "Просмотр" },
 ];
 
-const VersePicker = ({ onClose, onAdded,lang }) => {
+const VersePicker = ({ onClose, onAdded, lang }) => {
   const [step, setStep] = useState(Step.BOOK);
   const [bookList, setBookList] = useState([]);
   const [chapterList, setChapterList] = useState([]);
   const [verseList, setVerseList] = useState([]);
+
   const [selectedBook, setSelectedBook] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState(null);
+
   const [verseFrom, setVerseFrom] = useState(null);
   const [verseTo, setVerseTo] = useState(null);
+
   const [verseText, setVerseText] = useState(null);
   const [verseInfo, setVerseInfo] = useState(null);
+
   const [loading, setLoading] = useState(false);
   const [selectSecond, setSelectSecond] = useState(false);
-  const { t } = useTranslation("biblePicker");
 
-  // --- загрузка данных ---
+  const { i18n, t } = useTranslation("biblePicker");
+
+  // --- загрузка книг ---
   useEffect(() => {
     setLoading(true);
     fetchAllBooks()
@@ -50,18 +67,27 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
       .finally(() => setLoading(false));
   }, []);
 
+  // --- загрузка глав ---
   useEffect(() => {
-    if (selectedBook) fetchAllBookChapter(selectedBook).then(setChapterList);
+    if (selectedBook) {
+      fetchAllBookChapter(selectedBook).then(setChapterList);
+    } else {
+      setChapterList([]);
+    }
   }, [selectedBook]);
 
+  // --- загрузка стихов ---
   useEffect(() => {
-    if (selectedBook && selectedChapter)
+    if (selectedBook && selectedChapter) {
       fetchAllBookChapterVerses(selectedBook, selectedChapter).then(
         setVerseList
       );
+    } else {
+      setVerseList([]);
+    }
   }, [selectedBook, selectedChapter]);
 
-  // --- навигация ---
+  // --- навигация назад ---
   const goBack = () => {
     if (step === Step.CHAPTER) {
       setStep(Step.BOOK);
@@ -75,29 +101,44 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
       setStep(Step.VERSE);
       setVerseText(null);
       setVerseInfo(null);
-    } else onClose();
+    } else {
+      onClose();
+    }
   };
+
+  const canGoBack = step !== Step.BOOK;
+
+  const canGoNext =
+    step === Step.BOOK
+      ? !!selectedBook
+      : step === Step.CHAPTER
+      ? !!selectedChapter
+      : step === Step.VERSE
+      ? !!verseFrom
+      : false;
 
   // --- предпросмотр ---
   const handlePreview = async (first, second) => {
+    if (!first) return;
+
     setLoading(true);
     try {
-      // если второго стиха нет или он равен первому — считаем, что один
       const isSingle = !second || Number(second) === Number(first);
       const verseRange = isSingle ? `${first}` : `${first}-${second}`;
 
       const res = await getVerseText(
-        lang||t("bibleLanguage"),
+        lang || t("bibleLanguage"),
         selectedBook,
         selectedChapter,
         verseRange
       );
-      //   // НОРМАЛИЗУЕМ: всегда массив
+
       const verses = Array.isArray(res?.verses)
         ? res.verses
         : res?.verses
         ? [res.verses]
         : [];
+
       setVerseText(verses);
       setVerseInfo(res?.info ?? null);
       setStep(Step.PREVIEW);
@@ -106,9 +147,23 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
     }
   };
 
+  const goNext = () => {
+    if (!canGoNext) return;
+
+    if (step === Step.BOOK) {
+      setStep(Step.CHAPTER);
+    } else if (step === Step.CHAPTER) {
+      setStep(Step.VERSE);
+    } else if (step === Step.VERSE) {
+      // вызываем предпросмотр, дальше step → PREVIEW
+      handlePreview(verseFrom, verseTo);
+    }
+  };
+
   // --- передача данных родителю ---
   const handleSave = () => {
     if (!verseFrom) return;
+
     const verseRange =
       verseTo && verseTo !== verseFrom
         ? `${verseFrom}-${verseTo}`
@@ -121,10 +176,10 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
       text: verseText,
       info: verseInfo,
     };
+
     if (onAdded) onAdded(selectedData);
     onClose();
   };
-
 
   // --- StepIndicator ---
   const StepIndicator = () => (
@@ -157,28 +212,31 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
 
   // --- выбор второго стиха ---
   const askSecondVerse = (v) => {
-    setVerseFrom(v);
-    Alert.alert(
-      t("needSecondVerseTitle"),
-      t("needSecondVerseMessage"),
-      [
-        {
-          text: t("cancel"),
-          style: "cancel",
-          onPress: () => {
-            setSelectSecond(false);
-            setVerseTo(null);
-            handlePreview(v, null);
-          },
+  setVerseFrom(v);
+  Alert.alert(
+    t("needSecondVerseTitle"),
+    t("needSecondVerseMessage"),
+    [
+      {
+        // вариант "другой стих не нужен"
+        text: t("cancel"),
+        style: "cancel",
+        onPress: () => {
+          setSelectSecond(false);
+          setVerseTo(null);
+          // 🔹 сразу показываем предпросмотр одного стиха
+          handlePreview(v, null);
         },
-        {
-          text: t("ok"),
-          onPress: () => setSelectSecond(true),
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+      },
+      {
+        // вариант "выбрать второй стих"
+        text: t("ok"),
+        onPress: () => setSelectSecond(true),
+      },
+    ],
+    { cancelable: false }
+  );
+};
 
   return (
     <View style={styles.container}>
@@ -192,16 +250,17 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
                 selectedValue={selectedBook}
                 onValueChange={(v) => {
                   setSelectedBook(v);
-                  setStep(Step.CHAPTER);
+                  setSelectedChapter(null);
+                  setVerseFrom(null);
+                  setVerseTo(null);
+                  setSelectSecond(false);
                 }}
                 style={styles.picker}
               >
                 {bookList.map((b) => (
                   <Picker.Item
                     key={b.number}
-                    label={
-                      i18n.language === "ru" ? b.russianName : b.englishName
-                    }
+                    label={getBookLabel(b, i18n.language)}
                     value={b.number}
                   />
                 ))}
@@ -216,7 +275,9 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
                 selectedValue={selectedChapter}
                 onValueChange={(v) => {
                   setSelectedChapter(v);
-                  setStep(Step.VERSE);
+                  setVerseFrom(null);
+                  setVerseTo(null);
+                  setSelectSecond(false);
                 }}
                 style={styles.picker}
               >
@@ -234,6 +295,7 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
           {step === Step.VERSE && (
             <>
               <Text style={styles.title}>{t("langVerse")}</Text>
+
               {!verseFrom && (
                 <>
                   <Text style={styles.subTitle}>{t("langFrom")}</Text>
@@ -260,7 +322,6 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
                     selectedValue={verseTo}
                     onValueChange={(v) => {
                       setVerseTo(v);
-                      handlePreview(verseFrom, v); // показываем сразу после выбора диапазона
                     }}
                     style={styles.picker}
                   >
@@ -282,9 +343,7 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
           {step === Step.PREVIEW && verseText && (
             <View style={styles.previewContainer}>
               <View style={styles.previewCard}>
-                <Text style={styles.previewTitle}>
-                  {t("langVerse")}
-                </Text>
+                <Text style={styles.previewTitle}>{t("langVerse")}</Text>
 
                 <ScrollView contentContainerStyle={styles.verseScroll}>
                   {verseText.map((v, i) => (
@@ -308,21 +367,43 @@ const VersePicker = ({ onClose, onAdded,lang }) => {
 
       {/* Нижняя панель кнопок */}
       <View style={styles.bottomBar}>
-        {step !== Step.BOOK && (
-          <TouchableOpacity onPress={goBack} style={styles.iconButton}>
-            <Ionicons name="arrow-back-circle" size={38} color="#6B7AFF" />
-          </TouchableOpacity>
-        )}
+        {/* НАЗАД — видна всегда, но на первом шаге disabled */}
+        <TouchableOpacity
+          onPress={goBack}
+          disabled={!canGoBack}
+          style={[
+            styles.iconButton,
+            !canGoBack && styles.iconButtonDisabled,
+          ]}
+        >
+          <Ionicons
+            name="arrow-back-circle"
+            size={38}
+            color={canGoBack ? "#6B7AFF" : "#B0B0B0"}
+          />
+        </TouchableOpacity>
 
-        {step === Step.PREVIEW && (
+        {/* ДАЛЕЕ или СОХРАНИТЬ */}
+        {step !== Step.PREVIEW ? (
+          <TouchableOpacity
+            onPress={goNext}
+            disabled={!canGoNext}
+            style={[
+              styles.iconButton,
+              !canGoNext && styles.iconButtonDisabled,
+            ]}
+          >
+            <Ionicons
+              name="arrow-forward-circle"
+              size={38}
+              color={canGoNext ? "#6B7AFF" : "#B0B0B0"}
+            />
+          </TouchableOpacity>
+        ) : (
           <TouchableOpacity onPress={handleSave} style={styles.iconButton}>
             <Ionicons name="save" size={38} color="#4CAF50" />
           </TouchableOpacity>
         )}
-
-        <TouchableOpacity onPress={onClose} style={styles.iconButton}>
-          <Ionicons name="close-circle" size={38} color="#FF5252" />
-        </TouchableOpacity>
       </View>
     </View>
   );

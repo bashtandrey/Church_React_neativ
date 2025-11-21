@@ -140,9 +140,9 @@ const DonationEntryScreens = () => {
         {/* CONTENT */}
         <ScrollView style={{ flex: 1 }}>
           {mode === "table" ? (
-            <EntryListTable entries={sortedEntries} />
+            <EntryListTable entries={sortedEntries} onRetry={loadData} />
           ) : (
-            <EntryListByMembers entries={entries} />
+            <EntryListByMembers entries={entries} onRetry={loadData} />
           )}
         </ScrollView>
       </DataLoaderWrapper>

@@ -1,4 +1,5 @@
 {
+  "successTitle": "Успешно",
   "title": "Программы пожертвований",
   "searchPlaceholder": "Поиск по названию",
   "errorTitle": "Ошибка!",
@@ -7,6 +8,7 @@
   "delete": "Удалить",
   "deleteMessage": "Вы уверены, что хотите удалить эту программу?",
   "cancel": "Отмена",
+  "ok": "ОК",
   "confirmDelete": "Подтвердить",
   "editProgram": "Редактировать программу",
   "programName": "Название программы",
@@ -38,6 +40,7 @@
   "save": "Сохранить",
   "incomeAdded": "Приход добавлен",
   "outcomeAdded": "Расход добавлен",
+  "foundMembers": "Найдено: {{count}}",
   "form": {
     "memberLabel": "Участник",
     "descriptionLabel": "Описание",
@@ -45,5 +48,14 @@
     "confirmLabel": "Подтвердить",
     "descriptionPlaceholder": "Введите описание",
     "errorSave": "Не удалось сохранить запись о пожертвовании"
+  },
+  "addedMember": {
+    "modalTitle": "Выбор участника",
+    "success": "Участник успешно привязан к записи",
+    "errorUpdate": "Не удалось обновить участника для записи",
+    "confirmTitle": "Подтверждение",
+    "confirmText": "Привязать {{name}} к этой записи?",
+    "confirmTitleClear": "Подтверждение",
+    "confirmTextClear": "Убрать участника из этой записи?"
   }
 }

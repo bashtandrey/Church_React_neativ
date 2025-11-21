@@ -14,6 +14,7 @@ import styles from "./SetPrayerCardStyles.js";
 import Toast from "react-native-toast-message";
 import { setWeeklyPrayer } from "@/api/prayerCardAPI";
 import VersePicker from "@/components/bible/versePicker/VersePicker";
+import { useTranslation } from "react-i18next";
 
 export default function SetPrayerCard({
   prayerCard,
@@ -31,6 +32,9 @@ export default function SetPrayerCard({
     bibleVerse: prayerCard?.bibleVerse || "",
     bibleReference: prayerCard?.bibleReference || "",
   });
+
+  const { t } = useTranslation("prayerCard");
+
   const handleNext = () => setStep((prev) => prev + 1);
   const handleBack = () => setStep((prev) => prev - 1);
 
@@ -41,16 +45,16 @@ export default function SetPrayerCard({
       onClose();
       Toast.show({
         type: "success",
-        text1: "Успех!",
-        text2: "Молитвенная карточка сохранена",
+        text1: t("successTitle"),
+        text2: t("successMessage"),
         position: "top",
       });
     } catch (error) {
       console.error(error);
       Toast.show({
         type: "error",
-        text1: "Ошибка!",
-        text2: "Не удалось сохранить карточку",
+        text1: t("errorTitle"),
+        text2: t("errorMessage"),
         position: "top",
       });
     }
@@ -64,6 +68,7 @@ export default function SetPrayerCard({
       bibleReference: selectedData.info,
     }));
     setRefreshKey((k) => k + 1);
+    // после выбора стиха сразу переходим на шаг 6 (превью/сохранение)
     handleNext();
   };
 
@@ -77,7 +82,7 @@ export default function SetPrayerCard({
           <View style={styles.cardWrapper}>
             {/* шапка + крестик */}
             <View style={styles.headerRow}>
-              <Text style={styles.modalTitle}>Молитвенная карточка</Text>
+              <Text style={styles.modalTitle}>{t("modalTitle")}</Text>
               <TouchableOpacity
                 onPress={onClose}
                 hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
@@ -95,9 +100,11 @@ export default function SetPrayerCard({
                 ]}
               />
             </View>
-            <Text style={styles.progressText}>Шаг {step} из 6</Text>
+            <Text style={styles.progressText}>
+              {t("stepProgress", { step, total: 6 })}
+            </Text>
 
-            {/* СКРОЛЛИМ ТОЛЬКО КОНТЕНТ, КНОПКИ СНИЗУ */}
+            {/* контент */}
             <ScrollView
               contentContainerStyle={styles.scrollInner}
               keyboardShouldPersistTaps="handled"
@@ -106,9 +113,10 @@ export default function SetPrayerCard({
               {step === 1 ? (
                 <TextInput
                   value={form.greeting}
-                  placeholder="Приветствие"
+                  placeholder={t("greetingPlaceholder")}
                   onChangeText={(text) => setForm({ ...form, greeting: text })}
-                  style={styles.input}
+                  multiline
+                  style={[styles.input, styles.textArea]}
                 />
               ) : (
                 <Text style={styles.greeting}>{form.greeting}</Text>
@@ -118,9 +126,10 @@ export default function SetPrayerCard({
               {step === 2 ? (
                 <TextInput
                   value={form.header}
-                  placeholder="Заголовок"
+                  placeholder={t("headerPlaceholder")}
                   onChangeText={(text) => setForm({ ...form, header: text })}
-                  style={styles.input}
+                  multiline
+                  style={[styles.input, styles.textArea]}
                 />
               ) : (
                 <Text style={styles.text}>{form.header}</Text>
@@ -140,7 +149,9 @@ export default function SetPrayerCard({
                     >
                       <TextInput
                         value={name}
-                        placeholder={`Семья ${index + 1}`}
+                        placeholder={t("familyPlaceholder", {
+                          index: index + 1,
+                        })}
                         onChangeText={(text) => {
                           const updated = [...form.familyList];
                           updated[index] = text;
@@ -172,7 +183,9 @@ export default function SetPrayerCard({
                     }
                     style={styles.addFamilyBtn}
                   >
-                    <Text style={styles.addFamilyText}>+ Добавить семью</Text>
+                    <Text style={styles.addFamilyText}>
+                      {t("addFamilyButton")}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               ) : (
@@ -189,7 +202,7 @@ export default function SetPrayerCard({
               {step === 4 ? (
                 <TextInput
                   value={form.blessingMessage}
-                  placeholder="Благословение"
+                  placeholder={t("blessingPlaceholder")}
                   onChangeText={(text) =>
                     setForm({ ...form, blessingMessage: text })
                   }
@@ -204,7 +217,7 @@ export default function SetPrayerCard({
               {step === 5 ? (
                 <>
                   <VersePicker
-                    lang={"RST"}
+                    lang={t("versePickerLang")}
                     onClose={() => {}}
                     onAdded={handleVerseAdded}
                     refreshKey={refreshKey}
@@ -235,9 +248,17 @@ export default function SetPrayerCard({
 
             {/* КНОПКИ ВСЕГДА ВНИЗУ КАРТОЧКИ */}
             <View style={styles.buttonRow}>
-              {step > 1 && <Button title="Назад" onPress={handleBack} />}
-              {step < 6 && <Button title="Далее" onPress={handleNext} />}
-              {step === 6 && <Button title="Сохранить" onPress={handleSave} />}
+              <Button
+                title={t("backButton")}
+                disabled={step === 1}
+                onPress={handleBack}
+              />
+
+              {step === 6 ? (
+                <Button title={t("saveButton")} onPress={handleSave} />
+              ) : step === 5 ? null : (
+                <Button title={t("nextButton")} onPress={handleNext} />
+              )}
             </View>
           </View>
         </View>

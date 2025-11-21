@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 12,
   },
+  foundCounter: {
+    marginTop: 4,
+    fontSize: 13,
+    color: COLORS.muted,
+  },
+
   title: { fontWeight: "800", fontSize: 18, color: COLORS.title },
   stepper: {
     flexDirection: "row",

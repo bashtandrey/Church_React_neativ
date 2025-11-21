@@ -4,5 +4,20 @@
   "copySuccessTitle": "Скопійовано",
   "copySuccessMessage": "Молитовну картку скопійовано в буфер обміну",
   "copyErrorTitle": "Помилка",
-  "copyErrorMessage": "Не вдалося скопіювати картку"
+  "copyErrorMessage": "Не вдалося скопіювати картку",
+  "modalTitle": "Молитовна картка",
+  "successTitle": "Успіх!",
+  "successMessage": "Молитовну картку збережено",
+  "errorTitle": "Помилка",
+  "errorMessage": "Не вдалося зберегти картку",
+  "stepProgress": "Крок {{step}} із {{total}}",
+  "greetingPlaceholder": "Привітання",
+  "headerPlaceholder": "Заголовок",
+  "familyPlaceholder": "Сімʼя {{index}}",
+  "addFamilyButton": "+ Додати сімʼю",
+  "blessingPlaceholder": "Благословення",
+  "backButton": "Назад",
+  "nextButton": "Далі",
+  "saveButton": "Зберегти",
+  "versePickerLang": "RST"
 }

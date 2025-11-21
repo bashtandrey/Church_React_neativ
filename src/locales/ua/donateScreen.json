@@ -1,4 +1,5 @@
 {
+  "successTitle": "Успішно",
   "title": "Програми пожертв",
   "searchPlaceholder": "Пошук за назвою",
   "errorTitle": "Помилка!",
@@ -7,6 +8,7 @@
   "delete": "Видалити",
   "deleteMessage": "Ви впевнені, що хочете видалити цю програму?",
   "cancel": "Скасувати",
+  "ok": "ОК",
   "confirmDelete": "Підтвердити",
   "editProgram": "Редагувати програму",
   "programName": "Назва програми",
@@ -38,6 +40,7 @@
   "save": "Зберегти",
   "incomeAdded": "Надходження додано",
   "outcomeAdded": "Витрати додано",
+  "foundMembers": "Знайдено: {{count}}",
   "form": {
     "memberLabel": "Учасник",
     "descriptionLabel": "Опис",
@@ -45,5 +48,14 @@
     "confirmLabel": "Підтвердити",
     "descriptionPlaceholder": "Введіть опис",
     "errorSave": "Не вдалося зберегти запис про пожертву"
+  },
+  "addedMember": {
+    "modalTitle": "Вибір учасника",
+    "success": "Учасника успішно прив’язано до запису",
+    "errorUpdate": "Не вдалося оновити учасника для цього запису",
+    "confirmTitle": "Підтвердження",
+    "confirmText": "Прив’язати {{name}} до цього запису?",
+    "confirmTitleClear": "Підтвердження",
+    "confirmTextClear": "Прибрати учасника з цього запису?"
   }
 }

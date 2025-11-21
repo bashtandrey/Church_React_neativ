@@ -10,7 +10,7 @@ const formatDate = (iso) => {
   return d.toISOString().slice(0, 10); // "2025-10-03"
 };
 
-const EntryListTable = ({ entries }) => {
+const EntryListTable = ({ entries,onRetry }) => {
   // 🔹 Группировка по дате
   const grouped = useMemo(() => {
     return entries.reduce((acc, e) => {
@@ -43,7 +43,7 @@ const EntryListTable = ({ entries }) => {
 
           {/* Записи за эту дату */}
           {grouped[date].map((e) => (
-            <EntryCard key={e.id} entry={e} />
+            <EntryCard key={e.id} entry={e} onRetry={onRetry}/>
           ))}
         </View>
       ))}

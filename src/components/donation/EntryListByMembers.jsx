@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import EntryCard from "./EntryCard";
-import styles, { COLORS } from "@/screens/church/donateScreens/DonationEntryStyles";
+import styles, {
+  COLORS,
+} from "@/screens/church/donateScreens/DonationEntryStyles";
 import { useTranslation } from "react-i18next";
 
 const formatDate = (iso) => {
@@ -10,7 +12,7 @@ const formatDate = (iso) => {
   return d.toISOString().slice(0, 10); // YYYY-MM-DD
 };
 
-const EntryListByMembers = ({ entries }) => {
+const EntryListByMembers = ({ entries, onRetry }) => {
   const [selected, setSelected] = useState(null);
   const { t } = useTranslation("donateScreen");
 
@@ -72,7 +74,7 @@ const EntryListByMembers = ({ entries }) => {
               {date}
             </Text>
             {groupedByDate[date].map((e) => (
-              <EntryCard key={e.id} entry={e} />
+              <EntryCard key={e.id} entry={e} onRetry={onRetry} />
             ))}
           </View>
         ))}

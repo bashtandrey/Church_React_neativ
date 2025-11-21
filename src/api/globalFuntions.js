@@ -6,6 +6,7 @@ const TOKEN_KEY = "accessToken";
 const API_URL = Constants.expoConfig.extra.API_URL;
 
 export async function apiRequest(endpoint, options = {}, isRetry = false) {
+  console.log("globalFunctions: API request to", API_URL + endpoint);
   try {
     const token = await SecureStore.getItemAsync(TOKEN_KEY);
 

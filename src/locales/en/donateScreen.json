@@ -1,4 +1,5 @@
 {
+  "successTitle": "Success",
   "title": "Programs for Donations",
   "searchPlaceholder": "Search by name",
   "errorTitle": "Error!",
@@ -7,6 +8,7 @@
   "delete": "Delete",
   "deleteMessage": "Are you sure you want to delete this program?",
   "cancel": "Cancel",
+  "ok": "OK",
   "confirmDelete": "Confirm",
   "editProgram": "Edit Program",
   "programName": "Program Name",
@@ -23,29 +25,37 @@
   "total": "Total",
   "noPrograms": "No donation programs found",
   "noEntries": "No donations yet",
-  "table":"Table",
-  "byMembers":"By Members",
-  "noMembers":"No Name",
-  "back":"← Back",
-  "records":"records",
-  "addIncome":"Add Income",
-  "addOutcome":"Add Expense",
-  "type":"Type",
-  "amount":"Amount",
-  "description":"Description",
-  "member":"Member",
-  "next":"Next",
-  "save":"Save",
-  "incomeAdded":"Income added",
-  "outcomeAdded":"Expense added",
-  "form":
-      {
-        "memberLabel": "Member",
-        "descriptionLabel": "Description",
-        "amountLabel": "Amount",
-        "confirmLabel": "Confirm",
-        "descriptionPlaceholder": "Enter description",
-        "errorSave": "Failed to save donation entry"
-      }
-    
+  "table": "Table",
+  "byMembers": "By Members",
+  "noMembers": "No Name",
+  "back": "← Back",
+  "records": "records",
+  "addIncome": "Add Income",
+  "addOutcome": "Add Expense",
+  "type": "Type",
+  "amount": "Amount",
+  "description": "Description",
+  "member": "Member",
+  "next": "Next",
+  "save": "Save",
+  "incomeAdded": "Income added",
+  "outcomeAdded": "Expense added",
+  "foundMembers": "Found: {{count}}",
+  "form": {
+    "memberLabel": "Member",
+    "descriptionLabel": "Description",
+    "amountLabel": "Amount",
+    "confirmLabel": "Confirm",
+    "descriptionPlaceholder": "Enter description",
+    "errorSave": "Failed to save donation entry"
+  },
+  "addedMember": {
+    "modalTitle": "Select Member",
+    "success": "Member successfully assigned to the entry",
+    "errorUpdate": "Failed to update the member for this entry",
+    "confirmTitle": "Confirmation",
+    "confirmText": "Assign {{name}} to this entry?",
+    "confirmTitleClear": "Confirmation",
+    "confirmTextClear": "Remove the member from this entry?"
+  }
 }

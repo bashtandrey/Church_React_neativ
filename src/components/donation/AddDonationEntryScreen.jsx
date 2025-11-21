@@ -23,7 +23,6 @@ export default function AddDonationEntryScreen() {
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState("");
 
-  // 🔹 Шаги зависят от типа
   const steps =
     type === "INCOME"
       ? [
@@ -38,7 +37,6 @@ export default function AddDonationEntryScreen() {
           t("form.confirmLabel"),
         ];
 
-  // 🔹 Загружаем список мемберов только для INCOME
   const loadMembers = useCallback(() => {
     if (type !== "INCOME") return;
     return getMemberList()
@@ -57,7 +55,7 @@ export default function AddDonationEntryScreen() {
     if (type === "INCOME") {
       loadMembers();
     } else {
-      setMembers([]); // очищаем
+      setMembers([]);
     }
     setStep(0);
     setMemberId(null);
@@ -67,7 +65,6 @@ export default function AddDonationEntryScreen() {
     setErr("");
   }, [type, loadMembers]);
 
-  // 🔹 Фильтрация мемберов
   const filteredMembers = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return members;
@@ -78,10 +75,9 @@ export default function AddDonationEntryScreen() {
     );
   }, [members, search]);
 
-  // 🔹 Валидация шагов
   const canGoNext = useMemo(() => {
     if (step === 0) {
-      if (type === "INCOME") return true; // можно выбрать "без мембера"
+      if (type === "INCOME") return true;
       if (type === "OUTCOME") return description.trim().length > 0;
     }
     if (step === 1) {
@@ -91,12 +87,11 @@ export default function AddDonationEntryScreen() {
       if (type === "OUTCOME") return parseFloat(amount) > 0;
     }
     if (step === 2) {
-      return type === "INCOME" ? parseFloat(amount) > 0 : true; // для OUTCOME confirm всегда доступен
+      return type === "INCOME" ? parseFloat(amount) > 0 : true;
     }
     return true;
   }, [step, type, memberId, description, amount]);
 
-  // 🔹 Навигация по шагам
   const next = () => {
     if (!canGoNext) return;
     if (step < steps.length - 1) setStep((s) => s + 1);
@@ -106,7 +101,6 @@ export default function AddDonationEntryScreen() {
     if (step > 0) setStep((s) => s - 1);
   };
 
-  // 🔹 Сохранение
   const handleSave = async () => {
     try {
       setSubmitting(true);
@@ -171,7 +165,31 @@ export default function AddDonationEntryScreen() {
               placeholderTextColor={COLORS.muted}
               style={styles.input}
             />
+
+            {/* 👇 счётчик найденных */}
+            <Text style={styles.foundCounter}>
+              {t("foundMembers", { count: filteredMembers.length })}
+            </Text>
+
             <ScrollView style={{ flex: 1, marginTop: 8 }}>
+              <Pressable
+                key="no-member"
+                style={[
+                  styles.option,
+                  memberId === null && styles.optionActive,
+                ]}
+                onPress={() => setMemberId(null)}
+              >
+                <Text
+                  style={
+                    memberId === null
+                      ? styles.optionTextActive
+                      : styles.optionText
+                  }
+                >
+                  {t("noMembers")}
+                </Text>
+              </Pressable>
               {filteredMembers.map((m) => (
                 <Pressable
                   key={`member-${m.id}`}
@@ -192,24 +210,6 @@ export default function AddDonationEntryScreen() {
                   </Text>
                 </Pressable>
               ))}
-              <Pressable
-                key="no-member"
-                style={[
-                  styles.option,
-                  memberId === null && styles.optionActive,
-                ]}
-                onPress={() => setMemberId(null)}
-              >
-                <Text
-                  style={
-                    memberId === null
-                      ? styles.optionTextActive
-                      : styles.optionText
-                  }
-                >
-                  {t("noMembers")}
-                </Text>
-              </Pressable>
             </ScrollView>
           </View>
         )}

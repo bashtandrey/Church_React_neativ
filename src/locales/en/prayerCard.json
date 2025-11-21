@@ -4,5 +4,21 @@
   "copySuccessTitle": "Copied",
   "copySuccessMessage": "Prayer card has been copied to clipboard",
   "copyErrorTitle": "Error",
-  "copyErrorMessage": "Failed to copy prayer card"
+  "copyErrorMessage": "Failed to copy prayer card",
+  "modalTitle": "Prayer card",
+  "successTitle": "Success",
+  "successMessage": "Prayer card has been saved",
+  "errorTitle": "Error",
+  "errorMessage": "Failed to save the card",
+  "stepProgress": "Step {{step}} of {{total}}",
+  "greetingPlaceholder": "Greeting",
+  "headerPlaceholder": "Title",
+  "familyPlaceholder": "Family {{index}}",
+  "addFamilyButton": "+ Add family",
+  "blessingPlaceholder": "Blessing",
+  "backButton": "Back",
+  "nextButton": "Next",
+  "saveButton": "Save",
+  "versePickerLang": "RST"
+
 }
