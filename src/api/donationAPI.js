@@ -159,7 +159,6 @@ export async function addIncome(programId, amount, memberId, description) {
     throw new Error(error?.message || "Сеть недоступна или сервер не отвечает");
   }
 }
-
 export async function addOutcome(programId, amount, description) {
   const url =
     api +

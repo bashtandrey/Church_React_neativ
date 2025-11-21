@@ -49,7 +49,7 @@ const EntryCard = ({ entry, onRetry }) => {
           )}
 
           {/* Если участника нет — иконка "добавить человека" */}
-          {!entry.memberName && isDonationEditor && (
+          {isDonationEditor && !entry.memberName && entry.type === "INCOME" && (
             <ModalTrigger
               opener={(open) => (
                 <Pressable

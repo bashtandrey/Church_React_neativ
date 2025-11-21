@@ -12,7 +12,6 @@ export default function ReviewerBlur({ children }) {
     return children;
   }
 
-  // Локализация
   const label =
     i18n.language === "ru"
       ? "Просмотр в режиме рецензента"
@@ -20,11 +19,29 @@ export default function ReviewerBlur({ children }) {
 
   return (
     <View style={styles.wrapper}>
+      {/* твой контент (FlatList и т.п.) */}
       {children}
-      <BlurView intensity={60} style={StyleSheet.absoluteFill} tint="light" />
-      <View style={styles.overlay}>
-        <View style={styles.labelBox}>
-          <FontAwesome name="eye" size={18} color="#333" style={{ marginRight: 8 }} />
+
+      {/* Оверлей поверх всего: он и прячет, и блокирует скролл/тапы */}
+      <View style={styles.overlay} pointerEvents="auto">
+        {/* BlurView как эффект, если платформа умеет */}
+        <BlurView
+          intensity={60}
+          tint="light"
+          style={StyleSheet.absoluteFill}
+        />
+
+        {/* Плотная "молочная" вуаль, чтобы точно ничего не было видно */}
+        <View style={styles.matte} />
+
+        {/* Лейбл по центру, клики не нужны */}
+        <View style={styles.labelBox} pointerEvents="none">
+          <FontAwesome
+            name="eye"
+            size={18}
+            color="#333"
+            style={{ marginRight: 8 }}
+          />
           <Text style={styles.label}>{label}</Text>
         </View>
       </View>
@@ -34,19 +51,22 @@ export default function ReviewerBlur({ children }) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: "relative",
     flex: 1,
+    position: "relative",
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: "center", // по центру по вертикали
-    alignItems: "center", // по центру по горизонтали
-    pointerEvents: "none", // не блокирует скролл/нажатия
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  matte: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(255, 255, 255, 0.95)", // почти полностью белый
   },
   labelBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.85)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 10,
@@ -54,7 +74,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.15,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
-    elevation: 3, // тень для Android
+    elevation: 3,
   },
   label: {
     fontSize: 16,

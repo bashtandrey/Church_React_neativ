@@ -36,7 +36,6 @@ const UserListCard = ({ contentData, reLoad }) => {
             </Text>
           </View>
         }
-        // небольшой отступ снизу, чтобы карточки не прилипали к краю
         ListFooterComponent={<View style={{ height: 12 }} />}
       />
     </ReviewerBlur>

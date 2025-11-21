@@ -40,31 +40,33 @@ const MemberListCard = ({ contentData, reLoad }) => {
 
   return (
     <ReviewerBlur>
-    <FlatList
-      data={data}
-      keyExtractor={(item) => String(item.id)}
-      renderItem={renderItem}
-      contentContainerStyle={[
-        styles.listContainer,
-        data.length === 0 && { flex: 1, justifyContent: "center" },
-      ]}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      ListEmptyComponent={
-        <View style={styles.emptyWrap}>
-          <Text style={styles.emptyTitle}>No Member</Text>
-          <Text style={styles.emptyText}>
-            Измени фильтры или создай нового члена.
-          </Text>
-        </View>
-      }
-      ListFooterComponent={<View style={{ height: 12 }} />}
-      // Небольшие оптимизации списка:
-      initialNumToRender={8}
-      windowSize={7}
-      removeClippedSubviews
-    />
+      {/* <View style={{ flex: 1, backgroundColor: "rgba(255,255,255,0.3)" }}> */}
+        <FlatList
+          data={data}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={renderItem}
+          contentContainerStyle={[
+            styles.listContainer,
+            data.length === 0 && { flex: 1, justifyContent: "center" },
+          ]}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListEmptyComponent={
+            <View style={styles.emptyWrap}>
+              <Text style={styles.emptyTitle}>No Member</Text>
+              <Text style={styles.emptyText}>
+                Измени фильтры или создай нового члена.
+              </Text>
+            </View>
+          }
+          ListFooterComponent={<View style={{ height: 12 }} />}
+          // Небольшие оптимизации списка:
+          initialNumToRender={8}
+          windowSize={7}
+          removeClippedSubviews
+        />
+      {/* </View> */}
     </ReviewerBlur>
   );
 };
