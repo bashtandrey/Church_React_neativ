@@ -1,4 +1,4 @@
-const ENV = process.env.APP_ENV || "production";
+const ENV = process.env.APP_ENV || "development1";
 
 const CONFIG = {
   development: {

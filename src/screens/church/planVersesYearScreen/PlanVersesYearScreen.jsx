@@ -44,6 +44,20 @@ const monthShortRu = [
   "Ноябрь",
   "Декабрь",
 ];
+const monthShortUA = [
+  "Січень",
+  "Лютий",
+  "Березень",
+  "Квітень",
+  "Травень",
+  "Червень",
+  "Липень",
+  "Серпень",
+  "Вересень",
+  "Жовтень",
+  "Листопад",
+  "Грудень",
+];
 
 // Парсим строку даты YYYY-MM-DD в локальную дату без смещений
 const parseLocalDate = (dateStr) => {
@@ -61,8 +75,21 @@ const getDaysInMonth = (year, month) => {
 
 const PlanVersesYearScreen = () => {
   const { t } = useTranslation("planYearVerse");
-  const months = i18n.language === "ru" ? monthShortRu : monthShortEN;
-  const referens = i18n.language === "ru" ? "descriptionRus" : "descriptionEng";
+  const lang = i18n.language;
+
+  const months =
+    lang === "ru"
+      ? monthShortRu
+      : lang === "ua"
+      ? monthShortUA
+      : monthShortEN;
+
+  const referens =
+    lang === "ru"
+      ? "descriptionRus"
+      : lang === "ua"
+      ? "descriptionUA"
+      : "descriptionEng";
   const today = new Date();
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
   const [verses, setVerses] = useState([]);
@@ -108,7 +135,7 @@ const PlanVersesYearScreen = () => {
 
   useEffect(() => {
     loadMonthPlan(selectedMonth);
-  }, [selectedMonth]);
+  }, [selectedMonth,lang]);
 
   const renderMonth = (month, index) => (
     <TouchableOpacity
