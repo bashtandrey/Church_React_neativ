@@ -18,8 +18,6 @@ import {
   deleteDailyPlan,
 } from "@/api/bibleAPI";
 import styles from "./SetDayPlanStyles";
-import VersePicker from "../versePicker/VersePicker";
-
 const Step = {
   BOOK: "BOOK",
   CHAPTER: "CHAPTER",
@@ -173,10 +171,19 @@ const SetDayPlan = ({ month, day }) => {
             versesForDay.map((v) => (
               <View key={v.id} style={styles.verseRow}>
                 <Text style={styles.verseText}>
-                  {v.englishName} (
-                  <Text style={{ color: "#3b82f6" }}>{v.rusianName}</Text>){" "}
-                  {v.chapter}
+                  (
+                  <Text style={{ color: "#680dc9ff" }}>
+                    🇺🇸 {v.descriptionEng}
+                  </Text>
+                  ) (
+                  <Text style={{ color: "#3b82f6" }}>🇺🇦 {v.descriptionUA}</Text>
+                  ) (
+                  <Text style={{ color: "#f63bc4ff" }}>
+                    🇷🇺 {v.descriptionRus}
+                  </Text>
+                  )
                 </Text>
+
                 <TouchableOpacity onPress={() => handleDelete(v.id)}>
                   <Ionicons name="trash-outline" size={22} color="#ef4444" />
                 </TouchableOpacity>

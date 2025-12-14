@@ -25,12 +25,7 @@ const AnnouncementsScreen = () => {
   const loadData = () => {
     setLoading(true);
     fetchPost()
-      .then((res) => {
-      const sorted = [...res].sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      );
-      setContentData(sorted);
-    })
+      .then((res) => setContentData(res))
       .finally(() => setLoading(false));
   };
 
